@@ -1,0 +1,42 @@
+<RCC>
+    <qresource prefix="/titleBar/icon">
+        <file alias="max">resources/titleBar/max.png</file>
+        <file alias="menu">resources/titleBar/Menu.png</file>
+        <file alias="min">resources/titleBar/min.png</file>
+        <file alias="restore">resources/titleBar/restore.png</file>
+        <file alias="close_0">resources/titleBar/close.png</file>
+        <file alias="close_1">resources/titleBar/close_1.png</file>
+    </qresource>
+    <qresource prefix="/button/icon">
+        <file alias="history">resources/Compass_45.877704609595px_1160254_easyicon.net.png</file>
+        <file alias="help">resources/ligthbulb_on_help_64px_1112252_easyicon.net.png</file>
+        <file alias="chart">resources/office_chart_line_64px_572010_easyicon.net.png</file>
+        <file alias="measure">resources/Testing_39.134524929445px_1160250_easyicon.net.png</file>
+        <file alias="about">resources/help_64px_1125032_easyicon.net.png</file>
+        <file alias="girl">resources/avatar_128px_1202944_easyicon.net.png</file>
+        <file alias="boy">resources/avatar_128px_1202943_easyicon.net.png</file>
+        <file alias="anonymous">resources/administrator_128px_1175297_easyicon.net.png</file>
+    </qresource>
+    <qresource prefix="/qss">
+        <file alias="skin">resources/qss/stylesheet.css</file>
+    </qresource>
+    <qresource prefix="/menu/icon">
+        <file alias="setting">resources/settings_32px_1202700_easyicon.net.png</file>
+        <file alias="info">resources/user_29.986613119143px_1202727_easyicon.net.png</file>
+        <file alias="exchange">resources/transfer_36.934464148034px_1202713_easyicon.net.png</file>
+        <file alias="loginout">resources/highlight_remove_32px_1181938_easyicon.net.png</file>
+    </qresource>
+    <qresource prefix="/measure/button/icon">
+        <file alias="tip">resources/light_bulb_16.592750533049px_1202988_easyicon.net.png</file>
+    </qresource>
+    <qresource prefix="/statusbar/icon">
+        <file alias="sync">resources/refresh_32px_1202698_easyicon.net.png</file>
+        <file alias="usb_disable">resources/MB_USB_16.128px_559698_easyicon.net.png</file>
+        <file alias="usb_enable">resources/MB_USB_16.128px_559914_easyicon.net.png</file>
+    </qresource>
+    <qresource prefix="/log&amp;reg/icon">
+        <file alias="phone">resources/Mobile_31.530791788856px_1181291_easyicon.net.png</file>
+        <file alias="user">resources/Profile_38.428152492669px_1181297_easyicon.net.png</file>
+        <file alias="lock">resources/Shop_34.295754026354px_1181301_easyicon.net.png</file>
+    </qresource>
+</RCC>

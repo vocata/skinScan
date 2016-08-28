@@ -1,0 +1,237 @@
+*{
+    font-family: Microsoft Yahei;
+}
+
+#mainWidget{
+    background-color: rgba(128, 128, 128, 255);
+}
+#mainWidget>QPushButton#m_userImage {
+    border-style: none;
+}
+#mainWidget>QPushButton#m_userImage:hover {
+    border: 1px solid rgba(255, 255, 255, 100);
+    background-color: rgba(255, 255, 255, 50);
+}
+
+#mainWidget>QPushButton#m_accountButton {
+    border-style: none;
+    text-align: left;
+    font-size: 12px;
+    font-weight: bold;
+    color: rgba(255, 255, 255, 230);
+    padding: 0px 5px 0px 5px;
+}
+#mainWidget>QPushButton#m_accountButton:hover {
+    color: rgba(255, 255, 255, 255);
+    background-color: rgba(0, 0, 0, 50);
+    border: 1px solid rgba(0, 0, 0, 50);
+    border-radius: 2px;
+}
+#mainWidget>QPushButton#m_accountButton::menu-indicator {
+    subcontrol-origin: padding;
+    subcontrol-position: center right;
+    right: 5px;
+}
+
+#mainWidget>QPushButton#m_userButton {
+    font-size: 16px;
+    font-weight: bold;
+    color: rgba(230, 230, 230, 255);
+    padding: 0px 3px 0px 3px;
+    border-style: none;
+    text-align: left;
+}
+
+#mainWidget>QMenu#m_infoMenu {
+    background-color: rgba(255, 255, 255, 255);
+    color: rgba(0, 0, 0, 255);
+    padding: 1px;
+}
+#mainWidget>QMenu#m_infoMenu::item {
+    padding: 5px 0px 5px 25px;
+}
+#mainWidget>QMenu#m_infoMenu::icon {
+    border-style: none;
+    padding: 5px 0px 5px 5px;
+}
+#mainWidget>QMenu#m_infoMenu::item:selected {
+    background-color: rgba(75, 75, 75, 50);
+}
+#mainWidget>QMenu#m_infoMenu::separator {
+    height: 1px;
+    background-color: rgba(0, 0, 0, 20);
+    margin-left: 25px;
+    margin-right: 5px;
+    margin-top: 1px;
+    margin-bottom: 1px;
+}
+
+#mainWidget>QToolButton {
+    border-style: none;
+    color: rgba(255, 255, 255, 255);
+}
+#mainWidget>QToolButton:hover {
+    background-color: rgba(79, 79, 79, 255);
+}
+#mainWidget>QToolButton:checked {
+    background-color: rgb(79, 79, 79, 150);
+}
+
+#mainWidget>MainTabWidget#m_tabWidget::pane {
+    border-style: none;
+    background-color: rgba(255, 255, 255, 255);
+}
+
+#mainWidget>MainStatusBar::item {
+    border-style: none;
+}
+QLabel#m_usbStatusLabel{
+    color: rgba(255, 255, 255, 255);
+}
+
+/* tab1 */
+MeasureWidget>QGroupBox>#line {
+    background-color: rgba(220, 220, 220, 255);
+    border-style: none;
+    height: 1px;
+}
+MeasureWidget>QGroupBox#leftWidget {
+    border-style: none solid none none;
+    border-width: 1px;
+    border-color: rgba(75, 75, 75, 100);
+    background-color: rgba(245, 245, 247, 255);
+}
+MeasureWidget>QGroupBox#rightWidget {
+    border-style: none none none solid;
+    border-width: 1px;
+    border-color: rgba(75, 75, 75, 100);
+    background-color: rgba(250, 250, 250, 255);
+}
+
+QGroupBox>#leftTopWidget>QPushButton {
+    border: 1px solid rgba(225, 225, 226, 255);
+    border-radius: 3px;
+    background-color: rgba(255, 255, 255, 255);
+}
+QGroupBox>#leftTopWidget>QPushButton:hover {
+    background-color: rgba(245, 245, 247, 255);
+}
+
+QGroupBox>#leftBottomWidget>QPushButton {
+    border-style: none;
+}
+
+QGroupBox>#leftBottomWidget>QPlainTextEdit {
+    border-style: none;
+    border-radius: 3px;
+}
+
+/* login and register dialog */
+#mainDialog>#centralDialog, #mainDialog>#titleBar {
+    background-color: rgba(250, 250, 250, 255);
+}
+
+QPushButton#titleButton {
+    border-style: none;
+    color: rgba(77, 77, 77, 255);
+}
+QPushButton#titleButton:hover {
+    border-style: none;
+    color: rgba(77, 77, 77, 150);
+}
+
+QPushButton#loginRegister {
+    font-size: 14px;
+    border: 1px solid rgba(38, 173, 255, 255);
+    border-radius: 3px;
+    color: rgba(38, 173, 255, 255);
+}
+QPushButton#loginRegister:hover {
+    background-color: rgba(38, 173, 255, 255);
+    color: rgba(255, 255, 255, 255);
+}
+
+QPushButton#button {
+    font-size: 12px;
+    border: 1px solid rgba(255, 255, 255, 255);
+    border-radius: 3px;
+    background-color: rgba(38, 173, 255, 255);
+    color: rgba(255, 255, 255, 255);
+}
+QPushButton#button:hover {
+    background-color: rgba(38, 173, 255, 200);
+}
+QPushButton#button:!enabled {
+    background-color: rgba(38, 173, 255, 100);
+}
+
+QPushButton#lAccountIcon {
+    border-style: solid none solid solid;
+    border-width: 1px;
+    border-color: rgba(77, 77, 77, 50);
+    background-color: rgba(255, 255, 255, 255);
+    border-top-left-radius: 3px;
+}
+QPushButton#lPasswordIcon {
+    border-style: none none solid solid;
+    border-width: 1px;
+    border-color: rgba(77, 77, 77, 50);
+    background-color: rgba(255, 255, 255, 255);
+    border-bottom-left-radius: 3px;
+}
+QLineEdit#lAccountEdit {
+    border-style: solid solid solid none;
+    border-width: 1px;
+    border-color: rgba(77, 77, 77, 50);
+    background-color: rgba(255, 255, 255, 255);
+    border-top-right-radius: 3px;
+}
+QLineEdit#lPasswordEdit {
+    border-style: none solid solid none;
+    border-width: 1px;
+    border-color: rgba(77, 77, 77, 50);
+    background-color: rgba(255, 255, 255, 255);
+    border-bottom-right-radius: 3px;
+}
+
+QPushButton#rAccountIcon {
+    border-style: solid none solid solid;
+    border-width: 1px;
+    border-color: rgba(77, 77, 77, 50);
+    background-color: rgba(255, 255, 255, 255);
+    border-top-left-radius: 3px;
+}
+QPushButton#rPasswordIcon {
+    border-style: none none solid solid;
+    border-width: 1px;
+    border-color: rgba(77, 77, 77, 50);
+    background-color: rgba(255, 255, 255, 255);
+}
+QPushButton#rUserIcon {
+    border-style: none none solid solid;
+    border-width: 1px;
+    border-color: rgba(77, 77, 77, 50);
+    background-color: rgba(255, 255, 255, 255);
+    border-bottom-left-radius: 3px;
+}
+QLineEdit#rAccountEdit {
+    border-style: solid solid solid none;
+    border-width: 1px;
+    border-color: rgba(77, 77, 77, 50);
+    background-color: rgba(255, 255, 255, 255);
+    border-top-right-radius: 3px;
+}
+QLineEdit#rPasswordEdit {
+    border-style: none solid solid none;
+    border-width: 1px;
+    border-color: rgba(77, 77, 77, 50);
+    background-color: rgba(255, 255, 255, 255);
+
+}
+QLineEdit#rUserEdit {
+    border-style: none solid solid none;
+    border-width: 1px;
+    border-color: rgba(77, 77, 77, 50);
+    background-color: rgba(255, 255, 255, 255);
+    border-bottom-right-radius: 3px;
+}
