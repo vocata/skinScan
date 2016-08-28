@@ -8,7 +8,7 @@
 class QPushButton;
 class QLineEdit;
 class QToolButton;
-class MainTabWidget;
+class MainStackedWidget;
 class MainStatusBar;
 class CustomNetwork;
 class LoginRegisterDialog;
@@ -37,7 +37,7 @@ private:
     QMenu *m_infoMenu = nullptr;
 
     MeasureWidget *m_measureWidget = nullptr;
-    MainTabWidget *m_tabWidget = nullptr;
+    MainStackedWidget *m_stackedWidget = nullptr;
 
     MainStatusBar *m_statusBar = nullptr;
     LoginRegisterDialog *m_loginRegisterDialog = nullptr;
@@ -45,9 +45,9 @@ private:
     CustomNetwork *m_manager = nullptr;
 
 private slots:
-    void m_tabMeasureWidget();
-    void m_tabChartWidget();
-    void m_tabHistoryWidget();
+    void m_stackedMeasureWidget();
+    void m_stackedChartWidget();
+    void m_stackedHistoryWidget();
 
     /* action */
     void m_memberInfo();

@@ -77,7 +77,7 @@
     background-color: rgb(79, 79, 79, 150);
 }
 
-#mainWidget>MainTabWidget#m_tabWidget::pane {
+#mainWidget>MainTabWidget#m_stackedWidget::pane {
     border-style: none;
     background-color: rgba(255, 255, 255, 255);
 }

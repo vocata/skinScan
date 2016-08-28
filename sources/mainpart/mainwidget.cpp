@@ -1,6 +1,6 @@
 #include "mainwidget.h"
 #include "mainstatusbar.h"
-#include "maintabwidget.h"
+#include "mainstackedwidget.h"
 #include "measurewidget.h"
 #include "sources/customDialog/loginregisterdialog.h"
 #include "sources/userclass/customnetwork.h"
@@ -30,7 +30,7 @@ MainWidget::MainWidget(QWidget *parent) : CustomWidget(parent)
     m_helpButton = new QToolButton(this);
     m_aboutButton = new QToolButton(this);
     m_measureWidget = new MeasureWidget(this);
-    m_tabWidget = new MainTabWidget(this);
+    m_stackedWidget = new MainStackedWidget(this);
     m_statusBar = new MainStatusBar(this);
     m_loginRegisterDialog = new LoginRegisterDialog(this);
     m_manager = new CustomNetwork(this);
@@ -113,10 +113,9 @@ MainWidget::MainWidget(QWidget *parent) : CustomWidget(parent)
     buttonGroup->addButton(m_helpButton);
     buttonGroup->addButton(m_aboutButton);
 
-    /* QTabWidget */
-    m_tabWidget->tabBar()->hide();
-    m_tabWidget->addTab(m_measureWidget, "");
-    m_tabWidget->setObjectName("m_tabWidget");
+    /* QStackedWidget */
+    m_stackedWidget->addWidget(m_measureWidget);
+    m_stackedWidget->setObjectName("m_stackedWidget");
 
     /* QStatusBar */
     m_statusBar->setFixedHeight(30);
@@ -142,7 +141,7 @@ MainWidget::MainWidget(QWidget *parent) : CustomWidget(parent)
 
     QVBoxLayout *vBox = new QVBoxLayout();
     vBox->addLayout(hBox);
-    vBox->addWidget(m_tabWidget);
+    vBox->addWidget(m_stackedWidget);
     vBox->addWidget(m_statusBar);
     vBox->setContentsMargins(0, 0, 0, 1);
     vBox->setSpacing(0);
@@ -163,7 +162,7 @@ MainWidget::MainWidget(QWidget *parent) : CustomWidget(parent)
 
     /* connect */
     /* tat change */
-    connect(m_measureButton, &QToolButton::clicked, this, &MainWidget::m_tabMeasureWidget);
+    connect(m_measureButton, &QToolButton::clicked, this, &MainWidget::m_stackedMeasureWidget);
     /* image button */
     connect(m_userImage, &QPushButton::clicked, this, &MainWidget::m_memberInfo);
     /* menu */
@@ -189,19 +188,19 @@ MainWidget::MainWidget(QWidget *parent) : CustomWidget(parent)
     this->move((desktopWidget - width)/2, (desktopHeight - height)/2 - 20);     //窗口居中
 }
 
-void MainWidget::m_tabMeasureWidget()
+void MainWidget::m_stackedMeasureWidget()
 {
-    m_tabWidget->setCurrentIndex(0);
+    m_stackedWidget->setCurrentIndex(0);
 }
 
-void MainWidget::m_tabChartWidget()
+void MainWidget::m_stackedChartWidget()
 {
-    m_tabWidget->setCurrentIndex(1);
+    m_stackedWidget->setCurrentIndex(1);
 }
 
-void MainWidget::m_tabHistoryWidget()
+void MainWidget::m_stackedHistoryWidget()
 {
-    m_tabWidget->setCurrentIndex(2);
+    m_stackedWidget->setCurrentIndex(2);
 }
 
 void MainWidget::m_memberInfo()

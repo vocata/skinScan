@@ -1,13 +1,13 @@
-#ifndef MAINTABWIDGET_H
-#define MAINTABWIDGET_H
+#ifndef MAINSTACKEDWIDGET_H
+#define MAINSTACKEDWIDGET_H
 
-#include <QTabWidget>
+#include <QStackedWidget>
 
-class MainTabWidget : public QTabWidget
+class MainStackedWidget : public QStackedWidget
 {
     Q_OBJECT
 public:
-    explicit MainTabWidget(QWidget *parent = 0);
+    explicit MainStackedWidget(QWidget *parent = 0);
 
 signals:
 
@@ -19,4 +19,4 @@ protected:
 public slots:
 };
 
-#endif // MAINTABWIDGET_H
+#endif // MAINSTACKEDWIDGET_H

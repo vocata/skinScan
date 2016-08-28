@@ -34,7 +34,6 @@ SOURCES += \
 
 HEADERS  += \
     sources/mainpart/mainwidget.h \
-    sources/mainpart/maintabwidget.h \
     sources/mainpart/mainstatusbar.h \
     sources/usb/hidapi.h \
     sources/usb/qusbhid.h \
@@ -50,7 +49,8 @@ HEADERS  += \
     sources/userclass/customnetwork.h \
     sources/customDialog/loginregisterdialog.h \
     sources/sql/connection.h \
-    sources/userstruct/datastore.h
+    sources/userstruct/datastore.h \
+    sources/mainpart/mainstackedwidget.h
 
 RESOURCES += \
     res.qrc

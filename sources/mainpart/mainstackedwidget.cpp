@@ -1,28 +1,28 @@
-#include "maintabwidget.h"
+#include "mainstackedwidget.h"
 
 #include <QMouseEvent>
 
-MainTabWidget::MainTabWidget(QWidget *parent) : QTabWidget(parent)
+MainStackedWidget::MainStackedWidget(QWidget *parent) : QStackedWidget(parent)
 {
 
 }
 
-void MainTabWidget::mouseMoveEvent(QMouseEvent *event)
-{
-    event->accept();
-}
-
-void MainTabWidget::mousePressEvent(QMouseEvent *event)
+void MainStackedWidget::mouseMoveEvent(QMouseEvent *event)
 {
     event->accept();
 }
 
-void MainTabWidget::mouseReleaseEvent(QMouseEvent *event)
+void MainStackedWidget::mousePressEvent(QMouseEvent *event)
 {
     event->accept();
 }
 
-void MainTabWidget::mouseDoubleClickEvent(QMouseEvent *event)
+void MainStackedWidget::mouseReleaseEvent(QMouseEvent *event)
+{
+    event->accept();
+}
+
+void MainStackedWidget::mouseDoubleClickEvent(QMouseEvent *event)
 {
     event->accept();
 }
