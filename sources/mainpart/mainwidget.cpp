@@ -167,6 +167,7 @@ MainWidget::MainWidget(QWidget *parent) : CustomWidget(parent)
     connect(m_userImage, &QPushButton::clicked, this, &MainWidget::m_memberInfo);
     /* menu */
     connect(m_accountButton, &QPushButton::clicked, this, &MainWidget::m_loginRegister);
+    connect(m_infoMenu, &QMenu::aboutToHide, this, &MainWidget::setRedirection);
     /* action */
     connect(info, &QAction::triggered, this, &MainWidget::m_memberInfo);
     connect(modifyPassword, &QAction::triggered, this, &MainWidget::m_modifyPassword);

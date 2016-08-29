@@ -27,8 +27,10 @@ public:
     void addMenuAction(QAction *action);
     void addMenuSeparator();
     void setCentralWidgetLayout(QLayout *layout);
+public slots:
+    void setRedirection();
+    void resetRedirection();
 
-//    QWidget *centralWidget() const;
 
 signals:
 
@@ -46,6 +48,7 @@ private:
     QVBoxLayout *m_layout = nullptr;
 
     QMenu *m_popMenu = nullptr;
+    bool m_isRedirection = false;
 
 private slots:
     void m_setPopUpPos();

@@ -10,6 +10,7 @@
 #include <QApplication>
 
 #include <QDebug>
+#include <QTimer>
 
 
 CustomWidget::CustomWidget(QWidget *parent) : QWidget(parent)
@@ -112,6 +113,17 @@ void CustomWidget::setCentralWidgetLayout(QLayout *layout)
     m_layout->addLayout(layout);
 }
 
+void CustomWidget::setRedirection()
+{
+    m_isRedirection = false;
+    QTimer::singleShot(10, this, &CustomWidget::resetRedirection);
+}
+
+void CustomWidget::resetRedirection()
+{
+    m_isRedirection = true;
+}
+
 bool CustomWidget::nativeEvent(const QByteArray &eventType, void *message, long *result)
 {
     Q_UNUSED(eventType);
@@ -126,7 +138,11 @@ bool CustomWidget::nativeEvent(const QByteArray &eventType, void *message, long 
         yPos = GET_Y_LPARAM(msg->lParam) - this->frameGeometry().y();
         if(this->childAt(xPos,yPos) == 0)
         {
-            *result = HTCAPTION;
+            if(!m_isRedirection) {
+                *result = HTCAPTION;
+            } else {
+                return false;
+            }
         }else{
             return false;
         }
