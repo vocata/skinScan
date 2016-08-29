@@ -49,11 +49,11 @@ BarChart::BarChart(QWidget *parent) : QWidget(parent)
     /* color */
     m_customPlot->xAxis->setBasePen(QPen(QColor(216, 216, 216, 255), 1));
     m_customPlot->yAxis->setBasePen(QPen(QColor(216, 216, 216, 255), 1));
-    m_customPlot->xAxis->setTickPen(QPen(QColor(216, 216, 216, 255), 2));
-    m_customPlot->yAxis->setTickPen(QPen(QColor(216, 216, 216, 255), 1));
+    m_customPlot->xAxis->setTickPen(QPen(QColor(200, 200, 200, 255), 2));
+    m_customPlot->yAxis->setTickPen(QPen(QColor(200, 200, 200, 255), 1));
 
-    m_customPlot->xAxis->grid()->setPen(QPen(QColor(216, 216, 216, 255), 1, Qt::DashLine));
-    m_customPlot->yAxis->grid()->setPen(QPen(QColor(216, 216, 216, 255), 1, Qt::DashLine));
+    m_customPlot->xAxis->grid()->setPen(QPen(QColor(216, 216, 216, 255), 1, Qt::DotLine));
+    m_customPlot->yAxis->grid()->setPen(QPen(QColor(216, 216, 216, 255), 1, Qt::DotLine));
     m_customPlot->setBackground(QColor(250, 250, 250, 255));
 
     /* layout */
