@@ -36,14 +36,9 @@ MainWidget::MainWidget(QWidget *parent) : CustomWidget(parent)
     m_manager = new CustomNetwork(this);
 
     /* QPushButton */
-    m_userImage->setIcon(QIcon(":/button/icon/anonymous"));
-    m_userImage->setIconSize(QSize(60, 60));
-    m_userImage->setFixedSize(QSize(64, 64));
-    m_userImage->setObjectName("m_userImage");
-
     m_infoMenu = new QMenu(this);
     m_infoMenu->setFixedWidth(150);
-    m_infoMenu->setObjectName("m_infoMenu");
+    m_infoMenu->setObjectName("infoMenu");
     QAction *info = new QAction(QIcon(":/menu/icon/info"), QStringLiteral("基本信息"), this);
     QAction *modifyPassword = new QAction(QStringLiteral("修改密码"), this);
     QAction *replaceAccount = new QAction(QIcon(":/menu/icon/exchange"), QStringLiteral("更换账号"), this);
@@ -54,15 +49,17 @@ MainWidget::MainWidget(QWidget *parent) : CustomWidget(parent)
     m_infoMenu->addAction(replaceAccount);
     m_infoMenu->addSeparator();
     m_infoMenu->addAction(logout);
+
+    m_userImage->setIcon(QIcon(":/button/icon/anonymous"));
+    m_userImage->setIconSize(QSize(60, 60));
+    m_userImage->setFixedSize(QSize(64, 64));
+    m_userImage->setObjectName("userImage");
+
     m_accountButton->setFixedSize(150, 20);
-    m_accountButton->setObjectName("m_accountButton");
+    m_accountButton->setObjectName("accountButton");
 
-    m_userButton->setObjectName("m_userButton");
     m_userButton->setFocusPolicy(Qt::NoFocus);
-
-    /* QLabel */
-    m_userButton->setFixedSize(150, 30);
-    m_userButton->setObjectName("m_userButton");
+    m_userButton->setObjectName("userButton");
 
     /* QToolButton */
     m_measureButton->setIcon(QIcon(":/button/icon/measure"));
@@ -72,7 +69,7 @@ MainWidget::MainWidget(QWidget *parent) : CustomWidget(parent)
     m_measureButton->setToolButtonStyle(Qt::ToolButtonTextUnderIcon);
     m_measureButton->setCheckable(true);
     m_measureButton->setChecked(true);
-    m_measureButton->setObjectName("m_measureButton");
+    m_measureButton->setObjectName("measureButton");
 
     m_statisticsButton->setIcon(QIcon(":/button/icon/chart"));
     m_statisticsButton->setText(QStringLiteral("数据统计"));
@@ -80,7 +77,7 @@ MainWidget::MainWidget(QWidget *parent) : CustomWidget(parent)
     m_statisticsButton->setFixedSize(QSize(82, 82));
     m_statisticsButton->setToolButtonStyle(Qt::ToolButtonTextUnderIcon);
     m_statisticsButton->setCheckable(true);
-    m_statisticsButton->setObjectName("m_statisticsButton");
+    m_statisticsButton->setObjectName("statisticsButton");
 
     m_historyButton->setIcon(QIcon(":/button/icon/history"));
     m_historyButton->setText(QStringLiteral("检测纪录"));
@@ -88,7 +85,7 @@ MainWidget::MainWidget(QWidget *parent) : CustomWidget(parent)
     m_historyButton->setFixedSize(QSize(82, 82));
     m_historyButton->setToolButtonStyle(Qt::ToolButtonTextUnderIcon);
     m_historyButton->setCheckable(true);
-    m_historyButton->setObjectName("m_historyButton");
+    m_historyButton->setObjectName("historyButton");
 
     m_helpButton->setIcon(QIcon(":/button/icon/help"));
     m_helpButton->setText(QStringLiteral("使用说明"));
@@ -96,7 +93,7 @@ MainWidget::MainWidget(QWidget *parent) : CustomWidget(parent)
     m_helpButton->setFixedSize(QSize(82, 82));
     m_helpButton->setToolButtonStyle(Qt::ToolButtonTextUnderIcon);
     m_helpButton->setCheckable(true);
-    m_helpButton->setObjectName("m_helpButton");
+    m_helpButton->setObjectName("helpButton");
 
     m_aboutButton->setIcon(QIcon(":/button/icon/about"));
     m_aboutButton->setText(QStringLiteral("关于"));
@@ -104,7 +101,7 @@ MainWidget::MainWidget(QWidget *parent) : CustomWidget(parent)
     m_aboutButton->setFixedSize(QSize(82, 82));
     m_aboutButton->setToolButtonStyle(Qt::ToolButtonTextUnderIcon);
     m_aboutButton->setCheckable(true);
-    m_aboutButton->setObjectName("m_aboutButton");
+    m_aboutButton->setObjectName("aboutButton");
 
     QButtonGroup *buttonGroup = new QButtonGroup(this);
     buttonGroup->addButton(m_measureButton);
@@ -115,28 +112,28 @@ MainWidget::MainWidget(QWidget *parent) : CustomWidget(parent)
 
     /* QStackedWidget */
     m_stackedWidget->addWidget(m_measureWidget);
-    m_stackedWidget->setObjectName("m_stackedWidget");
+    m_stackedWidget->setObjectName("stackedWidget");
 
     /* QStatusBar */
     m_statusBar->setFixedHeight(30);
-    m_statusBar->setObjectName("m_statusBar");
+    m_statusBar->setObjectName("statusBar");
 
     /* layout */
-    QVBoxLayout *buttonnLineEditBox = new QVBoxLayout();
-    buttonnLineEditBox->addWidget(m_accountButton);
-    buttonnLineEditBox->addWidget(m_userButton);
-    buttonnLineEditBox->setContentsMargins(20, 0, 80, 0);
+    QVBoxLayout *buttonnBox = new QVBoxLayout();
+    buttonnBox->addWidget(m_accountButton);
+    buttonnBox->addWidget(m_userButton);
+    buttonnBox->setContentsMargins(20, 0, 0, 0);
 
     QHBoxLayout *hBox = new QHBoxLayout();
     hBox->addWidget(m_userImage);
-    hBox->addLayout(buttonnLineEditBox);
+    hBox->addLayout(buttonnBox);
     hBox->addWidget(m_measureButton);
     hBox->addWidget(m_statisticsButton);
     hBox->addWidget(m_historyButton);
     hBox->addWidget(m_helpButton);
     hBox->addWidget(m_aboutButton);
-    hBox->setAlignment(m_aboutButton, Qt::AlignLeft);
-    hBox->setContentsMargins(20, 0, 0, 0);
+    hBox->setAlignment(m_measureButton, Qt::AlignRight);
+    hBox->setContentsMargins(0, 0, 200, 0);
     hBox->setSpacing(1);
 
     QVBoxLayout *vBox = new QVBoxLayout();
