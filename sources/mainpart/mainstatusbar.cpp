@@ -17,7 +17,7 @@ MainStatusBar::MainStatusBar(QWidget *parent) : QStatusBar(parent)
     m_usbStatusIcon->setIcon(":/statusbar/icon/usb_disable", ":/statusbar/icon/usb_enable");
 
     /* QLabel */
-    m_usbStatusLabel->setObjectName("m_usbStatusLabel");
+    m_usbStatusLabel->setObjectName("usbStatusLabel");
 
     /* QTimer */
     m_timer = new QTimer(this);

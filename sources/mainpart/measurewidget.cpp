@@ -96,7 +96,7 @@ MeasureWidget::MeasureWidget(QWidget *parent) : QWidget(parent)
     m_PHInfo->setPlainText(QStringLiteral("PH值: 无数据"));
     m_PHInfo->setReadOnly(true);
     m_PHInfo->setFixedSize(230, 50);
-    m_PHInfo->setObjectName("m_PHInfo");
+    m_PHInfo->setObjectName("PHInfo");
 
     /* line */
     QFrame *line = new QFrame(this);
@@ -278,7 +278,7 @@ void MeasureWidget::m_saveReasult()
         /* commit to server */
         QJsonDocument document = this->m_formatUploadData();
         m_manager->uploadUserData(document);
-        qDebug() << "m_saveReasult -> " << document;
+        qDebug() << "saveReasult -> " << document;
     } else {
         /* 提示注册会员 */
     }
@@ -354,13 +354,13 @@ void MeasureWidget::m_uploadDataReply(CustomNetwork::Status status)
     qDebug() << status;
     switch(status) {
     case CustomNetwork::Success:
-        qDebug() << "m_uploadDataReply -> 提交成功";
+        qDebug() << "uploadDataReply -> 提交成功";
         break;
     case CustomNetwork::Failure:
-        qDebug() << "m_uploadDataReply -> 提交失败";
+        qDebug() << "uploadDataReply -> 提交失败";
         break;
     case CustomNetwork::Timeout:
-        qDebug() << "m_uploadDataReply -> 网络超时";
+        qDebug() << "uploadDataReply -> 网络超时";
         break;
     default:
         break;

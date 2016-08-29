@@ -5,15 +5,15 @@
 #mainWidget{
     background-color: rgba(128, 128, 128, 255);
 }
-#mainWidget>QPushButton#m_userImage {
+#mainWidget>QPushButton#userImage {
     border-style: none;
 }
-#mainWidget>QPushButton#m_userImage:hover {
+#mainWidget>QPushButton#userImage:hover {
     border: 1px solid rgba(255, 255, 255, 100);
     background-color: rgba(255, 255, 255, 50);
 }
 
-#mainWidget>QPushButton#m_accountButton {
+#mainWidget>QPushButton#accountButton {
     border-style: none;
     text-align: left;
     font-size: 12px;
@@ -21,19 +21,19 @@
     color: rgba(255, 255, 255, 230);
     padding: 0px 5px 0px 5px;
 }
-#mainWidget>QPushButton#m_accountButton:hover {
+#mainWidget>QPushButton#accountButton:hover {
     color: rgba(255, 255, 255, 255);
     background-color: rgba(0, 0, 0, 50);
     border: 1px solid rgba(0, 0, 0, 50);
     border-radius: 2px;
 }
-#mainWidget>QPushButton#m_accountButton::menu-indicator {
+#mainWidget>QPushButton#accountButton::menu-indicator {
     subcontrol-origin: padding;
     subcontrol-position: center right;
     right: 5px;
 }
 
-#mainWidget>QPushButton#m_userButton {
+#mainWidget>QPushButton#userButton {
     font-size: 16px;
     font-weight: bold;
     color: rgba(230, 230, 230, 255);
@@ -42,22 +42,22 @@
     text-align: left;
 }
 
-#mainWidget>QMenu#m_infoMenu {
+#mainWidget>QMenu#infoMenu {
     background-color: rgba(255, 255, 255, 255);
     color: rgba(0, 0, 0, 255);
     padding: 1px;
 }
-#mainWidget>QMenu#m_infoMenu::item {
+#mainWidget>QMenu#infoMenu::item {
     padding: 5px 0px 5px 25px;
 }
-#mainWidget>QMenu#m_infoMenu::icon {
+#mainWidget>QMenu#infoMenu::icon {
     border-style: none;
     padding: 5px 0px 5px 5px;
 }
-#mainWidget>QMenu#m_infoMenu::item:selected {
+#mainWidget>QMenu#infoMenu::item:selected {
     background-color: rgba(75, 75, 75, 50);
 }
-#mainWidget>QMenu#m_infoMenu::separator {
+#mainWidget>QMenu#infoMenu::separator {
     height: 1px;
     background-color: rgba(0, 0, 0, 20);
     margin-left: 25px;
@@ -77,7 +77,7 @@
     background-color: rgb(79, 79, 79, 150);
 }
 
-#mainWidget>MainTabWidget#m_stackedWidget::pane {
+#mainWidget>MainTabWidget#stackedWidget::pane {
     border-style: none;
     background-color: rgba(255, 255, 255, 255);
 }
@@ -85,7 +85,7 @@
 #mainWidget>MainStatusBar::item {
     border-style: none;
 }
-QLabel#m_usbStatusLabel{
+QLabel#usbStatusLabel{
     color: rgba(255, 255, 255, 255);
 }
 

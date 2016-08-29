@@ -10,6 +10,7 @@
 #include <QApplication>
 
 #include <QDebug>
+#include <QTimer>
 
 
 CustomWidget::CustomWidget(QWidget *parent) : QWidget(parent)
@@ -112,21 +113,34 @@ void CustomWidget::setCentralWidgetLayout(QLayout *layout)
     m_layout->addLayout(layout);
 }
 
+void CustomWidget::setRedirection()
+{
+    m_isRedirection = true;
+    QTimer::singleShot(100, this, &CustomWidget::resetRedirection);
+}
+
+void CustomWidget::resetRedirection()
+{
+    m_isRedirection = false;
+}
+
 bool CustomWidget::nativeEvent(const QByteArray &eventType, void *message, long *result)
 {
     Q_UNUSED(eventType);
 
     MSG* msg = static_cast<MSG*>(message);
 
-    int xPos = 0, yPos = 0;     //current position
-
     switch(msg->message) {
-    case WM_NCHITTEST:
-        xPos = GET_X_LPARAM(msg->lParam) - this->frameGeometry().x();
-        yPos = GET_Y_LPARAM(msg->lParam) - this->frameGeometry().y();
+    case WM_NCHITTEST: {
+        int xPos = GET_X_LPARAM(msg->lParam) - this->frameGeometry().x();
+        int yPos = GET_Y_LPARAM(msg->lParam) - this->frameGeometry().y();
         if(this->childAt(xPos,yPos) == 0)
         {
-            *result = HTCAPTION;
+            if(!m_isRedirection) {
+                *result = HTCAPTION;
+            } else {
+                return false;
+            }
         }else{
             return false;
         }
@@ -148,6 +162,7 @@ bool CustomWidget::nativeEvent(const QByteArray &eventType, void *message, long 
             *result = HTBOTTOMRIGHT;
         return true;
         break;
+    }
 
     case WM_GETMINMAXINFO:
         if (::IsZoomed(msg->hwnd)) {
