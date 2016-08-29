@@ -130,12 +130,10 @@ bool CustomWidget::nativeEvent(const QByteArray &eventType, void *message, long 
 
     MSG* msg = static_cast<MSG*>(message);
 
-    int xPos = 0, yPos = 0;     //current position
-
     switch(msg->message) {
-    case WM_NCHITTEST:
-        xPos = GET_X_LPARAM(msg->lParam) - this->frameGeometry().x();
-        yPos = GET_Y_LPARAM(msg->lParam) - this->frameGeometry().y();
+    case WM_NCHITTEST: {
+        int xPos = GET_X_LPARAM(msg->lParam) - this->frameGeometry().x();
+        int yPos = GET_Y_LPARAM(msg->lParam) - this->frameGeometry().y();
         if(this->childAt(xPos,yPos) == 0)
         {
             if(!m_isRedirection) {
@@ -164,6 +162,7 @@ bool CustomWidget::nativeEvent(const QByteArray &eventType, void *message, long 
             *result = HTBOTTOMRIGHT;
         return true;
         break;
+    }
 
     case WM_GETMINMAXINFO:
         if (::IsZoomed(msg->hwnd)) {
