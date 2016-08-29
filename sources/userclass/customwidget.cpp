@@ -115,13 +115,13 @@ void CustomWidget::setCentralWidgetLayout(QLayout *layout)
 
 void CustomWidget::setRedirection()
 {
-    m_isRedirection = false;
-    QTimer::singleShot(10, this, &CustomWidget::resetRedirection);
+    m_isRedirection = true;
+    QTimer::singleShot(100, this, &CustomWidget::resetRedirection);
 }
 
 void CustomWidget::resetRedirection()
 {
-    m_isRedirection = true;
+    m_isRedirection = false;
 }
 
 bool CustomWidget::nativeEvent(const QByteArray &eventType, void *message, long *result)
