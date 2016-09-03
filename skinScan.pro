@@ -30,8 +30,8 @@ SOURCES += \
     sources/userclass/customnetwork.cpp \
     sources/customDialog/loginregisterdialog.cpp \
     sources/sql/connection.cpp \
-    sources/mainpart/mainstackedwidget.cpp \
-    sources/mainpart/statisticswidget.cpp
+    sources/mainpart/statisticswidget.cpp \
+    sources/userclass/customstackedwidget.cpp
 
 HEADERS  += \
     sources/mainpart/mainwidget.h \
@@ -51,8 +51,8 @@ HEADERS  += \
     sources/customDialog/loginregisterdialog.h \
     sources/sql/connection.h \
     sources/userstruct/datastore.h \
-    sources/mainpart/mainstackedwidget.h \
-    sources/mainpart/statisticswidget.h
+    sources/mainpart/statisticswidget.h \
+    sources/userclass/customstackedwidget.h
 
 RESOURCES += \
     res.qrc
