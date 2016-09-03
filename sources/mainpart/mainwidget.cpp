@@ -1,9 +1,9 @@
 #include "mainwidget.h"
 #include "mainstatusbar.h"
-#include "mainstackedwidget.h"
 #include "measurewidget.h"
 #include "statisticswidget.h"
 #include "sources/customDialog/loginregisterdialog.h"
+#include "sources/userclass/customstackedwidget.h"
 #include "sources/userclass/customnetwork.h"
 
 #include <QMenu>
@@ -20,6 +20,8 @@
 #include <QDesktopServices>
 #include <QUrl>
 
+
+
 MainWidget::MainWidget(QWidget *parent) : CustomWidget(parent)
 {
     m_userImage = new QPushButton(this);
@@ -32,7 +34,7 @@ MainWidget::MainWidget(QWidget *parent) : CustomWidget(parent)
     m_aboutButton = new QToolButton(this);
     m_measureWidget = new MeasureWidget(this);
     m_statisticsWidget = new StatisticsWidget(this);
-    m_stackedWidget = new MainStackedWidget(this);
+    m_stackedWidget = new CustomStackedWidget(this);
     m_statusBar = new MainStatusBar(this);
     m_loginRegisterDialog = new LoginRegisterDialog(this);
     m_manager = new CustomNetwork(this);
@@ -115,6 +117,7 @@ MainWidget::MainWidget(QWidget *parent) : CustomWidget(parent)
     /* QStackedWidget */
     m_stackedWidget->addWidget(m_measureWidget);
     m_stackedWidget->addWidget(m_statisticsWidget);
+    m_stackedWidget->setEffectEnable(true);
     m_stackedWidget->setObjectName("stackedWidget");
 
     /* QStatusBar */
@@ -161,7 +164,7 @@ MainWidget::MainWidget(QWidget *parent) : CustomWidget(parent)
     }
 
     /* connect */
-    /* tat change */
+    /* widget change */
     connect(m_measureButton, &QToolButton::clicked, this, &MainWidget::m_stackedMeasureWidget);
     connect(m_statisticsButton, &QToolButton::clicked, this, &MainWidget::m_stackedStatisticsWidget);
     /* image button */

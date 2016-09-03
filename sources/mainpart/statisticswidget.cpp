@@ -31,6 +31,7 @@ StatisticsWidget::StatisticsWidget(QWidget *parent) : QWidget(parent)
 
     QGroupBox *buttonGroup = new QGroupBox(this);
     QVBoxLayout *buttonBox = new QVBoxLayout(buttonGroup);
+    buttonBox->setObjectName("buttonBox");
     buttonBox->addWidget(m_moistureButton);
     buttonBox->addWidget(m_greaseButton);
     buttonBox->addWidget(m_temperatureButton);
@@ -44,5 +45,7 @@ StatisticsWidget::StatisticsWidget(QWidget *parent) : QWidget(parent)
     hBox->addWidget(m_stackedWidget);
     hBox->setMargin(0);
     hBox->setSpacing(0);
+
+    /* connect */
 
 }
