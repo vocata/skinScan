@@ -41,7 +41,7 @@ void TitleIcon::setIcon(const QString &icon, int num)
 void TitleIcon::paintEvent(QPaintEvent *)
 {
     QPainter painter(this);
-    painter.drawPixmap(rect(), m_currentPix);
+    painter.drawPixmap(this->rect(), m_currentPix);
 }
 
 void TitleIcon::enterEvent(QEvent *)

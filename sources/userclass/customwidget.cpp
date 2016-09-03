@@ -49,8 +49,7 @@ CustomWidget::CustomWidget(QWidget *parent) : QWidget(parent)
     connect(m_max, &TitleIcon::buttonClicked, this, &CustomWidget::m_windowChange);
     connect(m_close, &TitleIcon::buttonClicked, this, &CustomWidget::close);
     /* window Attribution */
-    this->setWindowFlags(Qt::Window | Qt::WindowTitleHint | Qt::WindowSystemMenuHint |
-                         Qt::WindowMinMaxButtonsHint | Qt::FramelessWindowHint);
+    this->setWindowFlags(Qt::Window | Qt::WindowTitleHint | Qt::FramelessWindowHint);
     /* windows api */
     HWND hwnd = (HWND)this->winId();
     DWORD style = ::GetWindowLong(hwnd, GWL_STYLE);

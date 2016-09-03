@@ -1,5 +1,6 @@
 #include <QApplication>
 #include <sources/mainpart/mainwidget.h>
+#include <QDebug>
 
 int main(int argc, char *argv[])
 {
@@ -7,7 +8,6 @@ int main(int argc, char *argv[])
 
     QCoreApplication::setOrganizationName("Shey Ray");
     QCoreApplication::setApplicationName("SkinScan");
-
     MainWidget w;
     w.show();
 
