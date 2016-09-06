@@ -171,27 +171,39 @@ AlbumDialog QToolButton:hover {
 
 AlbumDialog QScrollBar:vertical {
     border: none;
-	background-color: black;
+	background-color: rgba(0, 0, 0, 255);
 	width: 11px;
 	margin: 15px 0 15px 0;
 }
 AlbumDialog QScrollBar::handle:vertical {
-    background-color: gray;
+    background-color: rgba(128, 128, 128, 150);
 	min-height: 20px;
+}
+AlbumDialog QScrollBar::handle:vertical:hover {
+    background-color: rgba(128, 128, 128, 200);
+}
+AlbumDialog QScrollBar::handle:vertical:pressed {
+    background-color: rgba(128, 128, 128, 255);
 }
 AlbumDialog QScrollBar::add-line:vertical {
     border: none;
-	background-color: black;
+	background-color: rgba(0, 0, 0, 255);
 	height: 15px;
 	subcontrol-position: bottom;
 	subcontrol-origin: margin;
 }
+AlbumDialog QScrollBar::add-line:vertical:pressed {
+    background-color: rgba(128, 128, 128, 200);
+}
 AlbumDialog QScrollBar::sub-line:vertical {
     border: none;
-	background-color: black;
+	background-color: rgba(0, 0, 0, 255);
 	height: 15px;
 	subcontrol-position: top;
 	subcontrol-origin: margin;
+}
+AlbumDialog QScrollBar::sub-line:vertical:pressed {
+    background-color: rgba(128, 128, 128, 200);
 }
 AlbumDialog QScrollBar::up-arrow:vertical {
     border: none;
@@ -206,7 +218,7 @@ AlbumDialog QScrollBar::down-arrow:vertical {
 	image: url(:/album/icon/down-arrow);
 }
 AlbumDialog QScrollBar::add-page:vertical, QScrollBar::sub-page:vertical {
-    background-color: black;
+    background-color: rgba(0, 0, 0, 255);
 }
 
 /* login and register dialog */

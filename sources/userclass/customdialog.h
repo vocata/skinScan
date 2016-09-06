@@ -7,6 +7,7 @@ class TitleIcon;
 class QLabel;
 class QVBoxLayout;
 class QToolButton;
+class QPropertyAnimation;
 
 class CustomDialog : public QDialog
 {
@@ -23,7 +24,10 @@ public:
     void setShadow(bool enable);
     void setWindowTitle(QWidget *widget);
     void setCentralWidgetLayout(QLayout *layout);
+
     QWidget *centralWidget() const;
+
+    void startAnimation() const;
 
 signals:
 
@@ -45,6 +49,7 @@ private:
     TitleIcon *m_close = nullptr;
     QWidget *m_mainWidget = nullptr;
     QVBoxLayout *m_layout = nullptr;
+    QPropertyAnimation *m_animation = nullptr;
 };
 
 #endif // CUSTOMDIALOG_H

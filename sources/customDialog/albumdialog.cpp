@@ -59,13 +59,15 @@ AlbumDialog::AlbumDialog(const QString &name, QWidget *parent) : CustomDialog(pa
     /* window attribution */
     this->hideMinIcon();
     this->setShadow(false);
-    this->setFixedSize(720, 450);
+    this->resize(720, 450);
     this->setWindowTitle(new QLabel("相片"));
+    this->startAnimation();
     this->centralWidget()->setObjectName("centralDialog");
 }
 
 void AlbumDialog::showImage(int id)
 {
+    qDebug() << this->geometry();
     const QUrl memberUrl(QDir(m_image.value(id)).absolutePath());
     QDesktopServices::openUrl(memberUrl);
 }

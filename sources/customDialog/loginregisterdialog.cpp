@@ -192,8 +192,8 @@ LoginRegisterDialog::LoginRegisterDialog(QWidget *parent) : CustomDialog(parent)
     this->hideMinIcon();
     this->resize(300, 400);
     this->setWindowTitle(m_titleButton);
+    this->startAnimation();
     this->centralWidget()->setObjectName("centralDialog");
-    this->setObjectName("mainDialog");
 }
 
 void LoginRegisterDialog::m_showMain()
