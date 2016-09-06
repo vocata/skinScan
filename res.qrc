@@ -39,4 +39,8 @@
         <file alias="user">resources/Profile_38.428152492669px_1181297_easyicon.net.png</file>
         <file alias="lock">resources/Shop_34.295754026354px_1181301_easyicon.net.png</file>
     </qresource>
+    <qresource prefix="/album/icon">
+        <file alias="down-arrow">resources/arrow_drop_down_32px_1181651_easyicon.net.png</file>
+        <file alias="up-arrow">resources/arrow_drop_up_32px_1181653_easyicon.net.png</file>
+    </qresource>
 </RCC>
