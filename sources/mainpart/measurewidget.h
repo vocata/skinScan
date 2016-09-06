@@ -45,17 +45,20 @@ private:
     BarChart *m_temperatureBar = nullptr;
     BarChart *m_PHBar = nullptr;
 
-    /* photo */
+    /* 照片 */
     QPixmap m_photh;
 
-    /* data store */
+    /* 数据保存 */
     DataStore m_dataStore[4];
 
-    /* measure thread */
+    /* 测量的线程 */
     UsbMeasure m_usbMeasure;
 
-    /* network manager */
+    /* 网络管理 */
     CustomNetwork *m_manager;
+
+    /* 提交数据标志 */
+    bool m_commit = false;
 
 
 private slots:

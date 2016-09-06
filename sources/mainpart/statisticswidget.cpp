@@ -7,8 +7,8 @@
 
 StatisticsWidget::StatisticsWidget(QWidget *parent) : QWidget(parent)
 {
-    m_moistureButton = new QPushButton(QStringLiteral("油脂"), this);
-    m_greaseButton = new QPushButton(QStringLiteral("水分"), this);
+    m_moistureButton = new QPushButton(QStringLiteral("水分"), this);
+    m_greaseButton = new QPushButton(QStringLiteral("油脂"), this);
     m_temperatureButton = new QPushButton(QStringLiteral("温度"), this);
     m_PHButton = new QPushButton(QStringLiteral("PH值"), this);
     m_stackedWidget = new QStackedWidget(this);

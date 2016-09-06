@@ -9,6 +9,8 @@
 #include <QPainter>
 #include <QtMath>
 
+#include <QDebug>
+
 CustomDialog::CustomDialog(QWidget *parent) : QDialog(parent)
 {
     m_windowTitle = new QWidget(this);
@@ -46,7 +48,6 @@ CustomDialog::CustomDialog(QWidget *parent) : QDialog(parent)
 
     /* window Attribution */
     this->setWindowFlags(Qt::FramelessWindowHint | Qt::Dialog);
-    this->setAttribute(Qt::WA_TranslucentBackground);
 }
 
 void CustomDialog::hideMinIcon() const
@@ -67,6 +68,12 @@ void CustomDialog::hideCloseIcon() const
 void CustomDialog::showCloseIcon() const
 {
     m_close->show();
+}
+
+void CustomDialog::setShadow(bool enable)
+{
+    m_shadow = enable;
+    this->setAttribute(Qt::WA_TranslucentBackground, enable);
 }
 
 void CustomDialog::setWindowTitle(QWidget *widget)
@@ -97,24 +104,28 @@ void CustomDialog::mousePressEvent(QMouseEvent *event)
 
 void CustomDialog::paintEvent(QPaintEvent *)
 {
-    QPainterPath path;
-    path.setFillRule(Qt::WindingFill);
-    path.addRoundedRect(5, 5, this->width() - 10, this->height() - 10, 3, 3);
-
-    QPainter painter(this);
-    painter.setRenderHint(QPainter::Antialiasing, true);
-    painter.fillPath(path, QBrush(Qt::white));
-
-    QColor color(0, 0, 0);
-    for(int i = 0; i < 5; ++i)
-    {
+    if(m_shadow) {
         QPainterPath path;
         path.setFillRule(Qt::WindingFill);
-        QRect rect(5 - i, 5 - i, this->width() - (5 - i) * 2, this->height() - (5 - i) * 2);
-        path.addRoundedRect(rect, 3, 3);
-        color.setAlpha(50 - qSqrt(i) * 25);
-        painter.setPen(color);
-        painter.drawPath(path);
+        path.addRoundedRect(5, 5, this->width() - 10, this->height() - 10, 3, 3);
+
+        QPainter painter(this);
+        painter.setRenderHint(QPainter::Antialiasing, true);
+        painter.fillPath(path, QBrush(Qt::white));
+
+        QColor color(0, 0, 0);
+        for(int i = 0; i < 5; ++i)
+        {
+            QPainterPath path;
+            path.setFillRule(Qt::WindingFill);
+            QRect rect(5 - i, 5 - i, this->width() - (5 - i) * 2, this->height() - (5 - i) * 2);
+            path.addRoundedRect(rect, 3, 3);
+            color.setAlpha(50 - qSqrt(i) * 25);
+            painter.setPen(color);
+            painter.drawPath(path);
+        }
+    } else {
+        m_layout->setMargin(0);
     }
 }
 

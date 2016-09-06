@@ -20,6 +20,7 @@ public:
     void hideCloseIcon() const;
     void showCloseIcon() const;
 
+    void setShadow(bool enable);
     void setWindowTitle(QWidget *widget);
     void setCentralWidgetLayout(QLayout *layout);
     QWidget *centralWidget() const;
@@ -35,6 +36,7 @@ protected:
     void paintEvent(QPaintEvent *);
 
 private:
+    bool m_shadow = false;
     bool m_drag = false;
     QPoint m_dragPosition;
 

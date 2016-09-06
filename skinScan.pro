@@ -6,7 +6,7 @@
 
 QT       += core gui
 
-greaterThan(QT_MAJOR_VERSION, 4): QT += widgets printsupport network sql
+greaterThan(QT_MAJOR_VERSION, 4): QT += widgets printsupport network sql multimedia multimediawidgets
 
 TARGET = skinScan
 TEMPLATE = app
@@ -31,7 +31,9 @@ SOURCES += \
     sources/customDialog/loginregisterdialog.cpp \
     sources/sql/connection.cpp \
     sources/mainpart/statisticswidget.cpp \
-    sources/userclass/customstackedwidget.cpp
+    sources/userclass/customstackedwidget.cpp \
+    sources/customDialog/cameradialog.cpp \
+    sources/customDialog/albumdialog.cpp
 
 HEADERS  += \
     sources/mainpart/mainwidget.h \
@@ -52,7 +54,9 @@ HEADERS  += \
     sources/sql/connection.h \
     sources/userstruct/datastore.h \
     sources/mainpart/statisticswidget.h \
-    sources/userclass/customstackedwidget.h
+    sources/userclass/customstackedwidget.h \
+    sources/customDialog/cameradialog.h \
+    sources/customDialog/albumdialog.h
 
 RESOURCES += \
     res.qrc
