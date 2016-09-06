@@ -7,6 +7,7 @@
 #include <QPushButton>
 #include <QCameraInfo>
 #include <QDir>
+#include <QLabel>
 
 #include <QDebug>
 
@@ -24,11 +25,11 @@ CameraDialog::CameraDialog(const QString &name, QWidget *parent) : CustomDialog(
     m_imageCapture->setCaptureDestination(QCameraImageCapture::CaptureToBuffer);
 
     /* pushButton */
-    m_takeImageButton->setFixedWidth(100);
+    m_takeImageButton->setFixedSize(100, 25);
     if(QCameraInfo::availableCameras().isEmpty()) {
         m_takeImageButton->setEnabled(false);
     }
-    m_saveImageButton->setFixedWidth(100);
+    m_saveImageButton->setFixedSize(100, 25);
     m_saveImageButton->setEnabled(false);
 
     /* layout */
@@ -57,7 +58,10 @@ CameraDialog::CameraDialog(const QString &name, QWidget *parent) : CustomDialog(
     this->setCentralWidgetLayout(hBox);
     this->setShadow(false);
     this->hideMinIcon();
+    this->setWindowTitle(new QLabel("拍照"));
     this->centralWidget()->setObjectName("centralDialog");
+
+    /* camera start */
     m_camera->start();
 }
 

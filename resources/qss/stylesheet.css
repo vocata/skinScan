@@ -128,7 +128,85 @@ QGroupBox>#leftBottomWidget>QPlainTextEdit {
 
 /* take image dialog */
 CameraDialog>#centralDialog, CameraDialog>#titleBar {
-    background-color: rgba(230, 230, 230, 255);
+    background-color: rgba(50, 50, 50, 255);
+}
+CameraDialog>#centralDialog>QPushButton {
+    border: none;
+	border-radius: 2px;
+	background-color: rgba(255, 255, 255, 255);
+}
+CameraDialog>#centralDialog>QPushButton:hover {
+    background-color: rgba(245, 245, 247, 200);
+}
+CameraDialog QLabel {
+    font-size: 12px;
+	font-weight: bold;
+	color: rgba(255, 255, 255, 255);
+	margin-top: 2px;
+}
+
+/* album dialog */
+AlbumDialog>#centralDialog, AlbumDialog>#titleBar{
+    border: none;
+	background-color: rgba(50, 50, 50, 255);
+}
+AlbumDialog>#centralDialog>#scrollArea, AlbumDialog #scrollWidget {
+    border: none;
+	background-color: rgba(50, 50, 50 ,255);
+}
+
+AlbumDialog QLabel {
+    font-size: 12px;
+	font-weight: bold;
+	color: rgba(255, 255, 255, 255);
+	margin-top: 2px;
+}
+AlbumDialog QToolButton {
+    border: none;
+	background-color: rgba(255, 255, 255, 255);
+}
+AlbumDialog QToolButton:hover {
+    background-color: rgba(245, 245, 247, 240);
+}
+
+AlbumDialog QScrollBar:vertical {
+    border: none;
+	background-color: black;
+	width: 11px;
+	margin: 15px 0 15px 0;
+}
+AlbumDialog QScrollBar::handle:vertical {
+    background-color: gray;
+	min-height: 20px;
+}
+AlbumDialog QScrollBar::add-line:vertical {
+    border: none;
+	background-color: black;
+	height: 15px;
+	subcontrol-position: bottom;
+	subcontrol-origin: margin;
+}
+AlbumDialog QScrollBar::sub-line:vertical {
+    border: none;
+	background-color: black;
+	height: 15px;
+	subcontrol-position: top;
+	subcontrol-origin: margin;
+}
+AlbumDialog QScrollBar::up-arrow:vertical {
+    border: none;
+	width: 15px;
+	height: 15px;
+	image: url(:/album/icon/up-arrow);
+}
+AlbumDialog QScrollBar::down-arrow:vertical {
+    border: none;
+	width: 15px;
+	height: 15px;
+	image: url(:/album/icon/down-arrow);
+}
+AlbumDialog QScrollBar::add-page:vertical, QScrollBar::sub-page:vertical {
+    background-color: black;
 }
 
 /* login and register dialog */

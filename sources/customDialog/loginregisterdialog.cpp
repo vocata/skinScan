@@ -231,6 +231,7 @@ void LoginRegisterDialog::m_loginRequest()
         m_loginStatusLabel->clear();
         m_loginButton->setEnabled(false);
         m_timer->start(500);
+        m_loginButton->setText(QStringLiteral("正在登陆"));
         m_manager->memberLogin(m_loginAccountEdit->text(), m_loginPasswordEdit->text());
     }
 }

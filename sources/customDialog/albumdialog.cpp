@@ -5,6 +5,8 @@
 #include <QButtonGroup>
 #include <QDesktopServices>
 #include <QUrl>
+#include <QLabel>
+#include <QScrollBar>
 
 #include <QDebug>
 
@@ -13,9 +15,13 @@ AlbumDialog::AlbumDialog(const QString &name, QWidget *parent) : CustomDialog(pa
     m_dir = QDir(QString("image/%1").arg(name));
 
     QWidget *widget = new QWidget(this);
+    widget->setObjectName("scrollWidget");
+
     QScrollArea *scrollArea = new QScrollArea(this);
     scrollArea->setWidget(widget);
+    scrollArea->setVerticalScrollBar(new QScrollBar(this));
     scrollArea->setVerticalScrollBarPolicy(Qt::ScrollBarAsNeeded);
+    scrollArea->setObjectName("scrollArea");
 
     /* layout */
     QHBoxLayout *hBox = new QHBoxLayout();
@@ -52,7 +58,10 @@ AlbumDialog::AlbumDialog(const QString &name, QWidget *parent) : CustomDialog(pa
 
     /* window attribution */
     this->hideMinIcon();
+    this->setShadow(false);
     this->setFixedSize(720, 450);
+    this->setWindowTitle(new QLabel("相片"));
+    this->centralWidget()->setObjectName("centralDialog");
 }
 
 void AlbumDialog::showImage(int id)
