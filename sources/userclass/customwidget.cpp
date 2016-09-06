@@ -10,6 +10,7 @@
 #include <QApplication>
 
 #include <QDebug>
+#include <QPropertyAnimation>
 #include <QTimer>
 
 
@@ -20,6 +21,12 @@ CustomWidget::CustomWidget(QWidget *parent) : QWidget(parent)
     m_min = new TitleIcon(":/titleBar/icon/min", 4, this);
     m_close =  new TitleIcon(":/titleBar/icon/close_0", 4, this);
     m_popMenu = new QMenu(this);
+    m_animation = new QPropertyAnimation(this, "windowOpacity", this);
+
+    /* animation */
+    m_animation->setStartValue(0);
+    m_animation->setEndValue(1);
+    m_animation->setEasingCurve(QEasingCurve::InQuad);
 
     /* layout */
     QHBoxLayout *hBox = new QHBoxLayout();
@@ -110,6 +117,11 @@ void CustomWidget::addMenuSeparator()
 void CustomWidget::setCentralWidgetLayout(QLayout *layout)
 {
     m_layout->addLayout(layout);
+}
+
+void CustomWidget::startAnimation() const
+{
+    m_animation->start();
 }
 
 void CustomWidget::setRedirection()

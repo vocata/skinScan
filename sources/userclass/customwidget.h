@@ -7,6 +7,7 @@ class TitleIcon;
 class QVBoxLayout;
 class QToolButton;
 class QMenu;
+class QPropertyAnimation;
 
 class CustomWidget : public QWidget
 {
@@ -27,6 +28,9 @@ public:
     void addMenuAction(QAction *action);
     void addMenuSeparator();
     void setCentralWidgetLayout(QLayout *layout);
+
+    void startAnimation() const;
+
 public slots:
     void setRedirection();
     void resetRedirection();
@@ -49,6 +53,8 @@ private:
 
     QMenu *m_popMenu = nullptr;
     bool m_isRedirection = false;
+
+    QPropertyAnimation *m_animation = nullptr;
 
 private slots:
     void m_setPopUpPos();

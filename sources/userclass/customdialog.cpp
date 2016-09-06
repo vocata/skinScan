@@ -8,6 +8,7 @@
 #include <QLabel>
 #include <QPainter>
 #include <QtMath>
+#include <QPropertyAnimation>
 
 #include <QDebug>
 
@@ -17,10 +18,15 @@ CustomDialog::CustomDialog(QWidget *parent) : QDialog(parent)
     m_min = new TitleIcon(":/titleBar/icon/min", 4, this);
     m_close =  new TitleIcon(":/titleBar/icon/close_1", 4, this);
     m_mainWidget = new QWidget(this);
+    m_animation = new QPropertyAnimation(this, "windowOpacity", this);
+
+    /* animation */
+    m_animation->setStartValue(0);
+    m_animation->setEndValue(1);
+    m_animation->setEasingCurve(QEasingCurve::InQuad);
 
     /* mainWidget */
     m_mainWidget->setSizePolicy(QSizePolicy::Expanding, QSizePolicy::Expanding);
-//    m_mainWidget->setStyleSheet("background: red");
 
     /* layout */
     QWidget *titleBar = new QWidget(this);
@@ -74,6 +80,7 @@ void CustomDialog::setShadow(bool enable)
 {
     m_shadow = enable;
     this->setAttribute(Qt::WA_TranslucentBackground, enable);
+    this->update();
 }
 
 void CustomDialog::setWindowTitle(QWidget *widget)
@@ -91,6 +98,11 @@ void CustomDialog::setCentralWidgetLayout(QLayout *layout)
 QWidget *CustomDialog::centralWidget() const
 {
     return m_mainWidget;
+}
+
+void CustomDialog::startAnimation() const
+{
+    m_animation->start();
 }
 
 void CustomDialog::mousePressEvent(QMouseEvent *event)

@@ -53,12 +53,14 @@ CameraDialog::CameraDialog(const QString &name, QWidget *parent) : CustomDialog(
     connect(m_saveImageButton, &QPushButton::clicked, this, &CameraDialog::m_saveImage);
     connect(m_imageCapture, &QCameraImageCapture::imageCaptured, this, &CameraDialog::m_setImage);
     connect(m_camera, static_cast<void(QCamera::*)(QCamera::Error)>(&QCamera::error), this, &CameraDialog::m_handelError);
+    connect(m_camera, &QCamera::lockFailed, [=](){ qDebug() << "error";});
 
     /* window attribution */
     this->setCentralWidgetLayout(hBox);
     this->setShadow(false);
     this->hideMinIcon();
     this->setWindowTitle(new QLabel("拍照"));
+    this->startAnimation();
     this->centralWidget()->setObjectName("centralDialog");
 
     /* camera start */

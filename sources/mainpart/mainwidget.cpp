@@ -189,6 +189,7 @@ MainWidget::MainWidget(QWidget *parent) : CustomWidget(parent)
     int desktopWidget = QApplication::desktop()->screen(index)->width();
     int desktopHeight = QApplication::desktop()->screen(index)->height();
     this->move((desktopWidget - width)/2, (desktopHeight - height)/2 - 40);     //窗口居中
+    this->startAnimation();
 }
 
 void MainWidget::m_stackedMeasureWidget()
