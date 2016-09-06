@@ -319,7 +319,6 @@ LoginInfo::LoginInfo()
     /* read cookie */
     QString cookieName = settings.value("special/cookie/name").toString();
     QString cookieValue = settings.value("special/cookie/value").toString();
-
     QList<QNetworkCookie> rawCookie;
     rawCookie << QNetworkCookie(cookieName.toUtf8(), cookieValue.toUtf8());
     m_cookie.setValue(rawCookie);

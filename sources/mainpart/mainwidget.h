@@ -48,10 +48,6 @@ private:
     CustomNetwork *m_manager = nullptr;
 
 private slots:
-    void m_stackedMeasureWidget();
-    void m_stackedStatisticsWidget();
-    void m_stackedHistoryWidget();
-
     /* action */
     void m_memberInfo();
     void m_modifyPassword();

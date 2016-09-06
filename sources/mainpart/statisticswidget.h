@@ -30,12 +30,6 @@ private:
     PlotWidget *m_greaseWidget;
     PlotWidget *m_tempWidget;
     PlotWidget *m_PHWidget;
-
-private slots:
-    void m_moistureSlot();
-    void m_greaseSlot();
-    void m_tempSlot();
-    void m_PHSlot();
 };
 
 #endif // STATISTICSWIDGET_H

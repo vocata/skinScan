@@ -107,11 +107,11 @@ MainWidget::MainWidget(QWidget *parent) : CustomWidget(parent)
     m_aboutButton->setObjectName("aboutButton");
 
     QButtonGroup *buttonGroup = new QButtonGroup(this);
-    buttonGroup->addButton(m_measureButton);
-    buttonGroup->addButton(m_statisticsButton);
-    buttonGroup->addButton(m_historyButton);
-    buttonGroup->addButton(m_helpButton);
-    buttonGroup->addButton(m_aboutButton);
+    buttonGroup->addButton(m_measureButton, 0);
+    buttonGroup->addButton(m_statisticsButton, 1);
+    buttonGroup->addButton(m_historyButton, 2);
+    buttonGroup->addButton(m_helpButton, 3);
+    buttonGroup->addButton(m_aboutButton, 4);
 
     /* QStackedWidget */
     m_stackedWidget->addWidget(m_measureWidget);
@@ -165,8 +165,7 @@ MainWidget::MainWidget(QWidget *parent) : CustomWidget(parent)
 
     /* connect */
     /* widget change */
-    connect(m_measureButton, &QToolButton::clicked, this, &MainWidget::m_stackedMeasureWidget);
-    connect(m_statisticsButton, &QToolButton::clicked, this, &MainWidget::m_stackedStatisticsWidget);
+    connect(buttonGroup, static_cast<void(QButtonGroup::*)(int)>(&QButtonGroup::buttonClicked), [=](int index) { m_stackedWidget->setCurrentIndex(index); });
     /* image button */
     connect(m_userImage, &QPushButton::clicked, this, &MainWidget::m_memberInfo);
     /* menu */
@@ -194,21 +193,6 @@ MainWidget::MainWidget(QWidget *parent) : CustomWidget(parent)
     int desktopHeight = QApplication::desktop()->screen(index)->height();
     this->move((desktopWidget - width)/2, (desktopHeight - height)/2 - 40);     //窗口居中
     this->startAnimation();
-}
-
-void MainWidget::m_stackedMeasureWidget()
-{
-    m_stackedWidget->setCurrentIndex(0);
-}
-
-void MainWidget::m_stackedStatisticsWidget()
-{
-    m_stackedWidget->setCurrentIndex(1);
-}
-
-void MainWidget::m_stackedHistoryWidget()
-{
-    m_stackedWidget->setCurrentIndex(2);
 }
 
 void MainWidget::m_memberInfo()
@@ -255,8 +239,13 @@ void MainWidget::m_setAccountAndUser(const QVariantMap &userInfo)
 
 void MainWidget::m_stackedWidgetChange(int index)
 {
-    if(index == 1)
-    m_manager->downloadUserData();
+    if(m_manager->hasMember()) {
+        switch(index) {
+        case 0: break;
+        case 1: m_manager->downloadUserData(); break;
+        default: break;
+        }
+    }
 }
 
 void MainWidget::m_downloadDataReply(CustomNetwork::Status status)

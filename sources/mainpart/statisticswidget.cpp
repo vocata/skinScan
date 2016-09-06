@@ -32,6 +32,12 @@ StatisticsWidget::StatisticsWidget(QWidget *parent) : QWidget(parent)
     m_PHButton->setFixedSize(250, 40);
     m_PHButton->setObjectName("PHButton");
 
+    QButtonGroup *group = new QButtonGroup(this);
+    group->addButton(m_moistureButton, 0);
+    group->addButton(m_greaseButton, 1);
+    group->addButton(m_temperatureButton, 2);
+    group->addButton(m_PHButton, 3);
+
     /* stacked widget */
     m_stackedWidget->addWidget(m_moistureWidget);
     m_stackedWidget->addWidget(m_greaseWidget);
@@ -57,11 +63,7 @@ StatisticsWidget::StatisticsWidget(QWidget *parent) : QWidget(parent)
     hBox->setSpacing(0);
 
     /* connect */
-    connect(m_greaseButton, &QPushButton::clicked, this, &StatisticsWidget::m_greaseSlot);
-    connect(m_moistureButton, &QPushButton::clicked, this, &StatisticsWidget::m_moistureSlot);
-    connect(m_temperatureButton, &QPushButton::clicked, this, &StatisticsWidget::m_tempSlot);
-    connect(m_PHButton, &QPushButton::clicked, this, &StatisticsWidget::m_PHSlot);
-
+    connect(group, static_cast<void(QButtonGroup::*)(int)>(&QButtonGroup::buttonClicked), [=](int index) { m_stackedWidget->setCurrentIndex(index); });
 }
 
 void StatisticsWidget::setPlotData(const QJsonDocument &document)
@@ -87,28 +89,9 @@ void StatisticsWidget::setPlotData(const QJsonDocument &document)
 
 void StatisticsWidget::clear()
 {
+    m_stackedWidget->setCurrentIndex(0);
     m_moistureWidget->clearGraph();
     m_greaseWidget->clearGraph();
     m_tempWidget->clearGraph();
     m_PHWidget->clearGraph();
-}
-
-void StatisticsWidget::m_moistureSlot()
-{
-    m_stackedWidget->setCurrentIndex(0);
-}
-
-void StatisticsWidget::m_greaseSlot()
-{
-    m_stackedWidget->setCurrentIndex(1);
-}
-
-void StatisticsWidget::m_tempSlot()
-{
-    m_stackedWidget->setCurrentIndex(2);
-}
-
-void StatisticsWidget::m_PHSlot()
-{
-    m_stackedWidget->setCurrentIndex(3);
 }

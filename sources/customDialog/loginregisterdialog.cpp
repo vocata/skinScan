@@ -293,7 +293,6 @@ void LoginRegisterDialog::m_loginReply(CustomNetwork::Status status)
     default:
         break;
     }
-    this->m_loginResume();
 }
 
 void LoginRegisterDialog::m_registerReply(CustomNetwork::Status status)
@@ -330,5 +329,6 @@ void LoginRegisterDialog::m_userInfoReply(CustomNetwork::Status status)
     default:
         break;
     }
+    this->m_loginResume();
 }
 
