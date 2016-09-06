@@ -187,32 +187,13 @@ LoginRegisterDialog::LoginRegisterDialog(QWidget *parent) : CustomDialog(parent)
 
     /* window Attribution */
     this->m_showMain();
+    this->setShadow(true);
     this->setCentralWidgetLayout(layout);
     this->hideMinIcon();
     this->resize(300, 400);
     this->setWindowTitle(m_titleButton);
     this->centralWidget()->setObjectName("centralDialog");
     this->setObjectName("mainDialog");
-}
-
-void LoginRegisterDialog::clearLineEdit()
-{
-    m_loginAccountEdit->clear();
-    m_loginPasswordEdit->clear();
-    m_registerAccountEdit->clear();
-    m_registerPasswordEdit->clear();
-    m_loginStatusLabel->clear();
-    m_registerStatusLabel->clear();
-}
-
-void LoginRegisterDialog::closeEvent(QCloseEvent *event)
-{
-    event->accept();
-
-    this->m_showMain();
-    this->m_loginResume();
-    this->m_registerResume();
-    this->clearLineEdit();
 }
 
 void LoginRegisterDialog::m_showMain()
@@ -289,13 +270,11 @@ void LoginRegisterDialog::m_loginResume()
     m_timer->stop();
     m_loginButton->setEnabled(true);
     m_loginButton->setText(QStringLiteral("立即登陆"));
-    m_loginStatusLabel->clear();
 }
 
 void LoginRegisterDialog::m_registerResume()
 {
     m_registerButton->setEnabled(true);
-    m_registerStatusLabel->clear();
 }
 
 void LoginRegisterDialog::m_loginReply(CustomNetwork::Status status)

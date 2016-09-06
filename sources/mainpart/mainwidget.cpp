@@ -21,7 +21,6 @@
 #include <QUrl>
 
 
-
 MainWidget::MainWidget(QWidget *parent) : CustomWidget(parent)
 {
     m_userImage = new QPushButton(this);
@@ -36,7 +35,7 @@ MainWidget::MainWidget(QWidget *parent) : CustomWidget(parent)
     m_statisticsWidget = new StatisticsWidget(this);
     m_stackedWidget = new CustomStackedWidget(this);
     m_statusBar = new MainStatusBar(this);
-    m_loginRegisterDialog = new LoginRegisterDialog(this);
+
     m_manager = new CustomNetwork(this);
 
     /* QPushButton */
@@ -158,7 +157,8 @@ MainWidget::MainWidget(QWidget *parent) : CustomWidget(parent)
         QString sex = QSettings().value("normal/sex").toString();
         if(sex == QStringLiteral("男")) {
             m_userImage->setIcon(QIcon(":/button/icon/boy"));
-        } else {
+        }
+        if(sex == QStringLiteral("女")){
             m_userImage->setIcon(QIcon(":/button/icon/girl"));
         }
     }
@@ -177,8 +177,6 @@ MainWidget::MainWidget(QWidget *parent) : CustomWidget(parent)
     connect(modifyPassword, &QAction::triggered, this, &MainWidget::m_modifyPassword);
     connect(replaceAccount, &QAction::triggered, this, &MainWidget::m_loginRegister);
     connect(logout, &QAction::triggered, this, &MainWidget::m_logout);
-    /* login & register */
-    connect(m_loginRegisterDialog, &LoginRegisterDialog::loginSuccess, this, &MainWidget::m_setAccountAndUser);
 
 
     /* window attribution */
@@ -190,7 +188,7 @@ MainWidget::MainWidget(QWidget *parent) : CustomWidget(parent)
     this->setMinimumSize(width, height);
     int desktopWidget = QApplication::desktop()->screen(index)->width();
     int desktopHeight = QApplication::desktop()->screen(index)->height();
-    this->move((desktopWidget - width)/2, (desktopHeight - height)/2 - 20);     //窗口居中
+    this->move((desktopWidget - width)/2, (desktopHeight - height)/2 - 40);     //窗口居中
 }
 
 void MainWidget::m_stackedMeasureWidget()
@@ -244,11 +242,19 @@ void MainWidget::m_setAccountAndUser(const QVariantMap &userInfo)
 
     m_measureWidget->clear();       //清除之前登陆账户所留下来的测量数据，更换账户和新用户登陆时有用
     m_accountButton->setMenu(m_infoMenu);
+
+    /* login & register */
+    disconnect(m_loginRegisterDialog, &LoginRegisterDialog::loginSuccess, this, &MainWidget::m_setAccountAndUser);
 }
 
 void MainWidget::m_loginRegister()
 {
+    m_loginRegisterDialog = new LoginRegisterDialog(this);
+    m_loginRegisterDialog->setWindowModality(Qt::WindowModal);
+    m_loginRegisterDialog->setAttribute(Qt::WA_DeleteOnClose);
     m_loginRegisterDialog->show();
+    /* login & register */
+    connect(m_loginRegisterDialog, &LoginRegisterDialog::loginSuccess, this, &MainWidget::m_setAccountAndUser);
 }
 
 void MainWidget::m_logout()

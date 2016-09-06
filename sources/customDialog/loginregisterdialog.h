@@ -17,11 +17,7 @@ public:
 signals:
     void loginSuccess(const QVariantMap &userInfo);
 
-public slots:
-    void clearLineEdit();
-
 protected:
-    void closeEvent(QCloseEvent *event);
 
 private:
     QPushButton *m_titleButton = nullptr;

@@ -34,7 +34,7 @@ CustomWidget::CustomWidget(QWidget *parent) : QWidget(parent)
     m_layout = new QVBoxLayout(this);
     m_layout->addLayout(hBox);
     m_layout->setAlignment(hBox, Qt::AlignTop);
-    m_layout->setContentsMargins(1, 1, 1, 1);
+    m_layout->setMargin(2);
     m_layout->setSpacing(0);
 
     /* read stylesheet */

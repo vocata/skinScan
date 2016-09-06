@@ -3,6 +3,7 @@
 #include "sources/userclass/usbstatueshare.h"
 #include "sources/userclass/customdialog.h"
 #include "sources/userclass/customnetwork.h"
+#include "sources/customDialog/cameradialog.h"
 #include "sources/sql/connection.h"
 
 #include <QFrame>
@@ -16,6 +17,10 @@
 #include <QJsonArray>
 
 #include <QDebug>
+
+#include <sources/customDialog/albumdialog.h>
+
+
 
 
 
@@ -249,19 +254,22 @@ void MeasureWidget::m_skinEvaluation()
 
 void MeasureWidget::m_takePhoto()
 {
-//    QPixmap pix("D:/d.jpg");
-//    QByteArray bytes;
-//    QBuffer buffer(&bytes);
-//    buffer.open(QIODevice::WriteOnly);
-//    pix.save(&buffer, "JPG");
-    CustomDialog *dialog = new CustomDialog(this);
-    dialog->setAttribute(Qt::WA_DeleteOnClose);
-    dialog->show();
+    if(m_manager->hasMember()) {
+        CameraDialog *dialog = new CameraDialog(m_manager->account(), this);
+        dialog->setWindowModality(Qt::WindowModal);
+        dialog->setAttribute(Qt::WA_DeleteOnClose);
+        dialog->show();
+    }
 }
 
 void MeasureWidget::m_showPhoto()
 {
-
+    if(m_manager->hasMember()) {
+        AlbumDialog *dialog = new AlbumDialog(m_manager->account(), this);
+        dialog->setWindowModality(Qt::WindowModal);
+        dialog->setAttribute(Qt::WA_DeleteOnClose);
+        dialog->show();
+    }
 }
 
 void MeasureWidget::m_printReasult()
@@ -272,13 +280,19 @@ void MeasureWidget::m_printReasult()
 void MeasureWidget::m_saveReasult()
 {
     if(m_manager->hasMember()) {
-        /* commit to local database */
-        this->m_saveUserData();
+        if(m_dataStore[0].hasData() || m_dataStore[1].hasData() || m_dataStore[2].hasData() || m_dataStore[3].hasData()) {
+            /* 提交到本地数据库 */
+            this->m_saveUserData();
 
-        /* commit to server */
-        QJsonDocument document = this->m_formatUploadData();
-        m_manager->uploadUserData(document);
-        qDebug() << "saveReasult -> " << document;
+            /* 提交到服务器 */
+            QJsonDocument document = this->m_formatUploadData();
+            m_manager->uploadUserData(document);
+
+            /* 设置已经提交标志 */
+            m_commit = true;
+        } else {
+            /* 提示没有数据 */
+        }
     } else {
         /* 提示注册会员 */
     }
@@ -328,6 +342,8 @@ void MeasureWidget::m_dataHandle(const QByteArray &data)
         break;
     default: break;
     }
+    /* 有新数据,将提交标志复位 */
+    m_commit = false;
 }
 
 void MeasureWidget::m_setSuggestion(const double &data, const qint16 &dataIndex)
@@ -373,7 +389,7 @@ void MeasureWidget::m_saveUserData()
 
     QSqlQuery query;
     if(m_dataStore[0].hasData()) {
-        query.exec(QString("insert into moisture values('%1'', '%2', %3, %4)")
+        query.exec(QString("insert into moisture values('%1', '%2', %3, %4)")
                    .arg(m_dataStore[0].account).arg(m_dataStore[0].measureTime)
                    .arg(m_dataStore[0].deviceId).arg(m_dataStore[0].data));
     }

@@ -33,7 +33,7 @@ MainStatusBar::MainStatusBar(QWidget *parent) : QStatusBar(parent)
 
     /* statusBar attribution */
     this->addWidget(statusBox);
-//    this->setSizeGripEnabled(false);
+    this->setSizeGripEnabled(false);
 
     /* connect */
     connect(m_timer, &QTimer::timeout, this, &MainStatusBar::m_detectUsbConnect);

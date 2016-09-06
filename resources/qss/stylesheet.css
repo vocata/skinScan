@@ -126,8 +126,13 @@ QGroupBox>#leftBottomWidget>QPlainTextEdit {
     border-radius: 3px;
 }
 
+/* take image dialog */
+CameraDialog>#centralDialog, CameraDialog>#titleBar {
+    background-color: rgba(230, 230, 230, 255);
+}
+
 /* login and register dialog */
-#mainDialog>#centralDialog, #mainDialog>#titleBar {
+LoginRegisterDialog>#centralDialog, LoginRegisterDialog>#titleBar {
     background-color: rgba(250, 250, 250, 255);
 }
 
