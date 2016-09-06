@@ -107,11 +107,11 @@ MainWidget::MainWidget(QWidget *parent) : CustomWidget(parent)
     m_aboutButton->setObjectName("aboutButton");
 
     QButtonGroup *buttonGroup = new QButtonGroup(this);
-    buttonGroup->addButton(m_measureButton);
-    buttonGroup->addButton(m_statisticsButton);
-    buttonGroup->addButton(m_historyButton);
-    buttonGroup->addButton(m_helpButton);
-    buttonGroup->addButton(m_aboutButton);
+    buttonGroup->addButton(m_measureButton, 0);
+    buttonGroup->addButton(m_statisticsButton, 1);
+    buttonGroup->addButton(m_historyButton, 2);
+    buttonGroup->addButton(m_helpButton, 3);
+    buttonGroup->addButton(m_aboutButton, 4);
 
     /* QStackedWidget */
     m_stackedWidget->addWidget(m_measureWidget);
@@ -165,8 +165,7 @@ MainWidget::MainWidget(QWidget *parent) : CustomWidget(parent)
 
     /* connect */
     /* widget change */
-    connect(m_measureButton, &QToolButton::clicked, this, &MainWidget::m_stackedMeasureWidget);
-    connect(m_statisticsButton, &QToolButton::clicked, this, &MainWidget::m_stackedStatisticsWidget);
+    connect(buttonGroup, static_cast<void(QButtonGroup::*)(int)>(&QButtonGroup::buttonClicked), [=](int index) { m_stackedWidget->setCurrentIndex(index); });
     /* image button */
     connect(m_userImage, &QPushButton::clicked, this, &MainWidget::m_memberInfo);
     /* menu */
@@ -177,6 +176,10 @@ MainWidget::MainWidget(QWidget *parent) : CustomWidget(parent)
     connect(modifyPassword, &QAction::triggered, this, &MainWidget::m_modifyPassword);
     connect(replaceAccount, &QAction::triggered, this, &MainWidget::m_loginRegister);
     connect(logout, &QAction::triggered, this, &MainWidget::m_logout);
+    /* stacked widget */
+    connect(m_stackedWidget, &CustomStackedWidget::currentChanged, this, &MainWidget::m_stackedWidgetChange);
+    /* newwork */
+    connect(m_manager, &CustomNetwork::downloadUserDataStatus, this, &MainWidget::m_downloadDataReply);
 
 
     /* window attribution */
@@ -190,21 +193,6 @@ MainWidget::MainWidget(QWidget *parent) : CustomWidget(parent)
     int desktopHeight = QApplication::desktop()->screen(index)->height();
     this->move((desktopWidget - width)/2, (desktopHeight - height)/2 - 40);     //窗口居中
     this->startAnimation();
-}
-
-void MainWidget::m_stackedMeasureWidget()
-{
-    m_stackedWidget->setCurrentIndex(0);
-}
-
-void MainWidget::m_stackedStatisticsWidget()
-{
-    m_stackedWidget->setCurrentIndex(1);
-}
-
-void MainWidget::m_stackedHistoryWidget()
-{
-    m_stackedWidget->setCurrentIndex(2);
 }
 
 void MainWidget::m_memberInfo()
@@ -243,9 +231,38 @@ void MainWidget::m_setAccountAndUser(const QVariantMap &userInfo)
 
     m_measureWidget->clear();       //清除之前登陆账户所留下来的测量数据，更换账户和新用户登陆时有用
     m_accountButton->setMenu(m_infoMenu);
+    m_measureButton->click();
 
     /* login & register */
     disconnect(m_loginRegisterDialog, &LoginRegisterDialog::loginSuccess, this, &MainWidget::m_setAccountAndUser);
+}
+
+void MainWidget::m_stackedWidgetChange(int index)
+{
+    if(m_manager->hasMember()) {
+        switch(index) {
+        case 0: break;
+        case 1: m_manager->downloadUserData(); break;
+        default: break;
+        }
+    }
+}
+
+void MainWidget::m_downloadDataReply(CustomNetwork::Status status)
+{
+    switch(status) {
+    case CustomNetwork::Success:
+        m_statisticsWidget->setPlotData(QJsonDocument::fromVariant(m_manager->userData()));
+        break;
+    case CustomNetwork::Failure:
+
+        break;
+    case CustomNetwork::Timeout:
+
+        break;
+    default:
+        break;
+    }
 }
 
 void MainWidget::m_loginRegister()
@@ -260,8 +277,10 @@ void MainWidget::m_loginRegister()
 
 void MainWidget::m_logout()
 {
+    m_measureButton->click();
     m_manager->clear();
     m_measureWidget->clear();
+    m_statisticsWidget->clear();
     m_accountButton->setMenu(nullptr);
     m_accountButton->setText(QStringLiteral("点击登陆"));
     m_userButton->setText(QStringLiteral("未登录"));

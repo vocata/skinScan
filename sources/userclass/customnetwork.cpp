@@ -279,7 +279,6 @@ void CustomNetwork::m_downloadUserDataStatus()
         } else {
         switch(statusCode) {
             case 200:
-                m_loginInfo.m_cookie = m_downloadUserDataReply->header(QNetworkRequest::SetCookieHeader);
                 m_userData = m_downloadUserDataReply->readAll();
                 emit downloadUserDataStatus(Success);
                 break;
@@ -340,5 +339,4 @@ LoginInfo::~LoginInfo()
     }
     settings.setValue("special/cookie/name", cookieName);
     settings.setValue("special/cookie/value", cookieValue);
-
 }

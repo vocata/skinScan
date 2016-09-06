@@ -4,6 +4,7 @@
 #include <QWidget>
 
 #include "sources/userclass/customwidget.h"
+#include "sources/userclass/customnetwork.h"
 
 class QPushButton;
 class QLineEdit;
@@ -47,10 +48,6 @@ private:
     CustomNetwork *m_manager = nullptr;
 
 private slots:
-    void m_stackedMeasureWidget();
-    void m_stackedStatisticsWidget();
-    void m_stackedHistoryWidget();
-
     /* action */
     void m_memberInfo();
     void m_modifyPassword();
@@ -59,6 +56,12 @@ private slots:
 
     /* login */
     void m_setAccountAndUser(const QVariantMap &userInfo);
+
+    /* stacked widget change */
+    void m_stackedWidgetChange(int index);
+
+    /* newwork */
+    void m_downloadDataReply(CustomNetwork::Status status);
 
 };
 
