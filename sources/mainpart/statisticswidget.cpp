@@ -14,6 +14,10 @@ StatisticsWidget::StatisticsWidget(QWidget *parent) : QWidget(parent)
     m_temperatureButton = new QPushButton(QStringLiteral("温度"), this);
     m_PHButton = new QPushButton(QStringLiteral("PH值"), this);
     m_stackedWidget = new QStackedWidget(this);
+    m_moistureWidget = new PlotWidget(-0.5, 1.5, this);
+    m_greaseWidget = new PlotWidget(-0.5, 1.5, this);
+    m_tempWidget = new PlotWidget(0, 45, this);
+    m_PHWidget = new PlotWidget(0, 14, this);
 
     /* button */
     m_moistureButton->setFixedSize(250, 40);
@@ -27,20 +31,6 @@ StatisticsWidget::StatisticsWidget(QWidget *parent) : QWidget(parent)
 
     m_PHButton->setFixedSize(250, 40);
     m_PHButton->setObjectName("PHButton");
-
-    /* plot widget */
-    JsonToData jsonData();//please add jsonDocument
-    m_moistureWidget = new PlotWidget;
-    m_moistureWidget->setSingleData(jsonData.getData("moisture"), "水分", Qt::blue);
-
-    m_greaseWidget = new PlotWidget;
-    m_greaseWidget->setSingleData(jsonData.getData("grease"), "油脂", Qt::red);
-
-    m_tempWidget = new PlotWidget;
-    m_tempWidget->setSingleData(jsonData.getData("temperature"), "温度", Qt::yellow);
-
-    m_PHWidget = new PlotWidget;
-    m_PHWidget->setSingleData(jsonData.getData("ph"), "PH值", Qt::green);
 
     /* stacked widget */
     m_stackedWidget->addWidget(m_moistureWidget);
@@ -72,6 +62,35 @@ StatisticsWidget::StatisticsWidget(QWidget *parent) : QWidget(parent)
     connect(m_temperatureButton, &QPushButton::clicked, this, &StatisticsWidget::m_tempSlot);
     connect(m_PHButton, &QPushButton::clicked, this, &StatisticsWidget::m_PHSlot);
 
+}
+
+void StatisticsWidget::setPlotData(const QJsonDocument &document)
+{
+    qDebug() << document;
+    JsonToData jsonData(document);//please add jsonDocument
+
+    m_moistureWidget->setSingleData(jsonData.getData("moisture"), "水分", QColor(220, 33, 40));
+    m_greaseWidget->setSingleData(jsonData.getData("grease"), "油脂", QColor(21, 165, 140));
+    m_tempWidget->setSingleData(jsonData.getData("temperature"), "温度", QColor(252, 133, 33));
+    m_PHWidget->setSingleData(jsonData.getData("ph"), "PH值", QColor(121, 83, 70));
+    /* adjust */
+    m_moistureWidget->setYRange(-0.5, 1.5);
+    m_greaseWidget->setYRange(-0.5, 1.5);
+    m_tempWidget->setYRange(0, 45);
+    m_PHWidget->setYRange(0, 14);
+
+    m_moistureWidget->adjustPlot();
+    m_greaseWidget->adjustPlot();
+    m_tempWidget->adjustPlot();
+    m_PHWidget->adjustPlot();
+}
+
+void StatisticsWidget::clear()
+{
+    m_moistureWidget->clearGraph();
+    m_greaseWidget->clearGraph();
+    m_tempWidget->clearGraph();
+    m_PHWidget->clearGraph();
 }
 
 void StatisticsWidget::m_moistureSlot()

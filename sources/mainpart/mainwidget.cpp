@@ -177,6 +177,10 @@ MainWidget::MainWidget(QWidget *parent) : CustomWidget(parent)
     connect(modifyPassword, &QAction::triggered, this, &MainWidget::m_modifyPassword);
     connect(replaceAccount, &QAction::triggered, this, &MainWidget::m_loginRegister);
     connect(logout, &QAction::triggered, this, &MainWidget::m_logout);
+    /* stacked widget */
+    connect(m_stackedWidget, &CustomStackedWidget::currentChanged, this, &MainWidget::m_stackedWidgetChange);
+    /* newwork */
+    connect(m_manager, &CustomNetwork::downloadUserDataStatus, this, &MainWidget::m_downloadDataReply);
 
 
     /* window attribution */
@@ -243,9 +247,33 @@ void MainWidget::m_setAccountAndUser(const QVariantMap &userInfo)
 
     m_measureWidget->clear();       //清除之前登陆账户所留下来的测量数据，更换账户和新用户登陆时有用
     m_accountButton->setMenu(m_infoMenu);
+    m_measureButton->click();
 
     /* login & register */
     disconnect(m_loginRegisterDialog, &LoginRegisterDialog::loginSuccess, this, &MainWidget::m_setAccountAndUser);
+}
+
+void MainWidget::m_stackedWidgetChange(int index)
+{
+    if(index == 1)
+    m_manager->downloadUserData();
+}
+
+void MainWidget::m_downloadDataReply(CustomNetwork::Status status)
+{
+    switch(status) {
+    case CustomNetwork::Success:
+        m_statisticsWidget->setPlotData(QJsonDocument::fromVariant(m_manager->userData()));
+        break;
+    case CustomNetwork::Failure:
+
+        break;
+    case CustomNetwork::Timeout:
+
+        break;
+    default:
+        break;
+    }
 }
 
 void MainWidget::m_loginRegister()
@@ -260,8 +288,10 @@ void MainWidget::m_loginRegister()
 
 void MainWidget::m_logout()
 {
+    m_measureButton->click();
     m_manager->clear();
     m_measureWidget->clear();
+    m_statisticsWidget->clear();
     m_accountButton->setMenu(nullptr);
     m_accountButton->setText(QStringLiteral("点击登陆"));
     m_userButton->setText(QStringLiteral("未登录"));

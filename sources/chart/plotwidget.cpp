@@ -1,16 +1,30 @@
 #include "sources/chart/plotwidget.h"
 
-PlotWidget::PlotWidget(QWidget *parent)
-        : QWidget(parent)
+PlotWidget::PlotWidget(const double &min, const double &max, QWidget *parent)
+                                                            : QWidget(parent)
 {
+    //创建画板
     pQCustomPlot = new QCustomPlot;
+    pQCustomPlot->addGraph();
+    pQCustomPlot->yAxis->setRange(min, max);
+
+    //创建右键菜单
+    menu = new QMenu(this);
+    menu->addAction("顶部左侧", this, SLOT(moveLegend()))->setData((int)(Qt::AlignTop|Qt::AlignLeft));
+    menu->addAction("顶部居中", this, SLOT(moveLegend()))->setData((int)(Qt::AlignTop|Qt::AlignHCenter));
+    menu->addAction("顶部右侧", this, SLOT(moveLegend()))->setData((int)(Qt::AlignTop|Qt::AlignRight));
+    menu->addAction("底部左侧", this, SLOT(moveLegend()))->setData((int)(Qt::AlignBottom|Qt::AlignLeft));
+    menu->addAction("底部右侧", this, SLOT(moveLegend()))->setData((int)(Qt::AlignBottom|Qt::AlignRight));
+
     //x轴坐标不可见
     pQCustomPlot->xAxis->setTickLabels(false);
+
     //设置图例格式
-    pQCustomPlot->legend->setVisible(true);
+    pQCustomPlot->legend->setVisible(false);
     pQCustomPlot->legend->setFont(QFont("Microsoft YaHei",9));
     pQCustomPlot->legend->setSelectedFont(QFont("Microsoft YaHei",9));
     pQCustomPlot->legend->setSelectableParts(QCPLegend::spItems);
+
     //线的粗细
     pQPen = new QPen;
     pQPen->setWidth(2);
@@ -28,7 +42,7 @@ PlotWidget::PlotWidget(QWidget *parent)
     pQCustomPlot->setBackground(QColor(250, 250, 250, 255));
 
     //互动
-    pQCustomPlot->setInteractions(QCP::iRangeDrag | QCP::iRangeZoom | QCP::iSelectLegend | QCP::iSelectPlottables);
+    pQCustomPlot->setInteractions(QCP::iSelectLegend | QCP::iSelectPlottables);//QCP::iRangeDrag | QCP::iRangeZoom |
 
     connect(pQCustomPlot, SIGNAL(selectionChangedByUser()), this, SLOT(selectionChanged()));//标签被选中
 
@@ -43,6 +57,12 @@ PlotWidget::PlotWidget(QWidget *parent)
 PlotWidget::~PlotWidget()
 {
     delete pQPen;
+    delete pQCustomPlot;
+}
+
+void PlotWidget::adjustPlot()
+{
+    pQCustomPlot->replot();
 }
 
 void PlotWidget::setTitle(const QString &title)
@@ -59,7 +79,7 @@ void PlotWidget::setSingleData(QVector<double> aData, const QString &dataName, c
     serials.resize(aData.size());
     for(int i = 0; i < aData.size(); i++)
         serials[i] = i;
-    pQCustomPlot->addGraph();
+    pQCustomPlot->legend->setVisible(true);//图例可见
     pQCustomPlot->graph(0)->setData(serials, aData);//设置数据
     pQCustomPlot->graph(0)->setName(dataName);//设置图例名称
     pQPen->setColor(color);//设置线的颜色
@@ -84,11 +104,11 @@ void PlotWidget::setMultiData(QVector<double> oil, QVector<double> moisture, QVe
 
     for (int i = 0; i < dataNames.size(); ++i)
     {
-      pQCustomPlot->addGraph();//增加线
-      pQPen->setColor(dataColor.at(i));//线的颜色
-      pQCustomPlot->graph()->setPen(*pQPen);
-      pQCustomPlot->graph()->setName(dataNames.at(i));//线的名称
-      pQCustomPlot->graph()->setScatterStyle(QCPScatterStyle(QCPScatterStyle::ssCircle, 3));//线上的点
+        pQCustomPlot->addGraph();//增加线
+        pQPen->setColor(dataColor.at(i));//线的颜色
+        pQCustomPlot->graph()->setPen(*pQPen);
+        pQCustomPlot->graph()->setName(dataNames.at(i));//线的名称
+        pQCustomPlot->graph()->setScatterStyle(QCPScatterStyle(QCPScatterStyle::ssCircle, 3));//线上的点
     }
     pQCustomPlot->graph(0)->setData(serials, oil);
     pQCustomPlot->graph(1)->setData(serials, moisture);
@@ -97,6 +117,20 @@ void PlotWidget::setMultiData(QVector<double> oil, QVector<double> moisture, QVe
 
     for(int i = 0; i < dataNames.size(); ++i)//重画坐标
         pQCustomPlot->graph(i)->rescaleAxes(true);
+}
+
+void PlotWidget::setYRange(const double &min, const double &max)
+{
+    pQCustomPlot->yAxis->setRange(min, max);
+}
+
+void PlotWidget::clearGraph()
+{
+    if(pQCustomPlot->graphCount() > 0)
+    {
+        pQCustomPlot->graph(0)->clearData();
+        pQCustomPlot->replot();
+    }
 }
 
 void PlotWidget::selectionChanged()
@@ -115,23 +149,17 @@ void PlotWidget::selectionChanged()
 
 void PlotWidget::contextMenuRequest(QPoint pos)
 {
-    QMenu *menu = new QMenu(this);
+    //右键菜单
     menu->setAttribute(Qt::WA_DeleteOnClose);
 
     if (pQCustomPlot->legend->selectTest(pos, false) >= 0) // context menu on legend requested
     {
-      menu->addAction("顶部左侧", this, SLOT(moveLegend()))->setData((int)(Qt::AlignTop|Qt::AlignLeft));
-      menu->addAction("顶部居中", this, SLOT(moveLegend()))->setData((int)(Qt::AlignTop|Qt::AlignHCenter));
-      menu->addAction("顶部右侧", this, SLOT(moveLegend()))->setData((int)(Qt::AlignTop|Qt::AlignRight));
-      menu->addAction("底部左侧", this, SLOT(moveLegend()))->setData((int)(Qt::AlignBottom|Qt::AlignLeft));
-      menu->addAction("底部右侧", this, SLOT(moveLegend()))->setData((int)(Qt::AlignBottom|Qt::AlignRight));
+        menu->popup(pQCustomPlot->mapToGlobal(pos));
     }
-    else  // general context menu on graphs requested
-    {
-      menu->addAction("适应页面", this, SLOT(fitPage()));
-    }
-
-    menu->popup(pQCustomPlot->mapToGlobal(pos));
+//    else  // general context menu on graphs requested
+//    {
+//        menu->addAction("适应页面", this, SLOT(fitPage()));
+//    }
 }
 
 void PlotWidget::moveLegend()
@@ -150,8 +178,8 @@ void PlotWidget::moveLegend()
 
 void PlotWidget::fitPage()
 {
-    pQCustomPlot->xAxis->setRange(0, 0.1);
-    pQCustomPlot->yAxis->setRange(0, 0.1);
+    pQCustomPlot->xAxis->setRange(0, 0.01);
+    pQCustomPlot->yAxis->setRange(0, 0.01);
     for(int i = 0; i < pQCustomPlot->graphCount(); ++i)//重画坐标
         pQCustomPlot->graph(i)->rescaleAxes(true);
     pQCustomPlot->replot();

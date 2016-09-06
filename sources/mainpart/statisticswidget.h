@@ -12,6 +12,8 @@ class StatisticsWidget : public QWidget
     Q_OBJECT
 public:
     explicit StatisticsWidget(QWidget *parent = 0);
+    void setPlotData(const QJsonDocument &document);
+    void clear();
 
 signals:
 

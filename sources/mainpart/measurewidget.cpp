@@ -4,6 +4,7 @@
 #include "sources/userclass/customdialog.h"
 #include "sources/userclass/customnetwork.h"
 #include "sources/customDialog/cameradialog.h"
+#include "sources/customDialog/albumdialog.h"
 #include "sources/sql/connection.h"
 
 #include <QFrame>
@@ -17,12 +18,6 @@
 #include <QJsonArray>
 
 #include <QDebug>
-
-#include <sources/customDialog/albumdialog.h>
-
-
-
-
 
 MeasureWidget::MeasureWidget(QWidget *parent) : QWidget(parent)
 {
