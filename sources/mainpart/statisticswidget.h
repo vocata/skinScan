@@ -5,6 +5,7 @@
 
 class QPushButton;
 class QStackedWidget;
+class PlotWidget;
 
 class StatisticsWidget : public QWidget
 {
@@ -22,6 +23,17 @@ private:
     QPushButton *m_temperatureButton;
     QPushButton *m_PHButton;
     QStackedWidget *m_stackedWidget;
+
+    PlotWidget *m_moistureWidget;
+    PlotWidget *m_greaseWidget;
+    PlotWidget *m_tempWidget;
+    PlotWidget *m_PHWidget;
+
+private slots:
+    void m_moistureSlot();
+    void m_greaseSlot();
+    void m_tempSlot();
+    void m_PHSlot();
 };
 
 #endif // STATISTICSWIDGET_H

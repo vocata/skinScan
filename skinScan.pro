@@ -33,7 +33,9 @@ SOURCES += \
     sources/mainpart/statisticswidget.cpp \
     sources/userclass/customstackedwidget.cpp \
     sources/customDialog/cameradialog.cpp \
-    sources/customDialog/albumdialog.cpp
+    sources/customDialog/albumdialog.cpp \
+    sources/chart/plotwidget.cpp \
+    sources/chart/jsontodata.cpp
 
 HEADERS  += \
     sources/mainpart/mainwidget.h \
@@ -56,7 +58,9 @@ HEADERS  += \
     sources/mainpart/statisticswidget.h \
     sources/userclass/customstackedwidget.h \
     sources/customDialog/cameradialog.h \
-    sources/customDialog/albumdialog.h
+    sources/customDialog/albumdialog.h \
+    sources/chart/plotwidget.h \
+    sources/chart/jsontodata.h
 
 RESOURCES += \
     res.qrc
