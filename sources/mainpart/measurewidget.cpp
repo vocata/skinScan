@@ -5,6 +5,7 @@
 #include "sources/userclass/customnetwork.h"
 #include "sources/customDialog/cameradialog.h"
 #include "sources/customDialog/albumdialog.h"
+#include "sources/customDialog/messagedialog.h"
 #include "sources/sql/connection.h"
 
 #include <QFrame>
@@ -18,6 +19,8 @@
 #include <QJsonArray>
 
 #include <QDebug>
+
+
 
 MeasureWidget::MeasureWidget(QWidget *parent) : QWidget(parent)
 {
@@ -230,7 +233,8 @@ void MeasureWidget::clear()
 void MeasureWidget::m_startMeasure()
 {
     if(!UsbStatueShare::usbStatus()) {
-        qDebug() << "disconnect";
+        MessageDialog dialog(this);
+        dialog.execInformation("检测设备尚未连接!", "检测");
         return;
     }
     if(m_startMeasureButton->text() == QStringLiteral("开始检测")) {
@@ -254,6 +258,9 @@ void MeasureWidget::m_takePhoto()
         dialog->setWindowModality(Qt::WindowModal);
         dialog->setAttribute(Qt::WA_DeleteOnClose);
         dialog->show();
+    } else {
+        MessageDialog dialog(this);
+        dialog.execInformation("请登录!", "登陆");
     }
 }
 
@@ -264,12 +271,20 @@ void MeasureWidget::m_showPhoto()
         dialog->setWindowModality(Qt::WindowModal);
         dialog->setAttribute(Qt::WA_DeleteOnClose);
         dialog->show();
+    } else {
+        MessageDialog dialog(this);
+        dialog.execInformation("请登录!", "登陆");
     }
 }
 
 void MeasureWidget::m_printReasult()
 {
+    if(m_manager->hasMember()) {
 
+    } else {
+        MessageDialog dialog(this);
+        dialog.execInformation("请登录!", "登陆");
+    }
 }
 
 void MeasureWidget::m_saveReasult()
@@ -287,9 +302,13 @@ void MeasureWidget::m_saveReasult()
             m_commit = true;
         } else {
             /* 提示没有数据 */
+            MessageDialog dialog(this);
+            dialog.execInformation("当前没有数据可以保存!", "保存");
         }
     } else {
         /* 提示注册会员 */
+        MessageDialog dialog(this);
+        dialog.execInformation("请登录!", "登陆");
     }
 }
 

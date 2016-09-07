@@ -131,7 +131,7 @@ CameraDialog>#centralDialog, CameraDialog>#titleBar {
     background-color: rgba(50, 50, 50, 255);
 }
 CameraDialog>#centralDialog>QPushButton {
-    border: none;
+    border-style: none;
 	border-radius: 2px;
 	background-color: rgba(255, 255, 255, 255);
 }
@@ -147,11 +147,11 @@ CameraDialog QLabel {
 
 /* album dialog */
 AlbumDialog>#centralDialog, AlbumDialog>#titleBar{
-    border: none;
+    border-style: none;
 	background-color: rgba(50, 50, 50, 255);
 }
 AlbumDialog>#centralDialog>#scrollArea, AlbumDialog #scrollWidget {
-    border: none;
+    border-style: none;
 	background-color: rgba(50, 50, 50 ,255);
 }
 
@@ -162,7 +162,7 @@ AlbumDialog QLabel {
 	margin-top: 2px;
 }
 AlbumDialog QToolButton {
-    border: none;
+    border-style: none;
 	background-color: rgba(255, 255, 255, 255);
 }
 AlbumDialog QToolButton:hover {
@@ -170,7 +170,7 @@ AlbumDialog QToolButton:hover {
 }
 
 AlbumDialog QScrollBar:vertical {
-    border: none;
+    border-style: none;
 	background-color: rgba(0, 0, 0, 255);
 	width: 11px;
 	margin: 15px 0 15px 0;
@@ -186,7 +186,7 @@ AlbumDialog QScrollBar::handle:vertical:pressed {
     background-color: rgba(128, 128, 128, 255);
 }
 AlbumDialog QScrollBar::add-line:vertical {
-    border: none;
+    border-style: none;
 	background-color: rgba(0, 0, 0, 255);
 	height: 15px;
 	subcontrol-position: bottom;
@@ -196,7 +196,7 @@ AlbumDialog QScrollBar::add-line:vertical:pressed {
     background-color: rgba(128, 128, 128, 200);
 }
 AlbumDialog QScrollBar::sub-line:vertical {
-    border: none;
+    border-style: none;
 	background-color: rgba(0, 0, 0, 255);
 	height: 15px;
 	subcontrol-position: top;
@@ -206,13 +206,13 @@ AlbumDialog QScrollBar::sub-line:vertical:pressed {
     background-color: rgba(128, 128, 128, 200);
 }
 AlbumDialog QScrollBar::up-arrow:vertical {
-    border: none;
+    border-style: none;
 	width: 15px;
 	height: 15px;
 	image: url(:/album/icon/up-arrow);
 }
 AlbumDialog QScrollBar::down-arrow:vertical {
-    border: none;
+    border-style: none;
 	width: 15px;
 	height: 15px;
 	image: url(:/album/icon/down-arrow);
@@ -330,3 +330,25 @@ QLineEdit#rUserEdit {
     background-color: rgba(255, 255, 255, 255);
     border-bottom-right-radius: 3px;
 }
+
+/* message dialog */
+MessageDialog>#centralDialog, MessageDialog>#titleBar {
+    background-color: rgba(250, 250, 250, 255);
+}
+
+MessageDialog QLabel {
+    font-size: 12px;
+}
+
+QPushButton#messageIcon {
+    border-style: none;
+}
+QPushButton#okButton, QPushButton#yesButton, QPushButton#noButton {
+    border: 1px solid rgba(225, 225, 226, 255);
+	border-radius: 3px;
+	background-color: rgba(255, 255, 255, 255);
+}
+QPushButton#okButton:hover, QPushButton#yesButton:hover, QPushButton#noButton:hover {
+    background-color: rgba(245, 245, 247, 255);
+}
+

@@ -1,4 +1,5 @@
 #include "loginregisterdialog.h"
+#include "messagedialog.h"
 #include "sources/userclass/customnetwork.h"
 
 #include <QGroupBox>
@@ -288,7 +289,7 @@ void LoginRegisterDialog::m_loginReply(CustomNetwork::Status status)
         m_loginStatusLabel->setText(QStringLiteral("<font color=red>账号或密码错误!</font>"));
         break;
     case CustomNetwork::Timeout:
-        m_loginStatusLabel->setText(QStringLiteral("<font color=red>网络超时!</font>"));
+        m_loginStatusLabel->setText(QStringLiteral("<font color=red>网络连接出错!</font>"));
         break;
     default:
         break;
@@ -298,14 +299,20 @@ void LoginRegisterDialog::m_loginReply(CustomNetwork::Status status)
 void LoginRegisterDialog::m_registerReply(CustomNetwork::Status status)
 {
     switch(status) {
-    case CustomNetwork::Success:
-        m_registerStatusLabel->setText(QStringLiteral("<font color=blue>感谢您的注册, 赶快登陆使用吧!</font>"));
+    case CustomNetwork::Success: {
+        MessageDialog dialog(this);
+        dialog.execInformation(QStringLiteral("恭喜你, 注册成功!"), QStringLiteral("注册"));
+        m_registerAccountEdit->clear();
+        m_registerPasswordEdit->clear();
+        m_registerUserEdit->clear();
+        this->m_showMain();
         break;
+    }
     case CustomNetwork::Failure:
         m_registerStatusLabel->setText(QStringLiteral("<font color=red>该手机号码已注册!</font>"));
         break;
     case CustomNetwork::Timeout:
-        m_registerStatusLabel->setText(QStringLiteral("<font color=red>网络超时!</font>"));
+        m_registerStatusLabel->setText(QStringLiteral("<font color=red>网络连接出错!</font>"));
         break;
     default:
         break;
@@ -324,7 +331,7 @@ void LoginRegisterDialog::m_userInfoReply(CustomNetwork::Status status)
         m_loginStatusLabel->setText(QStringLiteral("<font color=red>服务器错误!</font>"));
         break;
     case CustomNetwork::Timeout:
-        m_loginStatusLabel->setText(QStringLiteral("<font color=red>网络超时!</font>"));
+        m_loginStatusLabel->setText(QStringLiteral("<font color=red>网络连接出错!</font>"));
         break;
     default:
         break;

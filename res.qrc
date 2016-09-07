@@ -43,4 +43,10 @@
         <file alias="down-arrow">resources/arrow_drop_down_32px_1181651_easyicon.net.png</file>
         <file alias="up-arrow">resources/arrow_drop_up_32px_1181653_easyicon.net.png</file>
     </qresource>
+    <qresource prefix="/messagedialog/icon">
+        <file alias="yes">resources/Checkmark_yes_128px_1187207_easyicon.net.png</file>
+        <file alias="no">resources/X_close_128px_1187252_easyicon.net.png</file>
+        <file alias="warning">resources/info_128px_1201463_easyicon.net.png</file>
+        <file alias="information">resources/information_128px_1132498_easyicon.net.png</file>
+    </qresource>
 </RCC>
