@@ -3,6 +3,10 @@
 
 #include "sources/userclass/customdialog.h"
 
+class QLabel;
+class QPushButton;
+class QStackedWidget;
+
 class QuestionnaireDialog : public CustomDialog
 {
     Q_OBJECT

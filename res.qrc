@@ -8,7 +8,6 @@
         <file alias="close_1">resources/titleBar/close_1.png</file>
     </qresource>
     <qresource prefix="/button/icon">
-        <file alias="history">resources/Compass_45.877704609595px_1160254_easyicon.net.png</file>
         <file alias="help">resources/ligthbulb_on_help_64px_1112252_easyicon.net.png</file>
         <file alias="chart">resources/office_chart_line_64px_572010_easyicon.net.png</file>
         <file alias="measure">resources/Testing_39.134524929445px_1160250_easyicon.net.png</file>
@@ -16,6 +15,7 @@
         <file alias="girl">resources/avatar_128px_1202944_easyicon.net.png</file>
         <file alias="boy">resources/avatar_128px_1202943_easyicon.net.png</file>
         <file alias="anonymous">resources/administrator_128px_1175297_easyicon.net.png</file>
+        <file alias="history">resources/history_72px_1181939_easyicon.net.png</file>
     </qresource>
     <qresource prefix="/qss">
         <file alias="skin">resources/qss/stylesheet.css</file>
@@ -44,9 +44,10 @@
         <file alias="up-arrow">resources/arrow_drop_up_32px_1181653_easyicon.net.png</file>
     </qresource>
     <qresource prefix="/messagedialog/icon">
-        <file alias="yes">resources/Checkmark_yes_128px_1187207_easyicon.net.png</file>
-        <file alias="no">resources/X_close_128px_1187252_easyicon.net.png</file>
-        <file alias="warning">resources/info_128px_1201463_easyicon.net.png</file>
-        <file alias="information">resources/information_128px_1132498_easyicon.net.png</file>
+        <file alias="yes">resources/check_72px_1181749_easyicon.net.png</file>
+        <file alias="no">resources/clear_72px_1181755_easyicon.net.png</file>
+        <file alias="help">resources/help_72px_1181936_easyicon.net.png</file>
+        <file alias="warning">resources/error_72px_1181827_easyicon.net.png</file>
+        <file alias="information">resources/info_72px_1181947_easyicon.net.png</file>
     </qresource>
 </RCC>
