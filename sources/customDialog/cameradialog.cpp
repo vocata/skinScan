@@ -56,9 +56,9 @@ CameraDialog::CameraDialog(const QString &name, QWidget *parent) : CustomDialog(
     connect(m_camera, &QCamera::lockFailed, [=](){ qDebug() << "error";});
 
     /* window attribution */
+    this->hideMinIcon();
     this->setCentralWidgetLayout(hBox);
     this->setShadow(false);
-    this->hideMinIcon();
     this->setWindowTitle(new QLabel("拍照"));
     this->startAnimation();
     this->centralWidget()->setObjectName("centralDialog");
