@@ -149,9 +149,6 @@ void PlotWidget::selectionChanged()
 
 void PlotWidget::contextMenuRequest(QPoint pos)
 {
-    //右键菜单
-    menu->setAttribute(Qt::WA_DeleteOnClose);
-
     if (pQCustomPlot->legend->selectTest(pos, false) >= 0) // context menu on legend requested
     {
         menu->popup(pQCustomPlot->mapToGlobal(pos));
