@@ -15,17 +15,17 @@ MessageDialog::MessageDialog(QWidget *parent) : CustomDialog(parent)
 
     /* pushButton */
     m_okButton->setFixedSize(80, 30);
-    m_okButton->setIcon(QIcon(":/messagedialog/icon/yes"));
+    m_okButton->setIcon(QIcon(":/message/icon/yes"));
     m_okButton->setIconSize(QSize(25, 25));
     m_okButton->setObjectName("okButton");
 
     m_yesButton->setFixedSize(80, 30);
-    m_yesButton->setIcon(QIcon(":/messagedialog/icon/yes"));
+    m_yesButton->setIcon(QIcon(":/message/icon/yes"));
     m_yesButton->setIconSize(QSize(25, 25));
     m_yesButton->setObjectName("yesButton");
 
     m_noButton->setFixedSize(80, 30);
-    m_noButton->setIcon(QIcon(":/messagedialog/icon/no"));
+    m_noButton->setIcon(QIcon(":/message/icon/no"));
     m_noButton->setIconSize(QSize(25, 25));
     m_noButton->setObjectName("noButton");
 
@@ -50,22 +50,22 @@ MessageDialog::MessageDialog(QWidget *parent) : CustomDialog(parent)
     vBox->addLayout(buttonBox);
     vBox->setSpacing(20);
 
+    /* connect */
+    connect(m_okButton, &QPushButton::clicked, this, &MessageDialog::m_okButtonClicked);
+    connect(m_yesButton, &QPushButton::clicked, this, &MessageDialog::m_yesButtonClicked);
+    connect(m_noButton, &QPushButton::clicked, this, &MessageDialog::m_noButtonClicked);
+
     /* windows attribution */
     this->setCentralWidgetLayout(vBox);
     this->setShadow(true);
     this->hideMinIcon();
     this->startAnimation();
     this->centralWidget()->setObjectName("centralDialog");
-
-    /* connect */
-    connect(m_okButton, &QPushButton::clicked, this, &MessageDialog::m_okButtonClicked);
-    connect(m_yesButton, &QPushButton::clicked, this, &MessageDialog::m_yesButtonClicked);
-    connect(m_noButton, &QPushButton::clicked, this, &MessageDialog::m_noButtonClicked);
 }
 
 void MessageDialog::execWarning(const QString &msg, const QString title)
 {
-    m_messageIcon->setIcon(QIcon(":/messagedialog/icon/warning"));
+    m_messageIcon->setIcon(QIcon(":/message/icon/warning"));
     m_messageIcon->setIconSize(QSize(52, 52));
 
     m_messageLabel->setText(msg);
@@ -82,7 +82,7 @@ void MessageDialog::execWarning(const QString &msg, const QString title)
 
 void MessageDialog::execInformation(const QString &msg, const QString title)
 {
-    m_messageIcon->setIcon(QIcon(":/messagedialog/icon/information"));
+    m_messageIcon->setIcon(QIcon(":/message/icon/information"));
     m_messageIcon->setIconSize(QSize(52, 52));
 
     m_messageLabel->setText(msg);

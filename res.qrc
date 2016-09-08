@@ -43,11 +43,27 @@
         <file alias="down-arrow">resources/arrow_drop_down_32px_1181651_easyicon.net.png</file>
         <file alias="up-arrow">resources/arrow_drop_up_32px_1181653_easyicon.net.png</file>
     </qresource>
-    <qresource prefix="/messagedialog/icon">
+    <qresource prefix="/message/icon">
         <file alias="yes">resources/check_72px_1181749_easyicon.net.png</file>
         <file alias="no">resources/clear_72px_1181755_easyicon.net.png</file>
         <file alias="help">resources/help_72px_1181936_easyicon.net.png</file>
         <file alias="warning">resources/error_72px_1181827_easyicon.net.png</file>
         <file alias="information">resources/info_72px_1181947_easyicon.net.png</file>
+    </qresource>
+    <qresource prefix="/question/text">
+        <file alias="step1">resources/questionnaire/step1.txt</file>
+        <file alias="step2">resources/questionnaire/step2.txt</file>
+        <file alias="step3">resources/questionnaire/step3.txt</file>
+        <file alias="step4">resources/questionnaire/step4.txt</file>
+    </qresource>
+    <qresource prefix="/question/icon">
+        <file alias="checked">resources/radiobutton-checked-md.png</file>
+        <file alias="unchecked">resources/radiobutton-unchecked-md.png</file>
+    </qresource>
+    <qresource prefix="/statistics/icon">
+        <file alias="PH">resources/flask_83.04132231405px_1200923_easyicon.net.png</file>
+        <file alias="moisture">resources/raindrop_88.183366077276px_1202605_easyicon.net.png</file>
+        <file alias="temperature">resources/thermometer_52.434552199258px_1202613_easyicon.net.png</file>
+        <file alias="grease">resources/water_93.185667752443px_1200957_easyicon.net.png</file>
     </qresource>
 </RCC>

@@ -13,13 +13,13 @@ class PlotWidget : public QWidget
     Q_OBJECT
 
 public:
-    PlotWidget(const double &min, const double &max, QWidget *parent = 0);
+    PlotWidget(QWidget *parent = 0);
     ~PlotWidget();
     void adjustPlot();
     void setTitle(const QString &title);
     void setSingleData(QVector<double> aData, const QString &dataName, const QColor &color = Qt::blue);
     void setMultiData(QVector<double> oil, QVector<double> moisture, QVector<double> temper, QVector<double> PHValue);
-    void setYRange(const double &min, const double &max);
+    void setYRange(const QVector<double> &y, const QVector<QString> &yTick);
     void clearGraph();
 
 private slots:
