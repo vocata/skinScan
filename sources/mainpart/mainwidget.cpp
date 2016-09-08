@@ -230,8 +230,8 @@ void MainWidget::m_setAccountAndUser(const QVariantMap &userInfo)
     QSettings().setValue("normal/sex", userInfo.value("sex"));
 
     m_measureWidget->clear();       //清除之前登陆账户所留下来的测量数据，更换账户和新用户登陆时有用
+    m_measureButton->click();       //回到主界面
     m_accountButton->setMenu(m_infoMenu);
-    m_measureButton->click();
 
     /* login & register */
     disconnect(m_loginRegisterDialog, &LoginRegisterDialog::loginSuccess, this, &MainWidget::m_setAccountAndUser);
@@ -277,7 +277,7 @@ void MainWidget::m_loginRegister()
 
 void MainWidget::m_logout()
 {
-    m_measureButton->click();
+    m_measureButton->click();       //回到主界面
     m_manager->clear();
     m_measureWidget->clear();
     m_statisticsWidget->clear();

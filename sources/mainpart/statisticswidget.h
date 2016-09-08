@@ -20,6 +20,8 @@ signals:
 public slots:
 
 private:
+    QPushButton *m_chartButton;
+    QPushButton *m_tableButton;
     QPushButton *m_moistureButton;
     QPushButton *m_greaseButton;
     QPushButton *m_temperatureButton;
@@ -30,6 +32,9 @@ private:
     PlotWidget *m_greaseWidget;
     PlotWidget *m_tempWidget;
     PlotWidget *m_PHWidget;
+
+    int m_row = 1;
+    int m_column = 1;
 };
 
 #endif // STATISTICSWIDGET_H

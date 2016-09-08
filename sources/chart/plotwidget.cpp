@@ -1,12 +1,10 @@
 #include "sources/chart/plotwidget.h"
 
-PlotWidget::PlotWidget(const double &min, const double &max, QWidget *parent)
-                                                            : QWidget(parent)
+PlotWidget::PlotWidget(QWidget *parent) : QWidget(parent)
 {
     //创建画板
     pQCustomPlot = new QCustomPlot;
     pQCustomPlot->addGraph();
-    pQCustomPlot->yAxis->setRange(min, max);
 
     //创建右键菜单
     menu = new QMenu(this);
@@ -62,7 +60,7 @@ PlotWidget::~PlotWidget()
 
 void PlotWidget::adjustPlot()
 {
-    pQCustomPlot->replot();
+    pQCustomPlot->replot(QCustomPlot::rpImmediate);
 }
 
 void PlotWidget::setTitle(const QString &title)
@@ -85,9 +83,8 @@ void PlotWidget::setSingleData(QVector<double> aData, const QString &dataName, c
     pQPen->setColor(color);//设置线的颜色
     pQCustomPlot->graph(0)->setPen(*pQPen);
     pQCustomPlot->graph(0)->setScatterStyle(QCPScatterStyle(QCPScatterStyle::ssCircle, 3));//线上的点
-    pQCustomPlot->graph(0)->rescaleAxes();//重新绘制坐标轴
-
-
+    pQCustomPlot->graph(0)->rescaleKeyAxis();      //重新绘制坐标轴
+    this->adjustPlot();
 }
 
 void PlotWidget::setMultiData(QVector<double> oil, QVector<double> moisture, QVector<double> temper, QVector<double> PHValue)
@@ -119,9 +116,14 @@ void PlotWidget::setMultiData(QVector<double> oil, QVector<double> moisture, QVe
         pQCustomPlot->graph(i)->rescaleAxes(true);
 }
 
-void PlotWidget::setYRange(const double &min, const double &max)
+void PlotWidget::setYRange(const QVector<double> &y, const QVector<QString> &yTick)
 {
-    pQCustomPlot->yAxis->setRange(min, max);
+    pQCustomPlot->yAxis->setAutoTicks(false);
+    pQCustomPlot->yAxis->setAutoTickLabels(false);
+    pQCustomPlot->yAxis->setTickVectorLabels(yTick);
+    pQCustomPlot->yAxis->setTickVector(y);
+//    pQCustomPlot->yAxis->setSubTickCount(0);
+    pQCustomPlot->yAxis->setRange(y.first(), y.last());
 }
 
 void PlotWidget::clearGraph()

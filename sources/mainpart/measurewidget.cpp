@@ -3,6 +3,7 @@
 #include "sources/userclass/usbstatueshare.h"
 #include "sources/userclass/customdialog.h"
 #include "sources/userclass/customnetwork.h"
+#include "sources/customDialog/questionnairedialog.h"
 #include "sources/customDialog/cameradialog.h"
 #include "sources/customDialog/albumdialog.h"
 #include "sources/customDialog/messagedialog.h"
@@ -19,8 +20,6 @@
 #include <QJsonArray>
 
 #include <QDebug>
-
-
 
 MeasureWidget::MeasureWidget(QWidget *parent) : QWidget(parent)
 {
@@ -248,7 +247,10 @@ void MeasureWidget::m_startMeasure()
 
 void MeasureWidget::m_skinEvaluation()
 {
-
+    QuestionnaireDialog *dialog = new QuestionnaireDialog(this);
+    dialog->setWindowModality(Qt::WindowModal);
+    dialog->setAttribute(Qt::WA_DeleteOnClose);
+    dialog->show();
 }
 
 void MeasureWidget::m_takePhoto()
