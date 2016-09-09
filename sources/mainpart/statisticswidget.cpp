@@ -163,7 +163,7 @@ void StatisticsWidget::setPlotData(const QJsonDocument &document)
     m_PHWidget->setSingleData(jsonData.getData("ph"), "PH值", QColor(121, 83, 70));
 
     QStringList otherList;
-    otherList << "date" << "deviceId" << "phone";
+    otherList << "date" << "phone" << "deviceId";
     m_moistureTable->setTable("水分", jsonData.getOther("moisture", otherList), jsonData.getData("moisture"));
     m_greaseTable->setTable("油脂", jsonData.getOther("grease", otherList), jsonData.getData("grease"));
     m_tempTable->setTable("温度", jsonData.getOther("temperature", otherList), jsonData.getData("temperature"));
