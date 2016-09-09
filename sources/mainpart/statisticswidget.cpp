@@ -99,11 +99,8 @@ StatisticsWidget::StatisticsWidget(QWidget *parent) : QWidget(parent)
 
     /* stacked widget */
     m_stackedWidget->addWidget(m_moistureWidget);
-
     m_stackedWidget->addWidget(m_greaseWidget);
-
     m_stackedWidget->addWidget(m_tempWidget);
-
     m_stackedWidget->addWidget(m_PHWidget);
 
     m_stackedWidget->addWidget(m_moistureTable);
@@ -172,7 +169,7 @@ void StatisticsWidget::setPlotData(const QJsonDocument &document)
 
 void StatisticsWidget::clear()
 {
-    m_stackedWidget->setCurrentIndex(0);
+    m_chartButton->click();
     m_moistureWidget->clearGraph();
     m_greaseWidget->clearGraph();
     m_tempWidget->clearGraph();

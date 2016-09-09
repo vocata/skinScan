@@ -1,20 +1,19 @@
 #include "tablewidget.h"
 
 #include <QHeaderView>
+#include <QScrollBar>
 
 TableWidget::TableWidget(QWidget *parent) : QWidget(parent)
 {
     /* create table*/
     m_table = new QTableWidget(this);
-//    m_table->horizontalHeader()->setStretchLastSection(true);
+    m_table->horizontalHeader()->setStretchLastSection(true);
     m_table->setEditTriggers(QAbstractItemView::NoEditTriggers);
-
+    m_table->verticalScrollBar()->setObjectName("scrollBar");
 
     /* layout */
     QHBoxLayout *vBox = new QHBoxLayout(this);
     vBox->addWidget(m_table);
-    this->resize(500,500);
-
 }
 
 void TableWidget::setTable(const QString &dataName, const QStringList &otherList, const QVector<double> &data)

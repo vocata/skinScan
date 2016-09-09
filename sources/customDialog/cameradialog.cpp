@@ -1,4 +1,5 @@
 #include "cameradialog.h"
+#include "messagedialog.h"
 
 #include <QCameraViewfinder>
 #include <QCameraImageCapture>
@@ -88,7 +89,8 @@ void CameraDialog::m_saveImage()
     m_takeImageButton->setText(QStringLiteral("拍照"));
     m_saveImageButton->setEnabled(false);
     /* 提示保存成功 */
-    qDebug() << QStringLiteral("保存成功");
+    MessageDialog dialog(this);
+    dialog.execInformation(QStringLiteral("图片保存成功"), QStringLiteral("保存"));
 }
 
 void CameraDialog::m_setImage(int id, const QImage &preview)

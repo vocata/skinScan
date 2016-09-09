@@ -17,7 +17,7 @@ UsbMeasure::~UsbMeasure()
 void UsbMeasure::stop()
 {
     m_stopped = true;
-    this->wait(1500);
+    this->wait(500);
 }
 
 void UsbMeasure::run()
