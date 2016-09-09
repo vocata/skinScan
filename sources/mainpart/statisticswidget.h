@@ -6,6 +6,7 @@
 class QPushButton;
 class QStackedWidget;
 class PlotWidget;
+class TableWidget;
 
 class StatisticsWidget : public QWidget
 {
@@ -33,8 +34,13 @@ private:
     PlotWidget *m_tempWidget;
     PlotWidget *m_PHWidget;
 
-    int m_row = 1;
-    int m_column = 1;
+    TableWidget *m_moistureTable;
+    TableWidget *m_greaseTable;
+    TableWidget *m_tempTable;
+    TableWidget *m_PHTable;
+
+    int m_row = 0;
+    int m_column = 0;
 };
 
 #endif // STATISTICSWIDGET_H
