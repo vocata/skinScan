@@ -35,8 +35,11 @@ PlotWidget::PlotWidget(QWidget *parent) : QWidget(parent)
     pQCustomPlot->xAxis->setSubTickPen(QPen(QColor(216, 216, 216, 255), 1));
     pQCustomPlot->yAxis->setSubTickPen(QPen(QColor(216, 216, 216, 255), 1));
 
+    pQCustomPlot->xAxis->setTickLabelFont(QFont("Microsoft Yahei", 10));
+    pQCustomPlot->yAxis->setTickLabelFont(QFont("Microsoft Yahei", 10));
     pQCustomPlot->xAxis->grid()->setPen(QPen(QColor(216, 216, 216, 255), 1, Qt::DotLine));
     pQCustomPlot->yAxis->grid()->setPen(QPen(QColor(216, 216, 216, 255), 1, Qt::DotLine));
+
     pQCustomPlot->setBackground(QColor(250, 250, 250, 255));
 
     //互动
