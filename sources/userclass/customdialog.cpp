@@ -20,6 +20,9 @@ CustomDialog::CustomDialog(QWidget *parent) : QDialog(parent)
     m_mainWidget = new QWidget(this);
     m_animation = new QPropertyAnimation(this, "windowOpacity", this);
 
+    /* title widget */
+    m_windowTitle->setObjectName("titleWidget");
+
     /* animation */
     m_animation->setStartValue(0);
     m_animation->setEndValue(1);

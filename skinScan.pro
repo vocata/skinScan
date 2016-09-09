@@ -35,11 +35,12 @@ SOURCES += \
     sources/customDialog/cameradialog.cpp \
     sources/customDialog/albumdialog.cpp \
     sources/chart/plotwidget.cpp \
-    sources/chart/jsontodata.cpp \
     sources/customDialog/messagedialog.cpp \
     sources/customDialog/questionnairedialog.cpp \
     sources/customDialog/questionnairedialog/questionwidget.cpp \
-    sources/customDialog/questionnairedialog/clickablelabel.cpp
+    sources/customDialog/questionnairedialog/clickablelabel.cpp \
+    sources/chart/jsontodata.cpp \
+    sources/chart/tablewidget.cpp
 
 HEADERS  += \
     sources/mainpart/mainwidget.h \
@@ -64,11 +65,12 @@ HEADERS  += \
     sources/customDialog/cameradialog.h \
     sources/customDialog/albumdialog.h \
     sources/chart/plotwidget.h \
-    sources/chart/jsontodata.h \
     sources/customDialog/messagedialog.h \
     sources/customDialog/questionnairedialog.h \
     sources/customDialog/questionnairedialog/questionwidget.h \
-    sources/customDialog/questionnairedialog/clickablelabel.h
+    sources/customDialog/questionnairedialog/clickablelabel.h \
+    sources/chart/jsontodata.h \
+    sources/chart/tablewidget.h
 
 RESOURCES += \
     res.qrc
