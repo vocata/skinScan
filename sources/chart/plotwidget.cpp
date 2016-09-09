@@ -35,8 +35,11 @@ PlotWidget::PlotWidget(QWidget *parent) : QWidget(parent)
     pQCustomPlot->xAxis->setSubTickPen(QPen(QColor(216, 216, 216, 255), 1));
     pQCustomPlot->yAxis->setSubTickPen(QPen(QColor(216, 216, 216, 255), 1));
 
+    pQCustomPlot->xAxis->setTickLabelFont(QFont("Microsoft Yahei", 10));
+    pQCustomPlot->yAxis->setTickLabelFont(QFont("Microsoft Yahei", 10));
     pQCustomPlot->xAxis->grid()->setPen(QPen(QColor(216, 216, 216, 255), 1, Qt::DotLine));
     pQCustomPlot->yAxis->grid()->setPen(QPen(QColor(216, 216, 216, 255), 1, Qt::DotLine));
+
     pQCustomPlot->setBackground(QColor(250, 250, 250, 255));
 
     //互动
@@ -83,6 +86,7 @@ void PlotWidget::setSingleData(QVector<double> aData, const QString &dataName, c
     pQPen->setColor(color);//设置线的颜色
     pQCustomPlot->graph(0)->setPen(*pQPen);
     pQCustomPlot->graph(0)->setScatterStyle(QCPScatterStyle(QCPScatterStyle::ssCircle, 3));//线上的点
+//    pQCustomPlot->graph(0)->setScatterStyle(QCPScatterStyle(QCPScatterStyle::ssCircle, QPen(Qt::black, 1.5), QBrush(Qt::white), 9));
     pQCustomPlot->graph(0)->rescaleKeyAxis();      //重新绘制坐标轴
     this->adjustPlot();
 }
