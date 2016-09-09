@@ -137,6 +137,7 @@ void CustomNetwork::clear()
     m_loginInfo.m_account.clear();
     m_loginInfo.m_password.clear();
     m_loginInfo.m_cookie.clear();
+    m_loginInfo.saveInfo();
 }
 
 void CustomNetwork::m_loginStatus()
@@ -156,6 +157,7 @@ void CustomNetwork::m_loginStatus()
                 m_loginInfo.m_cookie = m_loginReply->header(QNetworkRequest::SetCookieHeader);
                 m_loginInfo.m_account = m_accountTemp;
                 m_loginInfo.m_password = m_passwordTemp;
+                m_loginInfo.saveInfo();
                 emit memberLoginStatus(Success);
                 break;
             default:
@@ -294,22 +296,7 @@ void CustomNetwork::m_downloadUserDataStatus()
 
 LoginInfo CustomNetwork::m_loginInfo;
 
-/* Related Non-Members */
-QJsonObject formatUploadDataFromSQl(const QString &type, const QList<QVariantList> &rawData)
-{
-    QVariantList array;
-    for(const QVariantList &items: rawData) {
-        QVariantMap obj;
-        obj.insert("date", items.at(0));
-        obj.insert("phone", items.at(1));
-        obj.insert("value", items.at(2));
-        obj.insert("deviceId", items.at(3));
-        array.push_back(obj);
-    }
-    QVariantMap data;
-    data.insert(type, array);
-    return QJsonObject::fromVariantMap(data);
-}
+/* friend class function */
 
 LoginInfo::LoginInfo()
 {
@@ -325,6 +312,11 @@ LoginInfo::LoginInfo()
 }
 
 LoginInfo::~LoginInfo()
+{
+    this->saveInfo();
+}
+
+void LoginInfo::saveInfo()
 {
     QSettings settings("Shey Ray", "SkinScan");
     settings.setValue("special/account", m_account);

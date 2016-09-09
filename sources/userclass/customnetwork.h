@@ -16,6 +16,9 @@ class LoginInfo
     friend class CustomNetwork;
 public:
     LoginInfo();
+
+    void saveInfo();
+
     ~LoginInfo();
 private:
     QString m_account;
@@ -85,5 +88,4 @@ private slots:
     void m_downloadUserDataStatus();
 };
 
-QJsonObject formatUploadDataFromSQl(const QString &type, const QList<QVariantList> &rawData);
 #endif // CUSTOMNETWORK_H

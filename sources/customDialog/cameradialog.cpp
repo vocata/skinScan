@@ -85,12 +85,12 @@ void CameraDialog::m_saveImage()
     QDir().mkpath(m_dir);
     QString fullPath = m_dir + QString("/%1.%2").arg(m_date, "jpg");
     m_image.save(fullPath, "JPG");
-    m_camera->start();
     m_takeImageButton->setText(QStringLiteral("拍照"));
     m_saveImageButton->setEnabled(false);
     /* 提示保存成功 */
     MessageDialog dialog(this);
     dialog.execInformation(QStringLiteral("图片保存成功"), QStringLiteral("保存"));
+    m_camera->start();  //确定之后才重新开启相机
 }
 
 void CameraDialog::m_setImage(int id, const QImage &preview)

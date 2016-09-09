@@ -86,6 +86,7 @@ void PlotWidget::setSingleData(QVector<double> aData, const QString &dataName, c
     pQPen->setColor(color);//设置线的颜色
     pQCustomPlot->graph(0)->setPen(*pQPen);
     pQCustomPlot->graph(0)->setScatterStyle(QCPScatterStyle(QCPScatterStyle::ssCircle, 3));//线上的点
+//    pQCustomPlot->graph(0)->setScatterStyle(QCPScatterStyle(QCPScatterStyle::ssCircle, QPen(Qt::black, 1.5), QBrush(Qt::white), 9));
     pQCustomPlot->graph(0)->rescaleKeyAxis();      //重新绘制坐标轴
     this->adjustPlot();
 }

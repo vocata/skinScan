@@ -287,9 +287,11 @@ void LoginRegisterDialog::m_loginReply(CustomNetwork::Status status)
         break;
     case CustomNetwork::Failure:
         m_loginStatusLabel->setText(QStringLiteral("<font color=red>账号或密码错误!</font>"));
+        this->m_loginResume();
         break;
     case CustomNetwork::Timeout:
         m_loginStatusLabel->setText(QStringLiteral("<font color=red>网络连接出错!</font>"));
+        this->m_loginResume();
         break;
     default:
         break;
