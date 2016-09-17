@@ -300,7 +300,7 @@ LoginInfo CustomNetwork::m_loginInfo;
 
 LoginInfo::LoginInfo()
 {
-    QSettings settings("Shey Ray", "SkinScan");
+    QSettings settings("GDPU", "SkinScan");
     m_account = settings.value("special/account").toString();
     m_password = settings.value("special/password").toString();
     /* read cookie */
@@ -318,7 +318,7 @@ LoginInfo::~LoginInfo()
 
 void LoginInfo::saveInfo()
 {
-    QSettings settings("Shey Ray", "SkinScan");
+    QSettings settings("GDPU", "SkinScan");
     settings.setValue("special/account", m_account);
     settings.setValue("special/password", m_password);
     /* save cookie */

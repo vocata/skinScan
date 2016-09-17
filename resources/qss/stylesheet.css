@@ -527,4 +527,3 @@ MessageDialog QPushButton#okButton, MessageDialog QPushButton#yesButton, Message
 MessageDialog QPushButton#okButton:hover, MessageDialog QPushButton#yesButton:hover, MessageDialog QPushButton#noButton:hover {
     background-color: rgba(245, 245, 247, 255);
 }
-
