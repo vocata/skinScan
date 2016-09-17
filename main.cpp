@@ -6,8 +6,6 @@ int main(int argc, char *argv[])
 {
     QApplication a(argc, argv);
 
-    QCoreApplication::setOrganizationName("Shey Ray");
-    QCoreApplication::setApplicationName("SkinScan");
     MainWidget w;
     w.show();
 

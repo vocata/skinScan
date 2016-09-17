@@ -52,6 +52,4 @@ private slots:
     void m_plot();
 };
 
-const int TickNum = 5;
-const int PlotTime = 200;
 #endif // BARCHART_H

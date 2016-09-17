@@ -21,6 +21,11 @@
 
 #include <QDebug>
 
+constexpr quint8 Moisture = 0x01;
+constexpr quint8 Grease = 0x02;
+constexpr quint8 PH = 0x04;
+constexpr quint8 Temperature = 0x08;
+
 MeasureWidget::MeasureWidget(QWidget *parent) : QWidget(parent)
 {
     m_startMeasureButton = new QPushButton(this);

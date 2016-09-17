@@ -9,6 +9,7 @@
 class QPushButton;
 class QLineEdit;
 class QToolButton;
+class QSettings;
 class StatisticsWidget;
 class MainStatusBar;
 class CustomNetwork;
@@ -46,6 +47,8 @@ private:
     LoginRegisterDialog *m_loginRegisterDialog = nullptr;
 
     CustomNetwork *m_manager = nullptr;
+
+    QSettings *m_settings = nullptr;
 
 private slots:
     /* action */

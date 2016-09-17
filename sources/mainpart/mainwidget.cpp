@@ -38,6 +38,8 @@ MainWidget::MainWidget(QWidget *parent) : CustomWidget(parent)
 
     m_manager = new CustomNetwork(this);
 
+    m_settings = new QSettings("GDPU", "SkinScan", this);
+
     /* QPushButton */
     m_infoMenu = new QMenu(this);
     m_infoMenu->setFixedWidth(150);
@@ -151,10 +153,10 @@ MainWidget::MainWidget(QWidget *parent) : CustomWidget(parent)
     /* recovery */
     if(m_manager->hasMember()) {
         m_accountButton->setMenu(m_infoMenu);
-        m_accountButton->setText(QSettings().value("normal/account").toString());
-        m_userButton->setText(QSettings().value("normal/user").toString());
+        m_accountButton->setText(m_settings->value("normal/account").toString());
+        m_userButton->setText(m_settings->value("normal/user").toString());
 
-        QString sex = QSettings().value("normal/sex").toString();
+        QString sex = m_settings->value("normal/sex").toString();
         if(sex == QStringLiteral("男")) {
             m_userImage->setIcon(QIcon(":/button/icon/boy"));
         }
@@ -225,9 +227,9 @@ void MainWidget::m_setAccountAndUser(const QVariantMap &userInfo)
     }
 
     /* save user information */
-    QSettings().setValue("normal/account", userInfo.value("phone"));
-    QSettings().setValue("normal/user", userInfo.value("name"));
-    QSettings().setValue("normal/sex", userInfo.value("sex"));
+    m_settings->setValue("normal/account", userInfo.value("phone"));
+    m_settings->setValue("normal/user", userInfo.value("name"));
+    m_settings->setValue("normal/sex", userInfo.value("sex"));
 
     /* 登陆成功清除操作 */
     m_measureWidget->clear();       //清除之前登陆账户所留下来的数据
