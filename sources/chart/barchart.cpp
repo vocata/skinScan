@@ -3,9 +3,6 @@
 
 #include <QTimer>
 
-constexpr int TickNum = 5;
-constexpr int PlotTime = 200;
-
 BarChart::BarChart(QWidget *parent) : QWidget(parent)
 {
     m_customPlot = new QCustomPlot(this);
