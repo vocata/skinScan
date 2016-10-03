@@ -387,6 +387,51 @@ LoginRegisterDialog QLineEdit#rUserEdit {
     border-bottom-right-radius: 3px;
 }
 
+/* setting dialog */
+SettingDialog>#centralDialog, SettingDialog>#titleBar {
+    background-color: rgba(250, 250, 250, 255);
+}
+
+SettingDialog>#titleBar>#titleWidget>QLabel {
+    font-size: 12px;
+	font-weight: bold;
+	color: rgba(0, 0, 0, 255);
+	margin-top: 2px;
+}
+SettingDialog #leftWidget{
+    background-color: rgba(240, 240, 240, 255);
+}
+
+SettingDialog #regularButton, SettingDialog #networkButton{
+    border-style: none;
+	background-color: rgba(240, 240, 240, 255);
+}
+SettingDialog #regularButton:hover, SettingDialog #networkButton:hover {
+    background-color: rgba(230, 230, 230, 255);
+}
+SettingDialog #regularButton:checked, SettingDialog #networkButton:checked {
+    background-color: rgba(250, 250, 250, 255);
+}
+
+SettingDialog #regularWidget>QLabel {
+    font-size: 12px;
+	font-weight: bold;
+}
+
+SettingDialog #networkWidget>QLabel {
+    font-size: 12px;
+	font-weight: bold;
+}
+
+SettingDialog #confirmButton, SettingDialog #cancelButton {
+    border: 1px solid rgba(200, 200, 200, 255);
+	border-radius: 3px;
+	background-color: rgba(255, 255, 255, 255);
+}
+SettingDialog #confirmButton:hover, SettingDialog #cancelButton:hover {
+    background-color: rgba(230, 230, 230, 255);
+}
+
 /* tab2 */
 StatisticsWidget>QGroupBox#buttonBox, StatisticsWidget>QGroupBox#formatBox, StatisticsWidget>QStackedWidget#stackedWidget {
     border-style: none;

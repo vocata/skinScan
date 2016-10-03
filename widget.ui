@@ -440,22 +440,6 @@ QToolButton:checked{
       <attribute name="title">
        <string>Tab 1</string>
       </attribute>
-      <widget class="Line" name="line_3">
-       <property name="geometry">
-        <rect>
-         <x>240</x>
-         <y>110</y>
-         <width>118</width>
-         <height>3</height>
-        </rect>
-       </property>
-       <property name="styleSheet">
-        <string notr="true">background-color: rgb(255, 255, 0);</string>
-       </property>
-       <property name="orientation">
-        <enum>Qt::Horizontal</enum>
-       </property>
-      </widget>
      </widget>
      <widget class="QWidget" name="tab_2">
       <attribute name="title">

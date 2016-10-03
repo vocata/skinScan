@@ -35,15 +35,10 @@ public:
     explicit CustomNetwork(QObject *parent = 0);
     QVariantMap userInfo();
     QVariantMap userData();
-    QString account() const
-    {
-        return m_loginInfo.m_account;
-    }
+    const QString &account() const { return m_loginInfo.m_account; }
+    const QString &password() const { return m_loginInfo.m_password; }
 
-    bool hasMember() const
-    {
-        return !m_loginInfo.m_account.isEmpty();
-    }
+    bool hasMember() const { return !m_loginInfo.m_account.isEmpty(); }
 
 signals:
     void memberLoginStatus(Status status);

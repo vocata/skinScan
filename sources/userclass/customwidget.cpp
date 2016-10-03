@@ -29,12 +29,15 @@ CustomWidget::CustomWidget(QWidget *parent) : QWidget(parent)
     m_animation->setEasingCurve(QEasingCurve::InQuad);
 
     /* layout */
+    QWidget *alignWidget = new QWidget(this);
+
     QHBoxLayout *hBox = new QHBoxLayout();
+    hBox->addWidget(alignWidget);
     hBox->addWidget(m_menu);
     hBox->addWidget(m_min);
     hBox->addWidget(m_max);
     hBox->addWidget(m_close);
-    hBox->setAlignment(m_menu, Qt::AlignTop | Qt::AlignRight);
+    hBox->setAlignment(alignWidget, Qt::AlignTop | Qt::AlignRight);
     hBox->setMargin(0);
     hBox->setSpacing(0);
 
