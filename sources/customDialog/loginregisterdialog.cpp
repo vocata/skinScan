@@ -1,7 +1,6 @@
 #include "loginregisterdialog.h"
 #include "messagedialog.h"
 #include "sources/userclass/customnetwork.h"
-#include "sources/customDialog/loginregisterdialog/shortcutbutton.h"
 
 #include <QGroupBox>
 #include <QLabel>
@@ -18,8 +17,8 @@ LoginRegisterDialog::LoginRegisterDialog(QWidget *parent) : CustomDialog(parent)
     m_titleButton = new QPushButton(this);
     m_login = new QPushButton(QStringLiteral("手机号登陆"), this);
     m_register = new QPushButton(QStringLiteral("注册"), this);
-    m_loginButton = new ShortcutButton(QStringLiteral("立即登陆"), this);
-    m_registerButton = new ShortcutButton(QStringLiteral("注册"), this);
+    m_loginButton = new QPushButton(QStringLiteral("立即登陆"), this);
+    m_registerButton = new QPushButton(QStringLiteral("注册"), this);
     m_loginAccountIcon = new QPushButton(QIcon(":/log&reg/icon/phone"), QString(), this);
     m_loginPasswordIcon = new QPushButton(QIcon(":/log&reg/icon/lock"), QString(), this);;
     m_registerAccountIcon = new QPushButton(QIcon(":/log&reg/icon/phone"), QString(), this);;
@@ -36,6 +35,7 @@ LoginRegisterDialog::LoginRegisterDialog(QWidget *parent) : CustomDialog(parent)
     m_manager = new CustomNetwork(this);
 
     /* title */
+    m_titleButton->setFocusPolicy(Qt::NoFocus);
     m_titleButton->setObjectName("titleButton");
 
     /* main widget */
@@ -178,7 +178,9 @@ LoginRegisterDialog::LoginRegisterDialog(QWidget *parent) : CustomDialog(parent)
     connect(m_register, &QPushButton::clicked, this, &LoginRegisterDialog::m_registerShow);
     /* login & register */
     connect(m_loginButton, &QPushButton::clicked, this, &LoginRegisterDialog::m_loginRequest);
+    connect(m_loginAccountEdit, &QLineEdit::returnPressed, m_loginButton, &QPushButton::click);
     connect(m_registerButton, &QPushButton::clicked, this, &LoginRegisterDialog::m_registerRequest);
+    connect(m_registerAccountEdit, &QLineEdit::returnPressed, m_registerButton, &QPushButton::click);
     /* timer */
     connect(m_timer, &QTimer::timeout, this, &LoginRegisterDialog::m_loginTips);
     /* network */
@@ -212,7 +214,7 @@ void LoginRegisterDialog::m_loginShow()
     m_titleButton->show();
     m_mainWidget->hide();
     m_loginWidget->show();
-    m_loginButton->setFocus();
+    m_loginAccountEdit->setFocus();
 }
 
 void LoginRegisterDialog::m_registerShow()
@@ -221,7 +223,7 @@ void LoginRegisterDialog::m_registerShow()
     m_titleButton->show();
     m_mainWidget->hide();
     m_registerWidget->show();
-    m_registerButton->setFocus();
+    m_registerAccountEdit->setFocus();
 }
 
 void LoginRegisterDialog::m_loginRequest()
