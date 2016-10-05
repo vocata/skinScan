@@ -23,6 +23,7 @@ class MainWidget : public CustomWidget
     Q_OBJECT
 public:
     explicit MainWidget(QWidget *parent = 0);
+    ~MainWidget();
 
 signals:
 
@@ -55,16 +56,17 @@ private slots:
     void m_memberInfo();
     void m_modifyPassword();
     void m_loginRegister();
+    void m_setting();
     void m_logout();
 
     /* login */
     void m_setAccountAndUser(const QVariantMap &userInfo);
-
     /* stacked widget change */
     void m_stackedWidgetChange(int index);
-
     /* newwork */
-    void m_downloadDataReply(CustomNetwork::Status status);
+    void m_loginReply(CustomNetwork::Status status);
+    /* recovery */
+    void m_recovery();
 
 };
 

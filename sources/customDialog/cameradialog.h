@@ -15,6 +15,8 @@ class CameraDialog : public CustomDialog
 public:
     explicit CameraDialog(const QString &name, QWidget *parent = 0);
 
+    ~CameraDialog();
+
 signals:
 
 public slots:
@@ -29,10 +31,8 @@ private:
 
     /* 图片路径 */
     QString m_dir;
-    /* 照片日期 */
-    QString m_date;
-    /* 图片 */
-    QImage m_image;
+    /* 当前图片路径 */
+    QString m_currentImagePath;
 
 private slots:
     void m_captureImage();

@@ -68,12 +68,25 @@ CameraDialog::CameraDialog(const QString &name, QWidget *parent) : CustomDialog(
     m_camera->start();
 }
 
+CameraDialog::~CameraDialog()
+{
+    if(!m_currentImagePath.isEmpty()) {
+        QFile::remove(m_currentImagePath);
+    }
+}
+
 void CameraDialog::m_captureImage()
 {
     if(m_takeImageButton->text() == QStringLiteral("拍照")) {
-        m_imageCapture->capture();
+        QString date = QDateTime::currentDateTime().toString("yyyy-MM-ddThh-mm-ss");
+        QDir().mkpath(m_dir);
+        QString fullPath = m_dir + QString("/%1.%2").arg(date, "jpg");
+        m_currentImagePath = QDir().absoluteFilePath(fullPath);
+
+        m_imageCapture->capture(m_currentImagePath);
         m_takeImageButton->setText(QStringLiteral("重新拍照"));
     } else {
+        QFile::remove(m_currentImagePath);
         m_camera->start();
         m_saveImageButton->setEnabled(false);
         m_takeImageButton->setText(QStringLiteral("拍照"));
@@ -82,11 +95,9 @@ void CameraDialog::m_captureImage()
 
 void CameraDialog::m_saveImage()
 {
-    QDir().mkpath(m_dir);
-    QString fullPath = m_dir + QString("/%1.%2").arg(m_date, "jpg");
-    m_image.save(fullPath, "JPG");
     m_takeImageButton->setText(QStringLiteral("拍照"));
     m_saveImageButton->setEnabled(false);
+    m_currentImagePath.clear();
     /* 提示保存成功 */
     MessageDialog dialog(this);
     dialog.execInformation(QStringLiteral("图片保存成功"), QStringLiteral("保存"));
@@ -96,10 +107,9 @@ void CameraDialog::m_saveImage()
 void CameraDialog::m_setImage(int id, const QImage &preview)
 {
     Q_UNUSED(id);
-    m_image = preview;
+    Q_UNUSED(preview);
     m_saveImageButton->setEnabled(true);
     m_camera->stop();
-    m_date = QDateTime::currentDateTime().toString("yyyy-MM-ddThh-mm-ss");
 }
 
 void CameraDialog::m_handelError(QCamera::Error error)

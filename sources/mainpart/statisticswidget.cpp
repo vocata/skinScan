@@ -2,6 +2,8 @@
 #include "sources/chart/plotwidget.h"
 #include "sources/chart/jsontodata.h"
 #include "sources/chart/tablewidget.h"
+#include "sources/customDialog/syncdialog.h"
+#include "sources/customDialog/messagedialog.h"
 
 #include <QGroupBox>
 #include <QPushButton>
@@ -9,6 +11,8 @@
 #include <QVBoxLayout>
 
 #include <QDebug>
+
+
 
 StatisticsWidget::StatisticsWidget(QWidget *parent) : QWidget(parent)
 {
@@ -18,6 +22,7 @@ StatisticsWidget::StatisticsWidget(QWidget *parent) : QWidget(parent)
     m_greaseButton = new QPushButton(QStringLiteral("   油脂"), this);
     m_temperatureButton = new QPushButton(QStringLiteral("   温度"), this);
     m_PHButton = new QPushButton(QStringLiteral("   PH值"), this);
+    m_localButton = new QPushButton(QStringLiteral("   本地数据"), this);
     m_stackedWidget = new QStackedWidget(this);
     m_moistureWidget = new PlotWidget(this);
     m_greaseWidget = new PlotWidget(this);
@@ -27,7 +32,7 @@ StatisticsWidget::StatisticsWidget(QWidget *parent) : QWidget(parent)
     m_greaseTable = new TableWidget(this);
     m_tempTable = new TableWidget(this);
     m_PHTable = new TableWidget(this);
-
+    m_manager = new CustomNetwork(this);
 
     /* button */
     m_chartButton->setFixedSize(60, 25);
@@ -58,6 +63,11 @@ StatisticsWidget::StatisticsWidget(QWidget *parent) : QWidget(parent)
     m_PHButton->setIcon(QIcon(":/statistics/icon/PH"));
     m_PHButton->setIconSize(QSize(24, 24));
     m_PHButton->setObjectName("indexButton");
+
+    m_localButton->setFixedSize(200, 40);
+    m_localButton->setIcon(QIcon(":/statistics/icon/local"));
+    m_localButton->setIconSize(QSize(24, 24));
+    m_localButton->setObjectName("indexButton");
 
     QButtonGroup *formatGroup = new QButtonGroup(this);
     formatGroup->addButton(m_chartButton, 0);
@@ -127,7 +137,8 @@ StatisticsWidget::StatisticsWidget(QWidget *parent) : QWidget(parent)
     buttonLayout->addWidget(m_greaseButton);
     buttonLayout->addWidget(m_temperatureButton);
     buttonLayout->addWidget(m_PHButton, 0, Qt::AlignTop);
-    buttonLayout->setContentsMargins(20, 0, 20, 0);
+    buttonLayout->addWidget(m_localButton, 0, Qt::AlignBottom);
+    buttonLayout->setContentsMargins(20, 0, 20, 20);
     buttonLayout->setSpacing(0);
 
     /* 左边部分布局 */
@@ -148,6 +159,8 @@ StatisticsWidget::StatisticsWidget(QWidget *parent) : QWidget(parent)
             [&](int index) { m_column = index; m_stackedWidget->setCurrentIndex(index + m_row); });
     connect(buttonGroup, static_cast<void(QButtonGroup::*)(int)>(&QButtonGroup::buttonClicked),
             [&](int index) { m_row = index; m_stackedWidget->setCurrentIndex(index + m_column); });
+    connect(m_localButton, &QPushButton::clicked, this, &StatisticsWidget::m_showSyncDialog);
+    connect(m_manager, &CustomNetwork::downloadUserDataStatus, this, &StatisticsWidget::m_downloadDataReply);
 }
 
 void StatisticsWidget::setPlotData(const QJsonDocument &document)
@@ -167,6 +180,11 @@ void StatisticsWidget::setPlotData(const QJsonDocument &document)
     m_PHTable->setTable("PH值", jsonData.getOther("ph", otherList), jsonData.getData("ph"));
 }
 
+void StatisticsWidget::getData()
+{
+    m_manager->downloadUserData();
+}
+
 void StatisticsWidget::clear()
 {
     m_chartButton->click();
@@ -178,4 +196,36 @@ void StatisticsWidget::clear()
     m_greaseTable->clearTable();
     m_tempTable->clearTable();
     m_PHTable->clearTable();
+}
+
+void StatisticsWidget::m_showSyncDialog()
+{
+    if(m_manager->account().isEmpty()) {
+        MessageDialog dialog(this);
+        dialog.execInformation(QStringLiteral("账号尚未登陆!"), QStringLiteral("同步"));
+        return;
+    }
+    m_syncDialog = new SyncDialog(m_manager->account(), this);
+    m_syncDialog->setWindowModality(Qt::WindowModal);
+    m_syncDialog->setAttribute(Qt::WA_DeleteOnClose);
+    m_syncDialog->show();
+    connect(m_syncDialog, &SyncDialog::syncFinish, this, &StatisticsWidget::getData);
+}
+
+void StatisticsWidget::m_downloadDataReply(CustomNetwork::Status status)
+{
+    switch(status) {
+    case CustomNetwork::Success:
+        if(m_lastData != m_manager->userData()) {
+            this->setPlotData(QJsonDocument::fromVariant(m_manager->userData()));
+            m_lastData = m_manager->userData();
+        }
+        break;
+    case CustomNetwork::Failure:
+        break;
+    case CustomNetwork::Timeout:
+        break;
+    default:
+        break;
+    }
 }

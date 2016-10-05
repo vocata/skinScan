@@ -35,15 +35,10 @@ public:
     explicit CustomNetwork(QObject *parent = 0);
     QVariantMap userInfo();
     QVariantMap userData();
-    QString account() const
-    {
-        return m_loginInfo.m_account;
-    }
+    const QString &account() const { return m_loginInfo.m_account; }
+    const QString &password() const { return m_loginInfo.m_password; }
 
-    bool hasMember() const
-    {
-        return !m_loginInfo.m_account.isEmpty();
-    }
+    bool hasMember() const { return !m_loginInfo.m_account.isEmpty(); }
 
 signals:
     void memberLoginStatus(Status status);
@@ -58,6 +53,7 @@ public slots:
     void memberRegister(const QString &account, const QString &password, const QString &user);
     void getUserInfo();
     void updateUserInfo(const QVariantMap &userInfo);
+    void uploadSingleUserData(const QString &item, const QJsonDocument &userData);
     void uploadUserData(const QJsonDocument &userData);
     void downloadUserData();
     void clear();

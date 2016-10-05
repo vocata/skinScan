@@ -106,6 +106,21 @@ void CustomNetwork::updateUserInfo(const QVariantMap &userInfo)
     connect(m_updateUserInfoReply, &QNetworkReply::finished, this, &CustomNetwork::m_updateUserInfoStatus);
 }
 
+void CustomNetwork::uploadSingleUserData(const QString &item, const QJsonDocument &userData)
+{
+    QByteArray content(userData.toJson());
+    int contentLength = content.length();
+
+    /* request */
+    QNetworkRequest uploadUserDataRequest(QUrl(QString("http://123.207.109.164/skindata/%1/%2").arg(item, m_loginInfo.m_account)));
+    uploadUserDataRequest.setHeader(QNetworkRequest::CookieHeader, m_loginInfo.m_cookie);
+    uploadUserDataRequest.setHeader(QNetworkRequest::ContentTypeHeader, "application/json");
+    uploadUserDataRequest.setHeader(QNetworkRequest::ContentLengthHeader, contentLength);
+
+    m_uploadUserDataReply = m_manager->post(uploadUserDataRequest, content);
+    connect(m_uploadUserDataReply, &QNetworkReply::finished, this, &CustomNetwork::m_uploadUserInfoStatus);
+}
+
 void CustomNetwork::uploadUserData(const QJsonDocument &userData)
 {
     QByteArray content(userData.toJson());
@@ -129,7 +144,6 @@ void CustomNetwork::downloadUserData()
 
     m_downloadUserDataReply = m_manager->get(downloadUserDataRequest);
     connect(m_downloadUserDataReply, &QNetworkReply::finished, this, &CustomNetwork::m_downloadUserDataStatus);
-
 }
 
 void CustomNetwork::clear()
@@ -167,7 +181,6 @@ void CustomNetwork::m_loginStatus()
         }
     }
     disconnect(m_loginReply, &QNetworkReply::finished, this, &CustomNetwork::m_loginStatus);
-    m_loginReply->deleteLater();
 }
 
 void CustomNetwork::m_registorStatus()
@@ -191,7 +204,6 @@ void CustomNetwork::m_registorStatus()
         }
     }
     disconnect(m_registerReply, &QNetworkReply::finished, this, &CustomNetwork::m_registorStatus);
-    m_registerReply->deleteLater();
 }
 
 void CustomNetwork::m_getUserInfoStatus()
@@ -216,7 +228,6 @@ void CustomNetwork::m_getUserInfoStatus()
         }
     }
     disconnect(m_getUserInfoReply, &QNetworkReply::finished, this, &CustomNetwork::m_getUserInfoStatus);
-    m_getUserInfoReply->deleteLater();
 }
 
 void CustomNetwork::m_updateUserInfoStatus()
@@ -241,17 +252,16 @@ void CustomNetwork::m_updateUserInfoStatus()
         }
     }
     disconnect(m_updateUserInfoReply, &QNetworkReply::finished, this, &CustomNetwork::m_updateUserInfoStatus);
-    m_updateUserInfoReply->deleteLater();
 }
 
 void CustomNetwork::m_uploadUserInfoStatus()
 {
-    qDebug() << m_uploadUserDataReply->attribute(QNetworkRequest::HttpStatusCodeAttribute).toInt();
     if(m_uploadUserDataReply->error() == QNetworkReply::UnknownNetworkError) {
         emit uploadUserDataStatus(Timeout);
     } else {
         bool isVaild = false;
         int statusCode = m_uploadUserDataReply->attribute(QNetworkRequest::HttpStatusCodeAttribute).toInt(&isVaild);
+        qDebug() << statusCode;
         if(!isVaild) {
             emit uploadUserDataStatus(Timeout);
         } else {
@@ -266,7 +276,6 @@ void CustomNetwork::m_uploadUserInfoStatus()
         }
     }
     disconnect(m_uploadUserDataReply, &QNetworkReply::finished, this, &CustomNetwork::m_uploadUserInfoStatus);
-    m_uploadUserDataReply->deleteLater();
 }
 
 void CustomNetwork::m_downloadUserDataStatus()
@@ -291,7 +300,6 @@ void CustomNetwork::m_downloadUserDataStatus()
         }
     }
     disconnect(m_downloadUserDataReply, &QNetworkReply::finished, this, &CustomNetwork::m_getUserInfoStatus);
-    m_downloadUserDataReply->deleteLater();
 }
 
 LoginInfo CustomNetwork::m_loginInfo;
@@ -300,12 +308,18 @@ LoginInfo CustomNetwork::m_loginInfo;
 
 LoginInfo::LoginInfo()
 {
-    QSettings settings("GDPU", "SkinScan");
-    m_account = settings.value("special/account").toString();
-    m_password = settings.value("special/password").toString();
+    QSettings settings("conf.ini", QSettings::IniFormat);
+    settings.beginGroup("special");
+    m_account = settings.value("account").toString();
+    QString cryptPassword = settings.value("password").toString();
+    m_password = QByteArray::fromBase64(cryptPassword.toLatin1());      //解密
+    settings.endGroup();
+
     /* read cookie */
-    QString cookieName = settings.value("special/cookie/name").toString();
-    QString cookieValue = settings.value("special/cookie/value").toString();
+    settings.beginGroup("special/cookie");
+    QString cookieName = settings.value("name").toString();
+    QString cookieValue = settings.value("value").toString();
+    settings.endGroup();
     QList<QNetworkCookie> rawCookie;
     rawCookie << QNetworkCookie(cookieName.toUtf8(), cookieValue.toUtf8());
     m_cookie.setValue(rawCookie);
@@ -318,9 +332,13 @@ LoginInfo::~LoginInfo()
 
 void LoginInfo::saveInfo()
 {
-    QSettings settings("GDPU", "SkinScan");
-    settings.setValue("special/account", m_account);
-    settings.setValue("special/password", m_password);
+    QSettings settings("conf.ini", QSettings::IniFormat);
+    settings.beginGroup("special");
+    settings.setValue("account", m_account);
+    QByteArray cryptPassword = m_password.toLatin1().toBase64();     //加密
+    settings.setValue("password", QString(cryptPassword));
+    settings.endGroup();
+
     /* save cookie */
     QList<QNetworkCookie> rawCookie = m_cookie.value<QList<QNetworkCookie>>();
     QString cookieName;
@@ -329,6 +347,8 @@ void LoginInfo::saveInfo()
         cookieName= rawCookie.at(0).name();
         cookieValue = rawCookie.at(0).value();
     }
-    settings.setValue("special/cookie/name", cookieName);
-    settings.setValue("special/cookie/value", cookieValue);
+    settings.beginGroup("special/cookie");
+    settings.setValue("name", cookieName);
+    settings.setValue("value", cookieValue);
+    settings.endGroup();
 }

@@ -13,20 +13,14 @@
 AlbumDialog::AlbumDialog(const QString &name, QWidget *parent) : CustomDialog(parent)
 {
     m_dir = QDir(QString("image/%1").arg(name));
-
-    QWidget *widget = new QWidget(this);
+    m_scrollArea = new QScrollArea(this);
+    QWidget *widget = new QWidget();
     widget->setObjectName("scrollWidget");
 
-    QScrollArea *scrollArea = new QScrollArea(this);
-    scrollArea->setWidget(widget);
-    scrollArea->setVerticalScrollBar(new QScrollBar(this));
-    scrollArea->setVerticalScrollBarPolicy(Qt::ScrollBarAsNeeded);
-    scrollArea->setObjectName("scrollArea");
-
-    /* layout */
-    QHBoxLayout *hBox = new QHBoxLayout();
-    hBox->addWidget(scrollArea);
-    this->setCentralWidgetLayout(hBox);
+    m_scrollArea->setWidget(widget);
+    m_scrollArea->setVerticalScrollBar(new QScrollBar(this));
+    m_scrollArea->setVerticalScrollBarPolicy(Qt::ScrollBarAsNeeded);
+    m_scrollArea->setObjectName("scrollArea");
 
     /* 读取图片 */
     if(m_dir.exists()) {
@@ -53,21 +47,25 @@ AlbumDialog::AlbumDialog(const QString &name, QWidget *parent) : CustomDialog(pa
         }
         widget->adjustSize();
         /* connect */
-        connect(group, SIGNAL(buttonClicked(int)), this, SLOT(showImage(int)));
+        connect(group, SIGNAL(buttonClicked(int)), this, SLOT(m_showImage(int)));
     }
+
+    /* layout */
+    QHBoxLayout *hBox = new QHBoxLayout();
+    hBox->addWidget(m_scrollArea);
+    this->setCentralWidgetLayout(hBox);
 
     /* window attribution */
     this->hideMinIcon();
     this->setShadow(false);
     this->resize(720, 450);
-    this->setWindowTitle(new QLabel("相片"));
+    this->setWindowTitle(new QLabel("图片"));
     this->startAnimation();
     this->centralWidget()->setObjectName("centralDialog");
 }
 
-void AlbumDialog::showImage(int id)
+void AlbumDialog::m_showImage(int id)
 {
-    qDebug() << this->geometry();
     const QUrl memberUrl(QDir(m_image.value(id)).absolutePath());
     QDesktopServices::openUrl(memberUrl);
 }

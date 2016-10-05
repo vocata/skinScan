@@ -7,7 +7,7 @@
 #include <QGridLayout>
 #include <QMultiMap>
 
-class QAbstractButton;
+class QScrollArea;
 
 class AlbumDialog : public CustomDialog
 {
@@ -22,10 +22,13 @@ public slots:
 private:
     QDir m_dir;
     QMap<int, QString> m_image;
+
+    QScrollArea *m_scrollArea = nullptr;
+    QWidget *m_widget = nullptr;
     QGridLayout *m_hBox = nullptr;
 
 private slots:
-    void showImage(int id);
+    void m_showImage(int id);
 };
 
 #endif // ALBUMDIALOG_H

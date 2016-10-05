@@ -67,5 +67,6 @@
         <file alias="moisture">resources/raindrop_88.183366077276px_1202605_easyicon.net.png</file>
         <file alias="temperature">resources/thermometer_52.434552199258px_1202613_easyicon.net.png</file>
         <file alias="grease">resources/water_93.185667752443px_1200957_easyicon.net.png</file>
+        <file alias="local">resources/folder_167.60484622554px_1202411_easyicon.net.png</file>
     </qresource>
 </RCC>

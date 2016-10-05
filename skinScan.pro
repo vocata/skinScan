@@ -40,7 +40,11 @@ SOURCES += \
     sources/customDialog/questionnairedialog/questionwidget.cpp \
     sources/customDialog/questionnairedialog/clickablelabel.cpp \
     sources/chart/jsontodata.cpp \
-    sources/chart/tablewidget.cpp
+    sources/chart/tablewidget.cpp \
+    sources/customDialog/settingdialog.cpp \
+    sources/customDialog/settingdialog/regularwidget.cpp \
+    sources/customDialog/settingdialog/networkwidget.cpp \
+    sources/customDialog/syncdialog.cpp
 
 HEADERS  += \
     sources/mainpart/mainwidget.h \
@@ -70,7 +74,11 @@ HEADERS  += \
     sources/customDialog/questionnairedialog/questionwidget.h \
     sources/customDialog/questionnairedialog/clickablelabel.h \
     sources/chart/jsontodata.h \
-    sources/chart/tablewidget.h
+    sources/chart/tablewidget.h \
+    sources/customDialog/settingdialog.h \
+    sources/customDialog/settingdialog/regularwidget.h \
+    sources/customDialog/settingdialog/networkwidget.h \
+    sources/customDialog/syncdialog.h
 
 RESOURCES += \
     res.qrc

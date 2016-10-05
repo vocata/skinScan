@@ -3,6 +3,7 @@
 #include "measurewidget.h"
 #include "statisticswidget.h"
 #include "sources/customDialog/loginregisterdialog.h"
+#include "sources/customDialog/settingdialog.h"
 #include "sources/userclass/customstackedwidget.h"
 #include "sources/userclass/customnetwork.h"
 
@@ -21,6 +22,8 @@
 #include <QUrl>
 
 
+
+
 MainWidget::MainWidget(QWidget *parent) : CustomWidget(parent)
 {
     m_userImage = new QPushButton(this);
@@ -35,10 +38,8 @@ MainWidget::MainWidget(QWidget *parent) : CustomWidget(parent)
     m_statisticsWidget = new StatisticsWidget(this);
     m_stackedWidget = new CustomStackedWidget(this);
     m_statusBar = new MainStatusBar(this);
-
     m_manager = new CustomNetwork(this);
-
-    m_settings = new QSettings("GDPU", "SkinScan", this);
+    m_settings = new QSettings("conf.ini", QSettings::IniFormat, this);
 
     /* QPushButton */
     m_infoMenu = new QMenu(this);
@@ -47,11 +48,14 @@ MainWidget::MainWidget(QWidget *parent) : CustomWidget(parent)
     QAction *info = new QAction(QIcon(":/menu/icon/info"), QStringLiteral("基本信息"), this);
     QAction *modifyPassword = new QAction(QStringLiteral("修改密码"), this);
     QAction *replaceAccount = new QAction(QIcon(":/menu/icon/exchange"), QStringLiteral("更换账号"), this);
+    QAction *setting = new QAction(QIcon(":/menu/icon/setting"), QStringLiteral("设置"), this);
     QAction *logout = new QAction(QIcon(":/menu/icon/loginout"), QStringLiteral("注销"), this);
     m_infoMenu->addAction(info);
     m_infoMenu->addSeparator();
     m_infoMenu->addAction(modifyPassword);
     m_infoMenu->addAction(replaceAccount);
+    m_infoMenu->addSeparator();
+    m_infoMenu->addAction(setting);
     m_infoMenu->addSeparator();
     m_infoMenu->addAction(logout);
 
@@ -151,23 +155,11 @@ MainWidget::MainWidget(QWidget *parent) : CustomWidget(parent)
     vBox->setSpacing(0);
 
     /* recovery */
-    if(m_manager->hasMember()) {
-        m_accountButton->setMenu(m_infoMenu);
-        m_accountButton->setText(m_settings->value("normal/account").toString());
-        m_userButton->setText(m_settings->value("normal/user").toString());
-
-        QString sex = m_settings->value("normal/sex").toString();
-        if(sex == QStringLiteral("男")) {
-            m_userImage->setIcon(QIcon(":/button/icon/boy"));
-        }
-        if(sex == QStringLiteral("女")){
-            m_userImage->setIcon(QIcon(":/button/icon/girl"));
-        }
-    }
+    this->m_recovery();
 
     /* connect */
     /* widget change */
-    connect(buttonGroup, static_cast<void(QButtonGroup::*)(int)>(&QButtonGroup::buttonClicked), [=](int index) { m_stackedWidget->setCurrentIndex(index); });
+    connect(buttonGroup, static_cast<void (QButtonGroup::*)(int)>(&QButtonGroup::buttonClicked), [=](int index) { m_stackedWidget->setCurrentIndex(index); });
     /* image button */
     connect(m_userImage, &QPushButton::clicked, this, &MainWidget::m_memberInfo);
     /* menu */
@@ -177,11 +169,12 @@ MainWidget::MainWidget(QWidget *parent) : CustomWidget(parent)
     connect(info, &QAction::triggered, this, &MainWidget::m_memberInfo);
     connect(modifyPassword, &QAction::triggered, this, &MainWidget::m_modifyPassword);
     connect(replaceAccount, &QAction::triggered, this, &MainWidget::m_loginRegister);
+    connect(setting, &QAction::triggered, this, &MainWidget::m_setting);
     connect(logout, &QAction::triggered, this, &MainWidget::m_logout);
     /* stacked widget */
     connect(m_stackedWidget, &CustomStackedWidget::currentChanged, this, &MainWidget::m_stackedWidgetChange);
     /* newwork */
-    connect(m_manager, &CustomNetwork::downloadUserDataStatus, this, &MainWidget::m_downloadDataReply);
+    connect(m_manager, &CustomNetwork::memberLoginStatus, this, &MainWidget::m_loginReply);
 
 
     /* window attribution */
@@ -191,10 +184,23 @@ MainWidget::MainWidget(QWidget *parent) : CustomWidget(parent)
     int width = QApplication::desktop()->screen(index)->width() * 7/10;
     int height = QApplication::desktop()->screen(index)->height() * 8/10;
     this->setMinimumSize(width, height);
+    this->hideMenuIcon();
     int desktopWidget = QApplication::desktop()->screen(index)->width();
     int desktopHeight = QApplication::desktop()->screen(index)->height();
     this->move((desktopWidget - width)/2, (desktopHeight - height)/2 - 40);     //窗口居中
     this->startAnimation();
+}
+
+MainWidget::~MainWidget()
+{
+    QSettings settings("setting.ini", QSettings::IniFormat);
+    settings.beginGroup("regular");
+    int selected = settings.value("login").toInt();
+    settings.endGroup();
+
+    if(selected) {
+        m_manager->clear();
+    }
 }
 
 void MainWidget::m_memberInfo()
@@ -227,9 +233,11 @@ void MainWidget::m_setAccountAndUser(const QVariantMap &userInfo)
     }
 
     /* save user information */
-    m_settings->setValue("normal/account", userInfo.value("phone"));
-    m_settings->setValue("normal/user", userInfo.value("name"));
-    m_settings->setValue("normal/sex", userInfo.value("sex"));
+    m_settings->beginGroup("normal");
+    m_settings->setValue("account", userInfo.value("phone"));
+    m_settings->setValue("user", userInfo.value("name"));
+    m_settings->setValue("sex", userInfo.value("sex"));
+    m_settings->endGroup();
 
     /* 登陆成功清除操作 */
     m_measureWidget->clear();       //清除之前登陆账户所留下来的数据
@@ -237,9 +245,6 @@ void MainWidget::m_setAccountAndUser(const QVariantMap &userInfo)
 
     m_measureButton->click();       //回到主界面
     m_accountButton->setMenu(m_infoMenu);   //设置菜单
-
-    /* login & register */
-    disconnect(m_loginRegisterDialog, &LoginRegisterDialog::loginSuccess, this, &MainWidget::m_setAccountAndUser);
 }
 
 void MainWidget::m_stackedWidgetChange(int index)
@@ -247,26 +252,46 @@ void MainWidget::m_stackedWidgetChange(int index)
     if(m_manager->hasMember()) {
         switch(index) {
         case 0: break;
-        case 1: m_manager->downloadUserData(); break;
+        case 1: m_statisticsWidget->getData(); break;
         default: break;
         }
     }
 }
 
-void MainWidget::m_downloadDataReply(CustomNetwork::Status status)
+void MainWidget::m_loginReply(CustomNetwork::Status status)
 {
     switch(status) {
     case CustomNetwork::Success:
-        m_statisticsWidget->setPlotData(QJsonDocument::fromVariant(m_manager->userData()));
+        m_statusBar->showMessage(QStringLiteral("登陆成功!"), 2000);
+        m_manager->downloadUserData();
         break;
     case CustomNetwork::Failure:
-
         break;
     case CustomNetwork::Timeout:
-
         break;
     default:
         break;
+    }
+}
+
+void MainWidget::m_recovery()
+{
+    if(m_manager->hasMember()) {
+        m_settings->beginGroup("normal");
+
+        m_accountButton->setMenu(m_infoMenu);
+        m_accountButton->setText(m_settings->value("account").toString());
+        m_userButton->setText(m_settings->value("user").toString());
+
+        QString sex = m_settings->value("sex").toString();
+        if(sex == QStringLiteral("男")) {
+            m_userImage->setIcon(QIcon(":/button/icon/boy"));
+        }
+        if(sex == QStringLiteral("女")){
+            m_userImage->setIcon(QIcon(":/button/icon/girl"));
+        }
+
+        m_settings->endGroup();
     }
 }
 
@@ -278,6 +303,14 @@ void MainWidget::m_loginRegister()
     m_loginRegisterDialog->show();
     /* login & register */
     connect(m_loginRegisterDialog, &LoginRegisterDialog::loginSuccess, this, &MainWidget::m_setAccountAndUser);
+}
+
+void MainWidget::m_setting()
+{
+    SettingDialog *dialog = new SettingDialog(this);
+    dialog->setWindowModality(Qt::WindowModal);
+    dialog->setAttribute(Qt::WA_DeleteOnClose);
+    dialog->show();
 }
 
 void MainWidget::m_logout()

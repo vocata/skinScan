@@ -18,13 +18,10 @@
 #include <QMetaType>
 #include <QJsonObject>
 #include <QJsonArray>
+#include <QSettings>
 
 #include <QDebug>
 
-constexpr quint8 Moisture = 0x01;
-constexpr quint8 Grease = 0x02;
-constexpr quint8 PH = 0x04;
-constexpr quint8 Temperature = 0x08;
 
 MeasureWidget::MeasureWidget(QWidget *parent) : QWidget(parent)
 {
@@ -238,7 +235,7 @@ void MeasureWidget::m_startMeasure()
 {
     if(!UsbStatueShare::usbStatus()) {
         MessageDialog dialog(this);
-        dialog.execInformation("检测设备尚未连接!", "检测");
+        dialog.execInformation(QStringLiteral("检测设备尚未连接!"), QStringLiteral("检测"));
         return;
     }
     if(m_startMeasureButton->text() == QStringLiteral("开始检测")) {
@@ -267,7 +264,7 @@ void MeasureWidget::m_takePhoto()
         dialog->show();
     } else {
         MessageDialog dialog(this);
-        dialog.execInformation("请登录!", "登陆");
+        dialog.execInformation(QStringLiteral("请登录!"), QStringLiteral("登陆"));
     }
 }
 
@@ -280,7 +277,7 @@ void MeasureWidget::m_showPhoto()
         dialog->show();
     } else {
         MessageDialog dialog(this);
-        dialog.execInformation("请登录!", "登陆");
+        dialog.execInformation(QStringLiteral("请登录!"), QStringLiteral("登陆"));
     }
 }
 
@@ -290,7 +287,7 @@ void MeasureWidget::m_printReasult()
 
     } else {
         MessageDialog dialog(this);
-        dialog.execInformation("请登录!", "登陆");
+        dialog.execInformation(QStringLiteral("请登录!"), QStringLiteral("登陆"));
     }
 }
 
@@ -298,24 +295,30 @@ void MeasureWidget::m_saveReasult()
 {
     if(m_manager->hasMember()) {
         if(m_dataStore[0].hasData() || m_dataStore[1].hasData() || m_dataStore[2].hasData() || m_dataStore[3].hasData()) {
-            /* 提交到本地数据库 */
-            this->m_saveUserData();
 
-            /* 提交到服务器 */
-            QJsonDocument document = this->m_formatUploadData();
-            m_manager->uploadUserData(document);
+            QSettings settings("setting.ini", QSettings::IniFormat);
+            settings.beginGroup("regular");
+            int selected = settings.value("data").toInt();
+            settings.endGroup();
+
+            if(selected) {
+                this->m_saveUserData();     //提交到本地数据库
+            } else {
+                QJsonDocument document = this->m_formatUploadData();
+                m_manager->uploadUserData(document);        //提交到服务器
+            }
 
             /* 设置已经提交标志 */
             m_commit = true;
         } else {
             /* 提示没有数据 */
             MessageDialog dialog(this);
-            dialog.execInformation("当前没有数据可以保存!", "保存");
+            dialog.execInformation(QStringLiteral("当前没有数据可以保存!"), QStringLiteral("保存"));
         }
     } else {
         /* 提示注册会员 */
         MessageDialog dialog(this);
-        dialog.execInformation("请登录!", "登陆");
+        dialog.execInformation(QStringLiteral("请登录!"), QStringLiteral("登陆"));
     }
 }
 
@@ -431,6 +434,9 @@ void MeasureWidget::m_saveUserData()
     }
 
     closeConnection();
+
+    MessageDialog dialog(this);
+    dialog.execInformation(QStringLiteral("保存成功!"), QStringLiteral("保存"));
 }
 
 QJsonDocument MeasureWidget::m_formatUploadData()
