@@ -44,7 +44,8 @@ SOURCES += \
     sources/customDialog/settingdialog.cpp \
     sources/customDialog/settingdialog/regularwidget.cpp \
     sources/customDialog/settingdialog/networkwidget.cpp \
-    sources/customDialog/syncdialog.cpp
+    sources/customDialog/syncdialog.cpp \
+    sources/customDialog/loginregisterdialog/shortcutbutton.cpp
 
 HEADERS  += \
     sources/mainpart/mainwidget.h \
@@ -78,7 +79,8 @@ HEADERS  += \
     sources/customDialog/settingdialog.h \
     sources/customDialog/settingdialog/regularwidget.h \
     sources/customDialog/settingdialog/networkwidget.h \
-    sources/customDialog/syncdialog.h
+    sources/customDialog/syncdialog.h \
+    sources/customDialog/loginregisterdialog/shortcutbutton.h
 
 RESOURCES += \
     res.qrc

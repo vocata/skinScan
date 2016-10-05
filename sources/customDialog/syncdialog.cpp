@@ -108,21 +108,29 @@ void SyncDialog::m_setTable()
     m_moistureView->setColumnWidth(2, 110);
     m_moistureView->horizontalHeader()->setStretchLastSection(true);
     m_moistureView->horizontalHeader()->setSectionsMovable(true);
+    m_moistureView->horizontalHeader()->setSectionResizeMode(QHeaderView::Fixed);
+    m_moistureView->verticalHeader()->setSectionResizeMode(QHeaderView::Fixed);
     m_greaseView->setColumnWidth(0, 150);
     m_greaseView->setColumnWidth(1, 110);
     m_greaseView->setColumnWidth(2, 110);
     m_greaseView->horizontalHeader()->setStretchLastSection(true);
     m_greaseView->horizontalHeader()->setSectionsMovable(true);
+    m_greaseView->horizontalHeader()->setSectionResizeMode(QHeaderView::Fixed);
+    m_greaseView->verticalHeader()->setSectionResizeMode(QHeaderView::Fixed);
     m_temperatureView->setColumnWidth(0, 150);
     m_temperatureView->setColumnWidth(1, 110);
     m_temperatureView->setColumnWidth(2, 110);
     m_temperatureView->horizontalHeader()->setStretchLastSection(true);
     m_temperatureView->horizontalHeader()->setSectionsMovable(true);
+    m_temperatureView->horizontalHeader()->setSectionResizeMode(QHeaderView::Fixed);
+    m_temperatureView->verticalHeader()->setSectionResizeMode(QHeaderView::Fixed);
     m_phView->setColumnWidth(0, 150);
     m_phView->setColumnWidth(1, 110);
     m_phView->setColumnWidth(2, 110);
     m_phView->horizontalHeader()->setStretchLastSection(true);
     m_phView->horizontalHeader()->setSectionsMovable(true);
+    m_phView->horizontalHeader()->setSectionResizeMode(QHeaderView::Fixed);
+    m_phView->verticalHeader()->setSectionResizeMode(QHeaderView::Fixed);
 }
 
 void SyncDialog::m_syncData()
