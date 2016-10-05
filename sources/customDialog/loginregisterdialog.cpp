@@ -1,6 +1,7 @@
 #include "loginregisterdialog.h"
 #include "messagedialog.h"
 #include "sources/userclass/customnetwork.h"
+#include "sources/customDialog/loginregisterdialog/shortcutbutton.h"
 
 #include <QGroupBox>
 #include <QLabel>
@@ -9,16 +10,16 @@
 #include <QRegexp>
 #include <QVBoxLayout>
 #include <QTimer>
-
 #include <QCloseEvent>
+
 
 LoginRegisterDialog::LoginRegisterDialog(QWidget *parent) : CustomDialog(parent)
 {
     m_titleButton = new QPushButton(this);
     m_login = new QPushButton(QStringLiteral("手机号登陆"), this);
     m_register = new QPushButton(QStringLiteral("注册"), this);
-    m_loginButton = new QPushButton(QStringLiteral("立即登陆"), this);
-    m_registerButton = new QPushButton(QStringLiteral("注册"), this);
+    m_loginButton = new ShortcutButton(QStringLiteral("立即登陆"), this);
+    m_registerButton = new ShortcutButton(QStringLiteral("注册"), this);
     m_loginAccountIcon = new QPushButton(QIcon(":/log&reg/icon/phone"), QString(), this);
     m_loginPasswordIcon = new QPushButton(QIcon(":/log&reg/icon/lock"), QString(), this);;
     m_registerAccountIcon = new QPushButton(QIcon(":/log&reg/icon/phone"), QString(), this);;
@@ -42,6 +43,7 @@ LoginRegisterDialog::LoginRegisterDialog(QWidget *parent) : CustomDialog(parent)
     m_login->setObjectName("loginRegister");
     m_register->setFixedSize(250, 40);
     m_register->setObjectName("loginRegister");
+
     /* layout */
     m_mainWidget = new QWidget(this);
     QVBoxLayout *mainBox = new QVBoxLayout(m_mainWidget);
@@ -53,7 +55,6 @@ LoginRegisterDialog::LoginRegisterDialog(QWidget *parent) : CustomDialog(parent)
     /* login widget */
     m_loginButton->setFixedSize(250, 40);
     m_loginButton->setObjectName("button");
-    m_loginButton->setShortcut(Qt::Key_Return);
 
     m_loginAccountIcon->setFixedSize(40, 40);
     m_loginAccountIcon->setFocusPolicy(Qt::NoFocus);
@@ -103,7 +104,6 @@ LoginRegisterDialog::LoginRegisterDialog(QWidget *parent) : CustomDialog(parent)
     /* register widget */
     m_registerButton->setFixedSize(250, 40);
     m_registerButton->setObjectName("button");
-    m_registerButton->setShortcut(Qt::Key_Return);
 
     m_registerAccountIcon->setFixedSize(40, 40);
     m_registerAccountIcon->setFocusPolicy(Qt::NoFocus);
@@ -212,6 +212,7 @@ void LoginRegisterDialog::m_loginShow()
     m_titleButton->show();
     m_mainWidget->hide();
     m_loginWidget->show();
+    m_loginButton->setFocus();
 }
 
 void LoginRegisterDialog::m_registerShow()
@@ -220,6 +221,7 @@ void LoginRegisterDialog::m_registerShow()
     m_titleButton->show();
     m_mainWidget->hide();
     m_registerWidget->show();
+    m_registerButton->setFocus();
 }
 
 void LoginRegisterDialog::m_loginRequest()

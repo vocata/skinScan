@@ -6,6 +6,7 @@
 
 class QLineEdit;
 class QPushButton;
+class ShortcutButton;
 class QTimer;
 
 class LoginRegisterDialog : public CustomDialog
@@ -23,8 +24,8 @@ private:
     QPushButton *m_titleButton = nullptr;
     QPushButton *m_login = nullptr;
     QPushButton *m_register = nullptr;
-    QPushButton *m_loginButton = nullptr;
-    QPushButton *m_registerButton = nullptr;
+    ShortcutButton *m_loginButton = nullptr;
+    ShortcutButton *m_registerButton = nullptr;
     QPushButton *m_loginAccountIcon = nullptr;
     QPushButton *m_loginPasswordIcon = nullptr;
     QPushButton *m_registerAccountIcon = nullptr;

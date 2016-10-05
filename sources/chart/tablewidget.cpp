@@ -9,6 +9,8 @@ TableWidget::TableWidget(QWidget *parent) : QWidget(parent)
     m_table = new QTableWidget(this);
     m_table->horizontalHeader()->setStretchLastSection(true);
     m_table->horizontalHeader()->setSectionsMovable(true);
+    m_table->horizontalHeader()->setSectionResizeMode(QHeaderView::Fixed);
+    m_table->verticalHeader()->setSectionResizeMode(QHeaderView::Fixed);
     m_table->setEditTriggers(QAbstractItemView::NoEditTriggers);
     m_table->verticalScrollBar()->setObjectName("scrollBar");
 
