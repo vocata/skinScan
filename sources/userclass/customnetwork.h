@@ -53,6 +53,7 @@ public slots:
     void memberRegister(const QString &account, const QString &password, const QString &user);
     void getUserInfo();
     void updateUserInfo(const QVariantMap &userInfo);
+    void uploadSingleUserData(const QString &item, const QJsonDocument &userData);
     void uploadUserData(const QJsonDocument &userData);
     void downloadUserData();
     void clear();

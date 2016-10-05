@@ -106,6 +106,21 @@ void CustomNetwork::updateUserInfo(const QVariantMap &userInfo)
     connect(m_updateUserInfoReply, &QNetworkReply::finished, this, &CustomNetwork::m_updateUserInfoStatus);
 }
 
+void CustomNetwork::uploadSingleUserData(const QString &item, const QJsonDocument &userData)
+{
+    QByteArray content(userData.toJson());
+    int contentLength = content.length();
+
+    /* request */
+    QNetworkRequest uploadUserDataRequest(QUrl(QString("http://123.207.109.164/skindata/%1/%2").arg(item, m_loginInfo.m_account)));
+    uploadUserDataRequest.setHeader(QNetworkRequest::CookieHeader, m_loginInfo.m_cookie);
+    uploadUserDataRequest.setHeader(QNetworkRequest::ContentTypeHeader, "application/json");
+    uploadUserDataRequest.setHeader(QNetworkRequest::ContentLengthHeader, contentLength);
+
+    m_uploadUserDataReply = m_manager->post(uploadUserDataRequest, content);
+    connect(m_uploadUserDataReply, &QNetworkReply::finished, this, &CustomNetwork::m_uploadUserInfoStatus);
+}
+
 void CustomNetwork::uploadUserData(const QJsonDocument &userData)
 {
     QByteArray content(userData.toJson());
@@ -246,6 +261,7 @@ void CustomNetwork::m_uploadUserInfoStatus()
     } else {
         bool isVaild = false;
         int statusCode = m_uploadUserDataReply->attribute(QNetworkRequest::HttpStatusCodeAttribute).toInt(&isVaild);
+        qDebug() << statusCode;
         if(!isVaild) {
             emit uploadUserDataStatus(Timeout);
         } else {

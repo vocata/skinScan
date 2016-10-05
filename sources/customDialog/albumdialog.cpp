@@ -59,7 +59,7 @@ AlbumDialog::AlbumDialog(const QString &name, QWidget *parent) : CustomDialog(pa
     this->hideMinIcon();
     this->setShadow(false);
     this->resize(720, 450);
-    this->setWindowTitle(new QLabel("相片"));
+    this->setWindowTitle(new QLabel("图片"));
     this->startAnimation();
     this->centralWidget()->setObjectName("centralDialog");
 }

@@ -63,8 +63,7 @@ SettingDialog::SettingDialog(QWidget *parent) : CustomDialog(parent)
     leftWiget->setObjectName("leftWidget");
     QVBoxLayout *buttonBox = new QVBoxLayout(leftWiget);
     buttonBox->addWidget(m_regularButton);
-    buttonBox->addWidget(m_networkButton);
-    buttonBox->setAlignment(m_networkButton, Qt::AlignTop);
+    buttonBox->addWidget(m_networkButton, 0, Qt::AlignTop);
     buttonBox->setMargin(0);
     buttonBox->setSpacing(0);
 

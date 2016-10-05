@@ -2,6 +2,26 @@
     font-family: Microsoft Yahei;
 }
 
+QHeaderView::section {
+    background-color: rgba(255, 255, 255, 255);
+	border-style: none solid none none;
+	border-width: 1px;
+	border-color: rgba(230, 230, 230, 255);
+	padding-left: 5px;
+	padding-right: 5px;
+	padding-top: 5px;
+	padding-bottom: 5px;
+}
+QHeaderView::section:hover {
+    background-color: rgba(217, 235, 249, 255);
+}
+QTableView>QTableCornerButton::section {
+    background-color: rgba(255, 255, 255, 255);
+	border-style: none solid none none;
+	border-width: 1px;
+	border-color: rgba(230, 230, 230, 255);
+}
+
 #mainWidget{
     background-color: rgba(128, 128, 128, 255);
 }
@@ -109,7 +129,7 @@ MeasureWidget>QGroupBox#rightWidget {
 }
 
 QGroupBox>#leftTopWidget>QPushButton {
-    border: 1px solid rgba(225, 225, 225, 255);
+    border: 1px solid rgba(230, 230, 230, 255);
     border-radius: 3px;
     background-color: rgba(255, 255, 255, 255);
 }
@@ -196,9 +216,7 @@ CameraDialog #centralDialog>QPushButton:hover {
 }
 CameraDialog>#titleBar>#titleWidget>QLabel {
     font-size: 12px;
-	font-weight: bold;
 	color: rgba(255, 255, 255, 255);
-	margin-top: 2px;
 }
 
 /* album dialog */
@@ -213,9 +231,7 @@ AlbumDialog #scrollArea, AlbumDialog #scrollWidget {
 
 AlbumDialog>#titleBar>#titleWidget>QLabel {
     font-size: 12px;
-	font-weight: bold;
 	color: rgba(255, 255, 255, 255);
-	margin-top: 2px;
 }
 AlbumDialog QToolButton {
     border-style: none;
@@ -394,9 +410,7 @@ SettingDialog>#centralDialog, SettingDialog>#titleBar {
 
 SettingDialog>#titleBar>#titleWidget>QLabel {
     font-size: 12px;
-	font-weight: bold;
 	color: rgba(0, 0, 0, 255);
-	margin-top: 2px;
 }
 SettingDialog #leftWidget{
     background-color: rgba(240, 240, 240, 255);
@@ -432,6 +446,119 @@ SettingDialog #confirmButton:hover, SettingDialog #cancelButton:hover {
     background-color: rgba(230, 230, 230, 255);
 }
 
+/* sync dialog */
+SyncDialog>#centralDialog, SyncDialog>#titleBar {
+    background-color: rgba(250, 250, 250, 255);
+}
+
+SyncDialog>#titleBar>#titleWidget>QLabel {
+    font-size: 12px;
+	color: rgba(0, 0, 0, 255);
+}
+
+SyncDialog QTabWidget>QTabBar::tab {
+    background-color: rgba(230, 230, 230, 255);
+}
+SyncDialog QTabWidget>QTabBar::tab:hover {
+    background-color: rgba(220, 220, 220, 255);
+}
+SyncDialog QTabWidget>QTabBar::tab:selected {
+    background-color: rgba(250, 250, 250, 255);
+}
+SyncDialog QTabWidget::pane {
+    border-style: none;
+}
+SyncDialog QTableView {
+    background-color: rgba(255, 255, 255, 255);
+}
+SyncDialog QTableView {
+    border: solid;
+	border-width: 1px;
+	border-color: rgba(230, 230, 230, 255);
+}
+QTableView QScrollBar:vertical {
+    border-style: none;
+	background-color: rgba(240, 240, 240, 255);
+	width: 11px;
+	margin: 15px 0 15px 0;
+}
+QTableView QScrollBar::handle:vertical {
+    background-color: rgba(205, 205, 205, 255);
+	min-height: 20px;
+}
+QTableView QScrollBar::handle:vertical:hover {
+    background-color: rgba(166, 166, 166, 255);
+}
+QTableView QScrollBar::handle:vertical:pressed {
+    background-color: rgba(96, 96, 96, 255);
+}
+QTableView QScrollBar::add-line:vertical {
+    border-style: none;
+	background-color: rgba(240, 240, 240, 255);
+	height: 15px;
+	subcontrol-position: bottom;
+	subcontrol-origin: margin;
+}
+QTableView QScrollBar::add-line:vertical:hover {
+    background-color: rgba(218, 218, 218, 255);
+}
+QTableView QScrollBar::add-line:vertical:pressed {
+    background-color: rgba(96, 96, 96, 255);
+}
+QTableView QScrollBar::sub-line:vertical {
+    border-style: none;
+	background-color: rgba(240, 240, 240, 255);
+	height: 15px;
+	subcontrol-position: top;
+	subcontrol-origin: margin;
+}
+QTableView QScrollBar::sub-line:vertical:hover {
+    background-color: rgba(218, 218, 218, 255);
+}
+QTableView QScrollBar::sub-line:vertical:pressed {
+    background-color: rgba(96, 96, 96, 255);
+}
+QTableView QScrollBar::up-arrow:vertical {
+    border-style: none;
+	width: 15px;
+	height: 15px;
+	image: url(:/scrollBar/icon/up-arrow-black);
+}
+QTableView QScrollBar::up-arrow:vertical:pressed {
+    image: url(:/scrollBar/icon/up-arrow-white);
+}
+QTableView QScrollBar::down-arrow:vertical {
+    border-style: none;
+	width: 15px;
+	height: 15px;
+	image: url(:/scrollBar/icon/down-arrow-black);
+}
+QTableView QScrollBar::down-arrow:vertical:pressed {
+    image: url(:/scrollBar/icon/down-arrow-white);
+}
+QTableView QScrollBar::add-page:vertical, QTableView QScrollBar::sub-page:vertical {
+    background-color: rgba(240, 240, 240, 255);
+}
+
+SyncDialog QToolButton {
+    border: 1px solid rgba(200, 200, 200, 255);
+	border-radius: 3px;
+	background-color: rgba(255, 255, 255, 255);
+}
+SyncDialog QToolButton:hover {
+    background-color: rgba(230, 230, 230, 255);
+}
+
+SyncDialog QProgressBar {
+    border: 2px solid rgba(200, 200, 200, 255);
+	border-radius: 3px;
+	text-align: center;
+}
+SyncDialog QProgressBar::chunk {
+    background-color: rgba(38, 173, 255, 255);
+	width: 20px;
+}
+
 /* tab2 */
 StatisticsWidget>QGroupBox#buttonBox, StatisticsWidget>QGroupBox#formatBox, StatisticsWidget>QStackedWidget#stackedWidget {
     border-style: none;
@@ -441,7 +568,7 @@ StatisticsWidget>QGroupBox#buttonBox, StatisticsWidget>QGroupBox#formatBox, Stat
 StatisticsWidget QPushButton#chartButton {
     border-style: solid none solid solid;
 	border-width: 1px;
-	border-color: rgba(225, 225, 225, 255);
+	border-color: rgba(230, 230, 230, 255);
 	border-top-left-radius: 3px;
 	border-bottom-left-radius: 3px;
 	background-color: rgba(255, 255, 255, 255);
@@ -456,7 +583,7 @@ StatisticsWidget QPushButton#chartButton:checked {
 StatisticsWidget QPushButton#tableButton {
     border-style: solid solid solid none;
 	border-width: 1px;
-	border-color: rgba(225, 225, 225, 255);
+	border-color: rgba(230, 230, 230, 255);
 	border-top-right-radius: 3px;
 	border-bottom-right-radius: 3px;
 	background-color: rgba(255, 255, 255, 255);
@@ -485,7 +612,7 @@ TableWidget QTableWidget {
 TableWidget QTableWidget {
     border: solid;
 	border-width: 1px;
-	border-color: rgba(225, 225, 225, 255);
+	border-color: rgba(230, 230, 230, 255);
 }
 TableWidget QScrollBar#scrollBar:vertical {
     border-style: none;
@@ -565,7 +692,7 @@ MessageDialog QPushButton#messageIcon {
     border-style: none;
 }
 MessageDialog QPushButton#okButton, MessageDialog QPushButton#yesButton, MessageDialog QPushButton#noButton {
-    border: 1px solid rgba(225, 225, 225, 255);
+    border: 1px solid rgba(230, 230, 230, 255);
 	border-radius: 3px;
 	background-color: rgba(255, 255, 255, 255);
 }

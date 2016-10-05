@@ -43,7 +43,8 @@ SOURCES += \
     sources/chart/tablewidget.cpp \
     sources/customDialog/settingdialog.cpp \
     sources/customDialog/settingdialog/regularwidget.cpp \
-    sources/customDialog/settingdialog/networkwidget.cpp
+    sources/customDialog/settingdialog/networkwidget.cpp \
+    sources/customDialog/syncdialog.cpp
 
 HEADERS  += \
     sources/mainpart/mainwidget.h \
@@ -76,7 +77,8 @@ HEADERS  += \
     sources/chart/tablewidget.h \
     sources/customDialog/settingdialog.h \
     sources/customDialog/settingdialog/regularwidget.h \
-    sources/customDialog/settingdialog/networkwidget.h
+    sources/customDialog/settingdialog/networkwidget.h \
+    sources/customDialog/syncdialog.h
 
 RESOURCES += \
     res.qrc

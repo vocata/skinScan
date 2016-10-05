@@ -38,9 +38,7 @@ MainWidget::MainWidget(QWidget *parent) : CustomWidget(parent)
     m_statisticsWidget = new StatisticsWidget(this);
     m_stackedWidget = new CustomStackedWidget(this);
     m_statusBar = new MainStatusBar(this);
-
     m_manager = new CustomNetwork(this);
-
     m_settings = new QSettings("conf.ini", QSettings::IniFormat, this);
 
     /* QPushButton */
@@ -176,7 +174,6 @@ MainWidget::MainWidget(QWidget *parent) : CustomWidget(parent)
     /* stacked widget */
     connect(m_stackedWidget, &CustomStackedWidget::currentChanged, this, &MainWidget::m_stackedWidgetChange);
     /* newwork */
-    connect(m_manager, &CustomNetwork::downloadUserDataStatus, this, &MainWidget::m_downloadDataReply);
     connect(m_manager, &CustomNetwork::memberLoginStatus, this, &MainWidget::m_loginReply);
 
 
@@ -192,6 +189,18 @@ MainWidget::MainWidget(QWidget *parent) : CustomWidget(parent)
     int desktopHeight = QApplication::desktop()->screen(index)->height();
     this->move((desktopWidget - width)/2, (desktopHeight - height)/2 - 40);     //窗口居中
     this->startAnimation();
+}
+
+MainWidget::~MainWidget()
+{
+    QSettings settings("setting.ini", QSettings::IniFormat);
+    settings.beginGroup("regular");
+    int selected = settings.value("login").toInt();
+    settings.endGroup();
+
+    if(selected) {
+        m_manager->clear();
+    }
 }
 
 void MainWidget::m_memberInfo()
@@ -236,9 +245,6 @@ void MainWidget::m_setAccountAndUser(const QVariantMap &userInfo)
 
     m_measureButton->click();       //回到主界面
     m_accountButton->setMenu(m_infoMenu);   //设置菜单
-
-    /* login & register */
-    disconnect(m_loginRegisterDialog, &LoginRegisterDialog::loginSuccess, this, &MainWidget::m_setAccountAndUser);
 }
 
 void MainWidget::m_stackedWidgetChange(int index)
@@ -246,32 +252,9 @@ void MainWidget::m_stackedWidgetChange(int index)
     if(m_manager->hasMember()) {
         switch(index) {
         case 0: break;
-        case 1: m_manager->downloadUserData(); break;
+        case 1: m_statisticsWidget->getData(); break;
         default: break;
         }
-    }
-}
-
-void MainWidget::m_downloadDataReply(CustomNetwork::Status status)
-{
-    static QVariantMap temp;
-    switch(status) {
-    case CustomNetwork::Success:
-        if(temp != m_manager->userData()) {
-            m_statisticsWidget->setPlotData(QJsonDocument::fromVariant(m_manager->userData()));
-            temp = m_manager->userData();
-        }
-        break;
-    case CustomNetwork::Failure:
-        /* update member login status */
-        if(m_manager->hasMember())
-            m_manager->memberLogin(m_manager->account(), m_manager->password());
-        break;
-    case CustomNetwork::Timeout:
-
-        break;
-    default:
-        break;
     }
 }
 
@@ -293,12 +276,7 @@ void MainWidget::m_loginReply(CustomNetwork::Status status)
 
 void MainWidget::m_recovery()
 {
-    QSettings settings("setting.ini", QSettings::IniFormat);
-    settings.beginGroup("regular");
-    int selected = settings.value("login").toInt();
-    settings.endGroup();
-
-    if(m_manager->hasMember() && !selected) {
+    if(m_manager->hasMember()) {
         m_settings->beginGroup("normal");
 
         m_accountButton->setMenu(m_infoMenu);
