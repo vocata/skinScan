@@ -179,8 +179,11 @@ LoginRegisterDialog::LoginRegisterDialog(QWidget *parent) : CustomDialog(parent)
     /* login & register */
     connect(m_loginButton, &QPushButton::clicked, this, &LoginRegisterDialog::m_loginRequest);
     connect(m_loginAccountEdit, &QLineEdit::returnPressed, m_loginButton, &QPushButton::click);
+    connect(m_loginPasswordEdit,  &QLineEdit::returnPressed, m_loginButton, &QPushButton::click);
     connect(m_registerButton, &QPushButton::clicked, this, &LoginRegisterDialog::m_registerRequest);
     connect(m_registerAccountEdit, &QLineEdit::returnPressed, m_registerButton, &QPushButton::click);
+    connect(m_registerPasswordEdit, &QLineEdit::returnPressed, m_registerButton, &QPushButton::click);
+    connect(m_registerUserEdit, &QLineEdit::returnPressed, m_registerButton, &QPushButton::click);
     /* timer */
     connect(m_timer, &QTimer::timeout, this, &LoginRegisterDialog::m_loginTips);
     /* network */
