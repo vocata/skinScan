@@ -12,6 +12,7 @@
 #include <QTimer>
 #include <QProgressBar>
 #include <QToolButton>
+#include <QSettings>
 
 #include <QDebug>
 
@@ -136,12 +137,6 @@ void SyncDialog::m_setTable()
 void SyncDialog::m_syncData()
 {
      m_timer->stop();
-    if(m_items.count() == 0) {
-        /* 提示 */
-        MessageDialog dialog(this);
-        dialog.execInformation(QStringLiteral("本地没有数据!"), QStringLiteral("同步"));
-        return;
-    }
     if(m_iterator != m_items.end()) {
         QString item = m_iterator.key();
         QJsonDocument data = m_iterator.value();
@@ -151,6 +146,7 @@ void SyncDialog::m_syncData()
         m_progressBar->show();
         m_manager->uploadSingleUserData(item, data);
     } else {
+        m_items.clear();
         m_syncCount = 0;
         m_progressBar->hide();
         m_syncButton->setText(QStringLiteral("立即同步"));
@@ -164,38 +160,76 @@ void SyncDialog::m_syncData()
 
 void SyncDialog::sync()
 {
-    for(int i = 0; i < m_moistureModel->rowCount(); ++i) {
-        QString date = m_moistureModel->data(m_moistureModel->index(i, 0)).toString();
-        double value = m_moistureModel->data(m_moistureModel->index(i, 1)).toDouble();
-        qint64 deviceId = m_moistureModel->data(m_moistureModel->index(i, 2)).toLongLong();
-        QJsonDocument doc = m_formatUploadData(date, value, deviceId, m_manager->account());
-        m_items.insert("moisture", doc);
+    QSettings settings("setting.ini", QSettings::IniFormat);
+    settings.beginGroup("network");
+    QVariant moistuerIsChecked = settings.value("moisture");
+    QVariant greaseIsChecked = settings.value("grease");
+    QVariant temperatureIsChecked = settings.value("temperature");
+    QVariant phIsChecked = settings.value("ph");
+    settings.endGroup();
+
+    bool isChecked = false;
+
+    /* setter */
+    if(moistuerIsChecked.isNull() || moistuerIsChecked.toBool()) {
+        for(int i = 0; i < m_moistureModel->rowCount(); ++i) {
+            QString date = m_moistureModel->data(m_moistureModel->index(i, 0)).toString();
+            double value = m_moistureModel->data(m_moistureModel->index(i, 1)).toDouble();
+            qint64 deviceId = m_moistureModel->data(m_moistureModel->index(i, 2)).toLongLong();
+            QJsonDocument doc = m_formatUploadData(date, value, deviceId, m_manager->account());
+            m_items.insert("moisture", doc);
+        }
+        isChecked = true;
     }
-    for(int i = 0; i < m_greaseModel->rowCount(); ++i) {
-        QString date = m_greaseModel->data(m_greaseModel->index(i, 0)).toString();
-        double value = m_greaseModel->data(m_greaseModel->index(i, 1)).toDouble();
-        qint64 deviceId = m_greaseModel->data(m_greaseModel->index(i, 2)).toLongLong();
-        QJsonDocument doc = m_formatUploadData(date, value, deviceId, m_manager->account());
-        m_items.insert("grease", doc);
+
+    if(greaseIsChecked.isNull() || greaseIsChecked.toBool()) {
+        for(int i = 0; i < m_greaseModel->rowCount(); ++i) {
+            QString date = m_greaseModel->data(m_greaseModel->index(i, 0)).toString();
+            double value = m_greaseModel->data(m_greaseModel->index(i, 1)).toDouble();
+            qint64 deviceId = m_greaseModel->data(m_greaseModel->index(i, 2)).toLongLong();
+            QJsonDocument doc = m_formatUploadData(date, value, deviceId, m_manager->account());
+            m_items.insert("grease", doc);
+        }
+        isChecked = true;
     }
-    for(int i = 0; i < m_temperatureModel->rowCount(); ++i) {
-        QString date = m_temperatureModel->data(m_temperatureModel->index(i, 0)).toString();
-        double value = m_temperatureModel->data(m_temperatureModel->index(i, 1)).toDouble();
-        qint64 deviceId = m_temperatureModel->data(m_temperatureModel->index(i, 2)).toLongLong();
-        QJsonDocument doc = m_formatUploadData(date, value, deviceId, m_manager->account());
-        m_items.insert("temperature", doc);
+
+    if(temperatureIsChecked.isNull() || temperatureIsChecked.toBool()) {
+        for(int i = 0; i < m_temperatureModel->rowCount(); ++i) {
+            QString date = m_temperatureModel->data(m_temperatureModel->index(i, 0)).toString();
+            double value = m_temperatureModel->data(m_temperatureModel->index(i, 1)).toDouble();
+            qint64 deviceId = m_temperatureModel->data(m_temperatureModel->index(i, 2)).toLongLong();
+            QJsonDocument doc = m_formatUploadData(date, value, deviceId, m_manager->account());
+            m_items.insert("temperature", doc);
+        }
+        isChecked = true;
     }
-    for(int i = 0; i < m_phModel->rowCount(); ++i) {
-        QString date = m_phModel->data(m_phModel->index(i, 0)).toString();
-        double value = m_phModel->data(m_phModel->index(i, 1)).toDouble();
-        qint64 deviceId = m_phModel->data(m_phModel->index(i, 2)).toLongLong();
-        QJsonDocument doc = m_formatUploadData(date, value, deviceId, m_manager->account());
-        m_items.insert("ph", doc);
+
+    if(phIsChecked.isNull() || phIsChecked.toBool()) {
+        for(int i = 0; i < m_phModel->rowCount(); ++i) {
+            QString date = m_phModel->data(m_phModel->index(i, 0)).toString();
+            double value = m_phModel->data(m_phModel->index(i, 1)).toDouble();
+            qint64 deviceId = m_phModel->data(m_phModel->index(i, 2)).toLongLong();
+            QJsonDocument doc = m_formatUploadData(date, value, deviceId, m_manager->account());
+            m_items.insert("ph", doc);
+        }
+        isChecked = true;
     }
+
+    if(!isChecked) {
+        MessageDialog dialog(this);
+        dialog.execInformation(QStringLiteral("请设置需要同步的数据!"), QStringLiteral("同步"));
+        return;
+    }
+    if(m_items.count() == 0) {
+        MessageDialog dialog(this);
+        dialog.execInformation(QStringLiteral("没有需要同步的数据!"), QStringLiteral("同步"));
+        return;
+    }
+
     m_iterator = m_items.begin();
     m_progressBar->setMaximum(m_items.count());
 
-    m_timer->start(20);
+    m_timer->start(10);
 }
 
 SyncDialog::~SyncDialog()
@@ -227,13 +261,11 @@ void SyncDialog::m_uploadDataReply(CustomNetwork::Status status)
         ++m_iterator;
         ++m_syncCount;
         m_progressBar->setValue(m_syncCount);
-        m_timer->start(20);
+        m_timer->start(10);
     }
         break;
-    case CustomNetwork::Failure:
-        break;
-    case CustomNetwork::Timeout:
-        break;
+    case CustomNetwork::Failure: break;
+    case CustomNetwork::Timeout: break;
     }
 }
 

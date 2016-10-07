@@ -10,13 +10,14 @@ class QPushButton;
 class QLineEdit;
 class QToolButton;
 class QSettings;
-class StatisticsWidget;
 class MainStatusBar;
 class CustomNetwork;
 class CustomStackedWidget;
 class LoginRegisterDialog;
-
 class MeasureWidget;
+class StatisticsWidget;
+class HelpWidget;
+class AboutWidget;
 
 class MainWidget : public CustomWidget
 {
@@ -35,13 +36,14 @@ private:
     QPushButton *m_userButton = nullptr;
     QToolButton *m_measureButton = nullptr;
     QToolButton *m_statisticsButton = nullptr;
-    QToolButton *m_historyButton = nullptr;
     QToolButton *m_helpButton = nullptr;
     QToolButton *m_aboutButton = nullptr;
     QMenu *m_infoMenu = nullptr;
 
     MeasureWidget *m_measureWidget = nullptr;
     StatisticsWidget *m_statisticsWidget = nullptr;
+    HelpWidget *m_helpWidget = nullptr;
+    AboutWidget *m_aboutWidget = nullptr;
     CustomStackedWidget *m_stackedWidget = nullptr;
 
     MainStatusBar *m_statusBar = nullptr;
@@ -67,6 +69,7 @@ private slots:
     void m_loginReply(CustomNetwork::Status status);
     /* recovery */
     void m_recovery();
+    void m_relogin();
 
 };
 

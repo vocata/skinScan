@@ -12,7 +12,7 @@
 RegularWidget::RegularWidget(QWidget *parent) : QWidget(parent)
 {
     m_loginLabel = new QLabel(QStringLiteral("登陆 :"), this);
-    m_dataLabel = new QLabel(QStringLiteral("数据 :"), this);
+    m_dataLabel = new QLabel(QStringLiteral("测量数据 :"), this);
     m_saveLoginInfoButton = new QRadioButton(QStringLiteral("保留登陆信息"), this);
     m_notSaveLoginInfoButton = new QRadioButton(QStringLiteral("不保留登陆信息"), this);
     m_saveToCloudButton = new QRadioButton(QStringLiteral("保存至云 (需要联网)"), this);
@@ -62,26 +62,18 @@ void RegularWidget::m_recovery()
     /* login */
     if(!login.isNull()) {
         switch (login.toInt()) {
-        case 0:
-            m_saveLoginInfoButton->setChecked(true);
-            break;
-        case 1:
-            m_notSaveLoginInfoButton->setChecked(true);
-        default:
-            break;
+        case 0: m_saveLoginInfoButton->setChecked(true); break;
+        case 1: m_notSaveLoginInfoButton->setChecked(true); break;
+        default: break;
         }
     }
 
     /* data */
     if(!data.isNull()) {
         switch (login.toInt()) {
-        case 0:
-            m_saveToCloudButton->setChecked(true);
-            break;
-        case 1:
-            m_saveToLocalButton->setChecked(true);
-        default:
-            break;
+        case 0: m_saveToCloudButton->setChecked(true); break;
+        case 1: m_saveToLocalButton->setChecked(true); break;
+        default: break;
         }
     }
 }

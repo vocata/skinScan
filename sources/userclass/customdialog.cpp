@@ -54,6 +54,7 @@ CustomDialog::CustomDialog(QWidget *parent) : QDialog(parent)
     /* connect */
     connect(m_min, &TitleIcon::buttonClicked, this, &CustomDialog::showMinimized);
     connect(m_close, &TitleIcon::buttonClicked, this, &CustomDialog::close);
+    connect(m_animation, &QPropertyAnimation::finished, this, &CustomDialog::m_animationFinish);
 
     /* window Attribution */
     this->setWindowFlags(Qt::FramelessWindowHint | Qt::Dialog);
@@ -142,6 +143,11 @@ void CustomDialog::paintEvent(QPaintEvent *)
     } else {
         m_layout->setMargin(0);
     }
+}
+
+void CustomDialog::m_animationFinish()
+{
+    emit animationFinish();
 }
 
 void CustomDialog::mouseMoveEvent(QMouseEvent *event)

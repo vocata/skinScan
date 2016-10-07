@@ -19,7 +19,7 @@ CameraDialog::CameraDialog(const QString &name, QWidget *parent) : CustomDialog(
     m_imageCapture = new QCameraImageCapture(m_camera, this);
     m_takeImageButton = new QPushButton(QStringLiteral("拍照"), this);
     m_saveImageButton = new QPushButton(QStringLiteral("保存"), this);
-    m_dir = QString("image/%1").arg(name);
+    m_dir = QString(".image/%1").arg(name);
 
     /* camera */
     m_camera->setViewfinder(m_viewfinder);

@@ -37,6 +37,7 @@ public slots:
 
 
 signals:
+    void animationFinish();
 
 protected:
     bool nativeEvent(const QByteArray &eventType, void *message, long *result);
@@ -59,6 +60,7 @@ private:
 private slots:
     void m_setPopUpPos();
     void m_windowChange();
+    void m_animationFinish();
 };
 
 #endif // CUSTOMWIDGET_H

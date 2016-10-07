@@ -12,7 +12,7 @@
 
 AlbumDialog::AlbumDialog(const QString &name, QWidget *parent) : CustomDialog(parent)
 {
-    m_dir = QDir(QString("image/%1").arg(name));
+    m_dir = QDir(QString(".image/%1").arg(name));
     m_scrollArea = new QScrollArea(this);
     QWidget *widget = new QWidget();
     widget->setObjectName("scrollWidget");

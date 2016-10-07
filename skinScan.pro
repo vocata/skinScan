@@ -38,13 +38,19 @@ SOURCES += \
     sources/customDialog/messagedialog.cpp \
     sources/customDialog/questionnairedialog.cpp \
     sources/customDialog/questionnairedialog/questionwidget.cpp \
-    sources/customDialog/questionnairedialog/clickablelabel.cpp \
     sources/chart/jsontodata.cpp \
     sources/chart/tablewidget.cpp \
     sources/customDialog/settingdialog.cpp \
     sources/customDialog/settingdialog/regularwidget.cpp \
     sources/customDialog/settingdialog/networkwidget.cpp \
-    sources/customDialog/syncdialog.cpp
+    sources/customDialog/syncdialog.cpp \
+    sources/customDialog/passworddialog.cpp \
+    sources/customDialog/memberinfodialog.cpp \
+    sources/customDialog/memberinfodialog/infowidget.cpp \
+    sources/customDialog/memberinfodialog/editwidget.cpp \
+    sources/customDialog/memberinfodialog/editwidget/dateedit.cpp \
+    sources/mainpart/helpwidget.cpp \
+    sources/mainpart/aboutwidget.cpp
 
 HEADERS  += \
     sources/mainpart/mainwidget.h \
@@ -72,13 +78,19 @@ HEADERS  += \
     sources/customDialog/messagedialog.h \
     sources/customDialog/questionnairedialog.h \
     sources/customDialog/questionnairedialog/questionwidget.h \
-    sources/customDialog/questionnairedialog/clickablelabel.h \
     sources/chart/jsontodata.h \
     sources/chart/tablewidget.h \
     sources/customDialog/settingdialog.h \
     sources/customDialog/settingdialog/regularwidget.h \
     sources/customDialog/settingdialog/networkwidget.h \
-    sources/customDialog/syncdialog.h
+    sources/customDialog/syncdialog.h \
+    sources/customDialog/passworddialog.h \
+    sources/customDialog/memberinfodialog.h \
+    sources/customDialog/memberinfodialog/infowidget.h \
+    sources/customDialog/memberinfodialog/editwidget.h \
+    sources/customDialog/memberinfodialog/editwidget/dateedit.h \
+    sources/mainpart/helpwidget.h \
+    sources/mainpart/aboutwidget.h
 
 RESOURCES += \
     res.qrc
