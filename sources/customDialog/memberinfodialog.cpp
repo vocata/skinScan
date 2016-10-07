@@ -28,21 +28,18 @@ MemberInfoDialog::MemberInfoDialog(QWidget *parent) : CustomDialog(parent)
 
     /* toolButton */
     m_editButton->setText(QStringLiteral("编辑资料"));
-    m_editButton->show();
     m_editButton->setFixedSize(60, 25);
 
     m_confirmButton->setText(QStringLiteral("保存"));
-    m_confirmButton->hide();
     m_confirmButton->setFixedSize(40, 25);
 
     m_cancelButton->setText(QStringLiteral("取消"));
-    m_cancelButton->hide();
     m_cancelButton->setFixedSize(40, 25);
 
     /* stackedWidget */
     m_stackedWidget->addWidget(m_infoWidget);
     m_stackedWidget->addWidget(m_editWidget);
-    m_stackedWidget->setCurrentIndex(0);
+    this->m_showInfoWidget();
 
     /* layout */
     QHBoxLayout *buttonBox = new QHBoxLayout();
@@ -82,7 +79,6 @@ void MemberInfoDialog::m_edit()
 
 void MemberInfoDialog::m_save()
 {
-    m_editWidget->save();
     m_manager->updateUserInfo(m_editWidget->getInfo());
 }
 
@@ -130,6 +126,7 @@ void MemberInfoDialog::m_getUserInfoReply(CustomNetwork::Status status)
     case CustomNetwork::Success:
         m_infoWidget->setInfo(m_manager->userInfo());
         m_editWidget->setInfo(m_manager->userInfo());
+        this->m_showInfoWidget();
         this->m_setIcon();
         emit infoChanged();
         break;
@@ -143,8 +140,8 @@ void MemberInfoDialog::m_updateUserInfoReply(CustomNetwork::Status status)
 {
     switch(status) {
     case CustomNetwork::Success:
-        this->m_showInfoWidget();
-        m_manager->getUserInfo();       //更新setting,改变头像
+        m_editWidget->save();
+        m_manager->getUserInfo();       //重新获取数据，更新setting,改变头像
         break;
     case CustomNetwork::Failure: break;
     case CustomNetwork::Timeout: break;

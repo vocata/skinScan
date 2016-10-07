@@ -218,6 +218,7 @@ void MainWidget::m_modifyPassword()
     dialog->setWindowModality(Qt::WindowModal);
     dialog->setAttribute(Qt::WA_DeleteOnClose);
     dialog->show();
+    connect(dialog, &PasswordDialog::passwordChanged, this, &MainWidget::m_logout);
 }
 
 void MainWidget::m_setAccountAndUser(const QVariantMap &userInfo)

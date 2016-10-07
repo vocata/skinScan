@@ -4,6 +4,8 @@
 #include <QVBoxLayout>
 #include <QVariantMap>
 
+#include <QDebug>
+
 InfoWidget::InfoWidget(QWidget *parent) : QWidget(parent),
     m_phone(new QLabel(QStringLiteral("账   号: "), this)),
     m_phoneInfo(new QLabel(this)),

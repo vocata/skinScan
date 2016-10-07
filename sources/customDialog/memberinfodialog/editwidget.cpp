@@ -91,7 +91,7 @@ EditWidget::EditWidget(QWidget *parent) : QWidget(parent),
     connect(m_nameInfo, &QLineEdit::textChanged, this, &EditWidget::m_infoEdited);
     connect(m_qqInfo, &QLineEdit::textChanged, this, &EditWidget::m_infoEdited);
     connect(m_emailInfo, &QLineEdit::textChanged, this, &EditWidget::m_infoEdited);
-    connect(m_birthdayInfo, &QPushButton::clicked, this, &EditWidget::m_dateEditPopup);
+    connect(menu, &QMenu::aboutToShow, this, &EditWidget::m_dateEditPopup);
     connect(m_sexInfo, static_cast<void(QComboBox::*)(int)>(&QComboBox::currentIndexChanged), this, &EditWidget::m_infoEdited);
     connect(m_ageInfo, static_cast<void(QComboBox::*)(int)>(&QComboBox::currentIndexChanged), this, &EditWidget::m_infoEdited);
 
