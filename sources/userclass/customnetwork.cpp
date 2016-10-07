@@ -86,10 +86,10 @@ void CustomNetwork::getUserInfo()
     connect(m_getUserInfoReply, &QNetworkReply::finished, this, &CustomNetwork::m_getUserInfoStatus);
 }
 
-void CustomNetwork::updateUserInfo(const QVariantMap &userInfo)
+void CustomNetwork::updateUserInfo(const QVariantMap &userInfo, const QString &account)
 {
-    QString info = QString("phone=%1&password=%2&qq=%3&email=%4&sex=%5&birthday=%6&age=%7&name=%8")
-                    .arg(m_loginInfo.m_account, m_loginInfo.m_password,
+    QString info = QString("phone=%1&qq=%2&email=%3&sex=%4&birthday=%5&age=%6&name=%7")
+                    .arg(account,
                          userInfo.value("qq").toString(), userInfo.value("email").toString(),
                          userInfo.value("sex").toString(), userInfo.value("birthday").toString(),
                          userInfo.value("age").toString(), userInfo.value("name").toString());

@@ -87,8 +87,9 @@ DateEdit::DateEdit(QWidget *parent) : QWidget(parent)
 
 void DateEdit::setDate(const QDate &date)
 {
-    m_yearEdit->setCurrentText(QString::number(date.year()));
-    m_monthEdit->setCurrentText(QString::number(date.month()));
+    m_yearEdit->setCurrentIndex(date.year() - m_yearEdit->itemText(0).toInt());
+    m_monthEdit->setCurrentIndex(date.month() - 1);
+    m_dayEdit->setCurrentIndex(date.day() - 1);
 }
 
 void DateEdit::m_updateDay()
