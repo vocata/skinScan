@@ -15,7 +15,6 @@
         <file alias="girl">resources/avatar_128px_1202944_easyicon.net.png</file>
         <file alias="boy">resources/avatar_128px_1202943_easyicon.net.png</file>
         <file alias="anonymous">resources/administrator_128px_1175297_easyicon.net.png</file>
-        <file alias="history">resources/history_72px_1181939_easyicon.net.png</file>
     </qresource>
     <qresource prefix="/qss">
         <file alias="skin">resources/qss/stylesheet.css</file>
@@ -59,8 +58,10 @@
         <file alias="step4">resources/questionnaire/step4.txt</file>
     </qresource>
     <qresource prefix="/question/icon">
-        <file alias="checked">resources/radiobutton-checked-md.png</file>
-        <file alias="unchecked">resources/radiobutton-unchecked-md.png</file>
+        <file alias="unchecked">resources/radio_button_off_72px_1182156_easyicon.net.png</file>
+        <file alias="unchecked_hover">resources/radio_button_off_hover_72px_1182156_easyicon.net.png</file>
+        <file alias="checked">resources/radio_button_on_72px_1182156_easyicon.net.png</file>
+        <file alias="checked_hover">resources/radio_button_on_hover_72px_1182156_easyicon.net.png</file>
     </qresource>
     <qresource prefix="/statistics/icon">
         <file alias="PH">resources/flask_83.04132231405px_1200923_easyicon.net.png</file>
@@ -68,5 +69,21 @@
         <file alias="temperature">resources/thermometer_52.434552199258px_1202613_easyicon.net.png</file>
         <file alias="grease">resources/water_93.185667752443px_1200957_easyicon.net.png</file>
         <file alias="local">resources/folder_167.60484622554px_1202411_easyicon.net.png</file>
+    </qresource>
+    <qresource prefix="/memberinfo/icon">
+        <file alias="down-arraw">resources/down_arrow_214.58823529412px_1205407_easyicon.net.png</file>
+    </qresource>
+    <qresource prefix="/help/icon">
+        <file alias="help">resources/help.png</file>
+    </qresource>
+    <qresource prefix="/setting/icon">
+        <file alias="selected">resources/check_box_72px_1181750_easyicon.net.png</file>
+        <file alias="selected_hover">resources/check_box_hover_72px_1181750_easyicon.net.png</file>
+        <file alias="rejected">resources/check_box_outline_blank_72px_1181751_easyicon.net.png</file>
+        <file alias="rejected_hover">resources/check_box_outline_blank_hover_72px_1181751_easyicon.net.png</file>
+        <file alias="unchecked">resources/radio_button_off_72px_1182156_easyicon.net.png</file>
+        <file alias="unchecked_hover">resources/radio_button_off_hover_72px_1182156_easyicon.net.png</file>
+        <file alias="checked">resources/radio_button_on_72px_1182156_easyicon.net.png</file>
+        <file alias="checked_hover">resources/radio_button_on_hover_72px_1182156_easyicon.net.png</file>
     </qresource>
 </RCC>

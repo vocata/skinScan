@@ -1,4 +1,3 @@
-#include "clickablelabel.h"
 #include "questionwidget.h"
 
 #include <QFile>
@@ -19,11 +18,6 @@ QuestionWidget::QuestionWidget(const QString &fileName, QWidget *parent) : QWidg
     m_cRadio = new QRadioButton(this);
     m_dRadio = new QRadioButton(this);
     m_eRadio = new QRadioButton(this);
-    m_aLabel = new ClickableLabel(this);
-    m_bLabel = new ClickableLabel(this);
-    m_cLabel = new ClickableLabel(this);
-    m_dLabel = new ClickableLabel(this);
-    m_eLabel = new ClickableLabel(this);
     m_preButton = new QPushButton(this);
     m_nextButton = new QPushButton(this);
 
@@ -40,19 +34,7 @@ QuestionWidget::QuestionWidget(const QString &fileName, QWidget *parent) : QWidg
     m_question->setAlignment(Qt::AlignTop);
     m_question->setFixedHeight(40);
 
-    m_aLabel->setFixedHeight(20);
-    m_bLabel->setFixedHeight(20);
-    m_cLabel->setFixedHeight(20);
-    m_dLabel->setFixedHeight(20);
-    m_eLabel->setFixedHeight(20);
-
     /* radioButton */
-    m_aRadio->setFixedSize(20, 20);
-    m_bRadio->setFixedSize(20, 20);
-    m_cRadio->setFixedSize(20, 20);
-    m_dRadio->setFixedSize(20, 20);
-    m_eRadio->setFixedSize(20, 20);
-
     m_buttonGroup = new QButtonGroup(this);
     m_buttonGroup->addButton(m_aRadio, 10);
     m_buttonGroup->addButton(m_bRadio, 20);
@@ -76,19 +58,6 @@ QuestionWidget::QuestionWidget(const QString &fileName, QWidget *parent) : QWidg
     radioBox->setMargin(0);
     radioBox->setSpacing(20);
 
-    QVBoxLayout *answerBox = new QVBoxLayout();
-    answerBox->addWidget(m_aLabel);
-    answerBox->addWidget(m_bLabel);
-    answerBox->addWidget(m_cLabel);
-    answerBox->addWidget(m_dLabel);
-    answerBox->addWidget(m_eLabel);
-    answerBox->setMargin(0);
-    answerBox->setSpacing(20);
-
-    QHBoxLayout *centralBox = new QHBoxLayout();
-    centralBox->addLayout(radioBox);
-    centralBox->addLayout(answerBox);
-
     QHBoxLayout *buttonBox = new QHBoxLayout();
     buttonBox->addWidget(m_preButton);
     buttonBox->addWidget(m_nextButton);
@@ -96,10 +65,10 @@ QuestionWidget::QuestionWidget(const QString &fileName, QWidget *parent) : QWidg
 
     QVBoxLayout *vBox = new QVBoxLayout(this);
     vBox->addWidget(m_question);
-    vBox->addLayout(centralBox);
+    vBox->addLayout(radioBox);
     vBox->addLayout(buttonBox);
     vBox->setAlignment(m_question, Qt::AlignTop);
-    vBox->setAlignment(centralBox, Qt::AlignVCenter);
+    vBox->setAlignment(radioBox, Qt::AlignVCenter);
     vBox->setAlignment(buttonBox, Qt::AlignBottom);
     vBox->setMargin(10);
     vBox->setSpacing(10);
@@ -107,12 +76,6 @@ QuestionWidget::QuestionWidget(const QString &fileName, QWidget *parent) : QWidg
     /* connect */
     connect(m_preButton, &QPushButton::clicked, this, &QuestionWidget::m_preQuestion);
     connect(m_nextButton, &QPushButton::clicked, this, &QuestionWidget::m_nextQuestion);
-    /* label clicked */
-    connect(m_aLabel, &ClickableLabel::clicked, m_aRadio, &QRadioButton::setChecked);
-    connect(m_bLabel, &ClickableLabel::clicked, m_bRadio, &QRadioButton::setChecked);
-    connect(m_cLabel, &ClickableLabel::clicked, m_cRadio, &QRadioButton::setChecked);
-    connect(m_dLabel, &ClickableLabel::clicked, m_dRadio, &QRadioButton::setChecked);
-    connect(m_eLabel, &ClickableLabel::clicked, m_eRadio, &QRadioButton::setChecked);
 }
 
 void QuestionWidget::setQuestion(int index)
@@ -138,21 +101,18 @@ void QuestionWidget::setQuestion(int index)
     QStringList firstItem = m_questionsAndAnswers.value(index);
     if(firstItem.count() == 5) {
         m_question->setText(firstItem.at(0));
-        m_aLabel->setText(firstItem.at(1));
-        m_bLabel->setText(firstItem.at(2));
-        m_cLabel->setText(firstItem.at(3));
-        m_dLabel->setText(firstItem.at(4));
-        m_eLabel->hide();
+        m_aRadio->setText(firstItem.at(1));
+        m_bRadio->setText(firstItem.at(2));
+        m_cRadio->setText(firstItem.at(3));
+        m_dRadio->setText(firstItem.at(4));
         m_eRadio->hide();
     }
     if(firstItem.count() == 6) {
         m_question->setText(firstItem.at(0));
-        m_aLabel->setText(firstItem.at(1));
-        m_bLabel->setText(firstItem.at(2));
-        m_cLabel->setText(firstItem.at(3));
-        m_dLabel->setText(firstItem.at(4));
-        m_eLabel->setText(firstItem.at(5));
-        m_eLabel->show();
+        m_aRadio->setText(firstItem.at(1));
+        m_bRadio->setText(firstItem.at(2));
+        m_cRadio->setText(firstItem.at(3));
+        m_dRadio->setText(firstItem.at(4));
         m_eRadio->show();
     }
 }

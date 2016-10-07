@@ -2,10 +2,14 @@
 #include "mainstatusbar.h"
 #include "measurewidget.h"
 #include "statisticswidget.h"
+#include "helpwidget.h"
+#include "aboutwidget.h"
 #include "sources/customDialog/loginregisterdialog.h"
 #include "sources/customDialog/settingdialog.h"
 #include "sources/userclass/customstackedwidget.h"
 #include "sources/userclass/customnetwork.h"
+#include "sources/customDialog/memberinfodialog.h"
+#include "sources/customDialog/passworddialog.h"
 
 #include <QMenu>
 #include <QPushButton>
@@ -22,8 +26,6 @@
 #include <QUrl>
 
 
-
-
 MainWidget::MainWidget(QWidget *parent) : CustomWidget(parent)
 {
     m_userImage = new QPushButton(this);
@@ -31,11 +33,12 @@ MainWidget::MainWidget(QWidget *parent) : CustomWidget(parent)
     m_userButton = new QPushButton(QStringLiteral("未登录"), this);
     m_measureButton = new QToolButton(this);
     m_statisticsButton = new QToolButton(this);
-    m_historyButton = new QToolButton(this);
     m_helpButton = new QToolButton(this);
     m_aboutButton = new QToolButton(this);
     m_measureWidget = new MeasureWidget(this);
     m_statisticsWidget = new StatisticsWidget(this);
+    m_helpWidget = new HelpWidget(this);
+    m_aboutWidget = new AboutWidget(this);
     m_stackedWidget = new CustomStackedWidget(this);
     m_statusBar = new MainStatusBar(this);
     m_manager = new CustomNetwork(this);
@@ -88,14 +91,6 @@ MainWidget::MainWidget(QWidget *parent) : CustomWidget(parent)
     m_statisticsButton->setCheckable(true);
     m_statisticsButton->setObjectName("statisticsButton");
 
-    m_historyButton->setIcon(QIcon(":/button/icon/history"));
-    m_historyButton->setText(QStringLiteral("检测纪录"));
-    m_historyButton->setIconSize(QSize(48, 48));
-    m_historyButton->setFixedSize(QSize(82, 82));
-    m_historyButton->setToolButtonStyle(Qt::ToolButtonTextUnderIcon);
-    m_historyButton->setCheckable(true);
-    m_historyButton->setObjectName("historyButton");
-
     m_helpButton->setIcon(QIcon(":/button/icon/help"));
     m_helpButton->setText(QStringLiteral("使用说明"));
     m_helpButton->setIconSize(QSize(48, 48));
@@ -115,13 +110,14 @@ MainWidget::MainWidget(QWidget *parent) : CustomWidget(parent)
     QButtonGroup *buttonGroup = new QButtonGroup(this);
     buttonGroup->addButton(m_measureButton, 0);
     buttonGroup->addButton(m_statisticsButton, 1);
-    buttonGroup->addButton(m_historyButton, 2);
-    buttonGroup->addButton(m_helpButton, 3);
-    buttonGroup->addButton(m_aboutButton, 4);
+    buttonGroup->addButton(m_helpButton, 2);
+    buttonGroup->addButton(m_aboutButton, 3);
 
     /* QStackedWidget */
     m_stackedWidget->addWidget(m_measureWidget);
     m_stackedWidget->addWidget(m_statisticsWidget);
+    m_stackedWidget->addWidget(m_helpWidget);
+    m_stackedWidget->addWidget(m_aboutWidget);
     m_stackedWidget->setEffectEnable(true);
     m_stackedWidget->setObjectName("stackedWidget");
 
@@ -140,7 +136,6 @@ MainWidget::MainWidget(QWidget *parent) : CustomWidget(parent)
     hBox->addLayout(buttonnBox);
     hBox->addWidget(m_measureButton);
     hBox->addWidget(m_statisticsButton);
-    hBox->addWidget(m_historyButton);
     hBox->addWidget(m_helpButton);
     hBox->addWidget(m_aboutButton);
     hBox->setAlignment(m_measureButton, Qt::AlignRight);
@@ -175,6 +170,7 @@ MainWidget::MainWidget(QWidget *parent) : CustomWidget(parent)
     connect(m_stackedWidget, &CustomStackedWidget::currentChanged, this, &MainWidget::m_stackedWidgetChange);
     /* newwork */
     connect(m_manager, &CustomNetwork::memberLoginStatus, this, &MainWidget::m_loginReply);
+    connect(this, &MainWidget::animationFinish, this, &MainWidget::m_relogin);
 
 
     /* window attribution */
@@ -206,8 +202,11 @@ MainWidget::~MainWidget()
 void MainWidget::m_memberInfo()
 {
     if(m_manager->hasMember()) {
-        const QUrl memberUrl("http://www.baidu.com");
-        QDesktopServices::openUrl(memberUrl);
+        MemberInfoDialog *dialog = new MemberInfoDialog(this);
+        dialog->setWindowModality(Qt::WindowModal);
+        dialog->setAttribute(Qt::WA_DeleteOnClose);
+        dialog->show();
+        connect(dialog, &MemberInfoDialog::infoChanged, this, &MainWidget::m_recovery);
     } else {
         this->m_loginRegister();
     }
@@ -215,8 +214,10 @@ void MainWidget::m_memberInfo()
 
 void MainWidget::m_modifyPassword()
 {
-    const QUrl memberUrl("http://www.baidu.com");
-    QDesktopServices::openUrl(memberUrl);
+    PasswordDialog *dialog = new PasswordDialog(this);
+    dialog->setWindowModality(Qt::WindowModal);
+    dialog->setAttribute(Qt::WA_DeleteOnClose);
+    dialog->show();
 }
 
 void MainWidget::m_setAccountAndUser(const QVariantMap &userInfo)
@@ -231,13 +232,6 @@ void MainWidget::m_setAccountAndUser(const QVariantMap &userInfo)
     } else {
         m_userImage->setIcon(QIcon(":/button/icon/anonymous"));
     }
-
-    /* save user information */
-    m_settings->beginGroup("normal");
-    m_settings->setValue("account", userInfo.value("phone"));
-    m_settings->setValue("user", userInfo.value("name"));
-    m_settings->setValue("sex", userInfo.value("sex"));
-    m_settings->endGroup();
 
     /* 登陆成功清除操作 */
     m_measureWidget->clear();       //清除之前登陆账户所留下来的数据
@@ -261,16 +255,10 @@ void MainWidget::m_stackedWidgetChange(int index)
 void MainWidget::m_loginReply(CustomNetwork::Status status)
 {
     switch(status) {
-    case CustomNetwork::Success:
-        m_statusBar->showMessage(QStringLiteral("登陆成功!"), 2000);
-        m_manager->downloadUserData();
-        break;
-    case CustomNetwork::Failure:
-        break;
-    case CustomNetwork::Timeout:
-        break;
-    default:
-        break;
+    case CustomNetwork::Success: m_statusBar->showMessage(QStringLiteral("登陆成功!"), 2000); break;
+    case CustomNetwork::Failure: break;
+    case CustomNetwork::Timeout: break;
+    default: break;
     }
 }
 
@@ -286,23 +274,31 @@ void MainWidget::m_recovery()
         QString sex = m_settings->value("sex").toString();
         if(sex == QStringLiteral("男")) {
             m_userImage->setIcon(QIcon(":/button/icon/boy"));
-        }
-        if(sex == QStringLiteral("女")){
+        } else if(sex == QStringLiteral("女")){
             m_userImage->setIcon(QIcon(":/button/icon/girl"));
+        } else {
+            m_userImage->setIcon(QIcon(":/button/icon/anonymous"));
         }
 
         m_settings->endGroup();
     }
 }
 
+void MainWidget::m_relogin()
+{
+    if(m_manager->hasMember()) {
+        m_manager->memberLogin(m_manager->account(), m_manager->password());
+    }
+}
+
 void MainWidget::m_loginRegister()
 {
-    m_loginRegisterDialog = new LoginRegisterDialog(this);
-    m_loginRegisterDialog->setWindowModality(Qt::WindowModal);
-    m_loginRegisterDialog->setAttribute(Qt::WA_DeleteOnClose);
-    m_loginRegisterDialog->show();
+    LoginRegisterDialog *dialog = new LoginRegisterDialog(this);
+    dialog->setWindowModality(Qt::WindowModal);
+    dialog->setAttribute(Qt::WA_DeleteOnClose);
+    dialog->show();
     /* login & register */
-    connect(m_loginRegisterDialog, &LoginRegisterDialog::loginSuccess, this, &MainWidget::m_setAccountAndUser);
+    connect(dialog, &LoginRegisterDialog::loginSuccess, this, &MainWidget::m_setAccountAndUser);
 }
 
 void MainWidget::m_setting()

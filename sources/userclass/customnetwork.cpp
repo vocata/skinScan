@@ -88,11 +88,11 @@ void CustomNetwork::getUserInfo()
 
 void CustomNetwork::updateUserInfo(const QVariantMap &userInfo)
 {
-    QString info = QString("phone=%1&qq=%2&email=%3&sex=%4&birthday=%5&age=%6&name=%7")
-                    .arg(m_loginInfo.m_account, userInfo.value("qq").toString(),
-                         userInfo.value("email").toString(), userInfo.value("sex").toString(),
-                         userInfo.value("birthday").toString(), userInfo.value("age").toString(),
-                         userInfo.value("name").toString());
+    QString info = QString("phone=%1&password=%2&qq=%3&email=%4&sex=%5&birthday=%6&age=%7&name=%8")
+                    .arg(m_loginInfo.m_account, m_loginInfo.m_password,
+                         userInfo.value("qq").toString(), userInfo.value("email").toString(),
+                         userInfo.value("sex").toString(), userInfo.value("birthday").toString(),
+                         userInfo.value("age").toString(), userInfo.value("name").toString());
     QByteArray content(info.toUtf8());
     int contentLength = content.length();
 
@@ -174,9 +174,7 @@ void CustomNetwork::m_loginStatus()
                 m_loginInfo.saveInfo();
                 emit memberLoginStatus(Success);
                 break;
-            default:
-                emit memberLoginStatus(Failure);
-                break;
+            default: emit memberLoginStatus(Failure); break;
             }
         }
     }
@@ -194,12 +192,8 @@ void CustomNetwork::m_registorStatus()
             emit memberRegisterStatus(Timeout);
         } else {
             switch(statusCode) {
-            case 200:
-                emit memberRegisterStatus(Success);
-                break;
-            default:
-                emit memberRegisterStatus(Failure);
-                break;
+            case 200: emit memberRegisterStatus(Success); break;
+            default: emit memberRegisterStatus(Failure); break;
             }
         }
     }
@@ -217,13 +211,21 @@ void CustomNetwork::m_getUserInfoStatus()
             emit getUserInfoStatus(Timeout);
         } else {
             switch(statusCode) {
-            case 200:
+            case 200: {
                 m_userInfo = m_getUserInfoReply->readAll();
+                QVariantMap userInfo = QJsonDocument::fromJson(m_userInfo.toUtf8()).toVariant().toMap();
+                /* save user information */
+                QSettings settings("conf.ini", QSettings::IniFormat);
+                settings.beginGroup("normal");
+                settings.setValue("account", userInfo.value("phone"));
+                settings.setValue("user", userInfo.value("name"));
+                settings.setValue("sex", userInfo.value("sex"));
+                settings.endGroup();
+
                 emit getUserInfoStatus(Success);
+            }
                 break;
-            default:
-                emit getUserInfoStatus(Failure);
-                break;
+            default: emit getUserInfoStatus(Failure); break;
             }
         }
     }
@@ -241,13 +243,8 @@ void CustomNetwork::m_updateUserInfoStatus()
             emit updateUserInfoStatus(Timeout);
         } else {
             switch(statusCode) {
-            case 200:
-                m_loginInfo.m_cookie = m_updateUserInfoReply->header(QNetworkRequest::SetCookieHeader);
-                emit updateUserInfoStatus(Success);
-                break;
-            default:
-                emit updateUserInfoStatus(Failure);
-                break;
+            case 200: emit updateUserInfoStatus(Success); break;
+            default: emit updateUserInfoStatus(Failure); break;
             }
         }
     }
@@ -266,12 +263,8 @@ void CustomNetwork::m_uploadUserInfoStatus()
             emit uploadUserDataStatus(Timeout);
         } else {
             switch(statusCode) {
-            case 200:
-                emit uploadUserDataStatus(Success);
-                break;
-            default:
-                emit uploadUserDataStatus(Failure);
-                break;
+            case 200: emit uploadUserDataStatus(Success); break;
+            default: emit uploadUserDataStatus(Failure); break;
             }
         }
     }
@@ -293,9 +286,7 @@ void CustomNetwork::m_downloadUserDataStatus()
                 m_userData = m_downloadUserDataReply->readAll();
                 emit downloadUserDataStatus(Success);
                 break;
-            default:
-                emit downloadUserDataStatus(Failure);
-                break;
+            default: emit downloadUserDataStatus(Failure); break;
             }
         }
     }

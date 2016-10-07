@@ -58,6 +58,7 @@ CustomWidget::CustomWidget(QWidget *parent) : QWidget(parent)
     connect(m_min, &TitleIcon::buttonClicked, this, &CustomWidget::showMinimized);
     connect(m_max, &TitleIcon::buttonClicked, this, &CustomWidget::m_windowChange);
     connect(m_close, &TitleIcon::buttonClicked, this, &CustomWidget::close);
+    connect(m_animation, &QPropertyAnimation::finished, this, &CustomWidget::m_animationFinish);
     /* window Attribution */
     this->setWindowFlags(Qt::Window | Qt::WindowTitleHint | Qt::FramelessWindowHint);
     /* windows api */
@@ -232,4 +233,9 @@ void CustomWidget::m_windowChange()
     } else {
         this->showMaximized();
     }
+}
+
+void CustomWidget::m_animationFinish()
+{
+    emit animationFinish();
 }

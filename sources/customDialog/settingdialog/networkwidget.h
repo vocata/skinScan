@@ -4,8 +4,7 @@
 #include <QWidget>
 
 class QLabel;
-class QRadioButton;
-class QButtonGroup;
+class QCheckBox;
 
 class NetworkWidget : public QWidget
 {
@@ -20,9 +19,10 @@ public slots:
 
 private:
     QLabel *m_syncLabel = nullptr;
-    QRadioButton *m_autoSyncRadioButton = nullptr;
-    QRadioButton *m_manualSyncRadioButton = nullptr;
-    QButtonGroup *m_syncButtonGroup = nullptr;
+    QCheckBox *m_moistureChecked = nullptr;
+    QCheckBox *m_greaseChecked = nullptr;
+    QCheckBox *m_temperatureChecked = nullptr;
+    QCheckBox *m_phChecked = nullptr;
 
 private slots:
     void m_recovery();

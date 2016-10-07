@@ -250,6 +250,8 @@ void LoginRegisterDialog::m_registerRequest()
         m_registerStatusLabel->setText(QStringLiteral("<font color=red>请输入11位手机号码!</font>"));
     } else if(m_registerPasswordEdit->text().length() < 6) {
         m_registerStatusLabel->setText(QStringLiteral("<font color=red>请输入6-20位的密码!</font>"));
+    } else if(m_registerUserEdit->text().isEmpty()) {
+        m_registerStatusLabel->setText(QStringLiteral("<font color=red>请输入用户名!</font>"));
     } else {
         m_registerStatusLabel->clear();
         m_registerButton->setEnabled(false);

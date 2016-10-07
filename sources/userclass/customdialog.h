@@ -30,6 +30,7 @@ public:
     void startAnimation() const;
 
 signals:
+    void animationFinish();
 
 public slots:
 
@@ -50,6 +51,10 @@ private:
     QWidget *m_mainWidget = nullptr;
     QVBoxLayout *m_layout = nullptr;
     QPropertyAnimation *m_animation = nullptr;
+
+private slots:
+    void m_animationFinish();
+
 };
 
 #endif // CUSTOMDIALOG_H
