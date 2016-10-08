@@ -32,6 +32,7 @@ private:
     QLineEdit *m_password;
     QLabel *m_newPasswordLabel;
     QLineEdit *m_newPassword;
+    QLineEdit *m_newPasswordAgain;
     QLabel *m_tip;
     CustomNetwork *m_manager;
 
@@ -39,7 +40,7 @@ private slots:
     void m_setInfo();
     void m_setNewPassword();
 
-    void m_updateUserInfoReply(CustomNetwork::Status status);
+    void m_modifyPasswordReply(CustomNetwork::Status status);
 };
 
 #endif // PASSWORDDIALOG_H

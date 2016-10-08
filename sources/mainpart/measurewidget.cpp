@@ -393,8 +393,11 @@ void MeasureWidget::m_uploadDataReply(CustomNetwork::Status status)
 {
     qDebug() << status;
     switch(status) {
-    case CustomNetwork::Success:
-        qDebug() << "uploadDataReply -> 提交成功";
+    case CustomNetwork::Success: {
+            MessageDialog dialog(this);
+            dialog.execInformation(QStringLiteral("保存成功!"), QStringLiteral("保存"));
+            qDebug() << "uploadDataReply -> 提交成功";
+        }
         break;
     case CustomNetwork::Failure:
         qDebug() << "uploadDataReply -> 提交失败";

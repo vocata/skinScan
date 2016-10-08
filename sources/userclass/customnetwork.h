@@ -43,6 +43,7 @@ public:
 signals:
     void memberLoginStatus(Status status);
     void memberRegisterStatus(Status status);
+    void modifyPasswordStatus(Status status);
     void getUserInfoStatus(Status status);
     void updateUserInfoStatus(Status status);
     void uploadUserDataStatus(Status status);
@@ -51,6 +52,7 @@ signals:
 public slots:
     void memberLogin(const QString &account, const QString &password);
     void memberRegister(const QString &account, const QString &password, const QString &user);
+    void modifyPassword(const QString &oldPasswd, const QString &newPasswd);
     void getUserInfo();
     void updateUserInfo(const QVariantMap &userInfo, const QString &account = m_loginInfo.m_account);
     void uploadSingleUserData(const QString &item, const QJsonDocument &userData);
@@ -63,6 +65,7 @@ private:
     QNetworkAccessManager *m_manager = nullptr;
     QNetworkReply *m_loginReply = nullptr;
     QNetworkReply *m_registerReply = nullptr;
+    QNetworkReply *m_modifyPasswordReply = nullptr;
     QNetworkReply *m_getUserInfoReply = nullptr;
     QNetworkReply *m_updateUserInfoReply = nullptr;
     QNetworkReply *m_uploadUserDataReply = nullptr;
@@ -78,6 +81,7 @@ private:
 private slots:
     void m_loginStatus();
     void m_registorStatus();
+    void m_modifyPasswordStatus();
     void m_getUserInfoStatus();
     void m_updateUserInfoStatus();
     void m_uploadUserInfoStatus();

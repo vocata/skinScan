@@ -1,3 +1,4 @@
+#include "messagedialog.h"
 #include "passworddialog.h"
 
 #include <QGroupBox>
@@ -22,6 +23,7 @@ PasswordDialog::PasswordDialog(QWidget *parent) : CustomDialog(parent)
     m_password = new QLineEdit(this);
     m_newPasswordLabel = new QLabel(QStringLiteral("新密码"), this);
     m_newPassword = new QLineEdit(this);
+    m_newPasswordAgain = new QLineEdit(this);
     m_tip = new QLabel(this);
     m_manager = new CustomNetwork(this);
 
@@ -56,6 +58,12 @@ PasswordDialog::PasswordDialog(QWidget *parent) : CustomDialog(parent)
     m_newPassword->setEchoMode(QLineEdit::Password);
     m_newPassword->setFixedHeight(25);
 
+    m_newPasswordAgain->setPlaceholderText(QStringLiteral("请再次输入新密码"));
+    m_newPasswordAgain->setAttribute(Qt::WA_InputMethodEnabled, false);
+    m_newPasswordAgain->setMaxLength(20);
+    m_newPasswordAgain->setEchoMode(QLineEdit::Password);
+    m_newPasswordAgain->setFixedHeight(25);
+
     /* layout */
     QHBoxLayout *buttonBox = new QHBoxLayout();
     buttonBox->addWidget(m_icon, 0, Qt::AlignLeft | Qt::AlignBottom);
@@ -70,7 +78,8 @@ PasswordDialog::PasswordDialog(QWidget *parent) : CustomDialog(parent)
     gBox->addWidget(m_password, 1, 1, 1, 1);
     gBox->addWidget(m_newPasswordLabel, 2, 0, 1, 1);
     gBox->addWidget(m_newPassword, 2, 1, 1, 1);
-    gBox->addWidget(m_tip, 3, 1, 1, 2);
+    gBox->addWidget(m_newPasswordAgain, 3, 1, 1, 1);
+    gBox->addWidget(m_tip, 4, 1, 1, 2);
     gBox->setHorizontalSpacing(20);
     gBox->setVerticalSpacing(10);
 
@@ -83,7 +92,7 @@ PasswordDialog::PasswordDialog(QWidget *parent) : CustomDialog(parent)
     /* connect */
     connect(m_confirmButton, &QToolButton::clicked, this, &PasswordDialog::m_setNewPassword);
     connect(m_cancelButton, &QToolButton::clicked, this, &PasswordDialog::close);
-//    connect(m_manager, &CustomNetwork::updateUserInfoStatus, this, &PasswordDialog::m_updateUserInfoReply);
+    connect(m_manager, &CustomNetwork::modifyPasswordStatus, this, &PasswordDialog::m_modifyPasswordReply);
 
     /* windows attribution */
     this->setWindowTitle(titleLabel);
@@ -119,30 +128,38 @@ void PasswordDialog::m_setInfo()
 void PasswordDialog::m_setNewPassword()
 {
     if(m_password->text().isEmpty()) {
-        m_tip->setText(QStringLiteral("<font color=red>请输入旧密码<font>"));
+        m_tip->setText(QStringLiteral("<font color=red>请输入旧密码</font>"));
         QTimer::singleShot(2000, m_tip, &QLabel::clear);
         return;
     }
     if(m_newPassword->text().isEmpty()) {
-        m_tip->setText(QStringLiteral("<font color=red>请输入新密码<font>"));
+        m_tip->setText(QStringLiteral("<font color=red>请输入新密码</font>"));
+        QTimer::singleShot(2000, m_tip, &QLabel::clear);
+        return;
+    }
+    if(m_newPassword->text() != m_newPasswordAgain->text()) {
+        m_tip->setText(QStringLiteral("<font color=red>两次所输入的密码不正确</font>"));
         QTimer::singleShot(2000, m_tip, &QLabel::clear);
         return;
     }
     if(m_password->text() != m_manager->password()) {
-        m_tip->setText(QStringLiteral("<font color=red>旧密码不正确<font>"));
+        m_tip->setText(QStringLiteral("<font color=red>旧密码不正确</font>"));
         QTimer::singleShot(2000, m_tip, &QLabel::clear);
         return;
     }
     /* 更新操作 */
-
+    m_manager->modifyPassword(m_password->text(), m_newPassword->text());
 }
 
-void PasswordDialog::m_updateUserInfoReply(CustomNetwork::Status status)
+void PasswordDialog::m_modifyPasswordReply(CustomNetwork::Status status)
 {
     switch(status) {
-    case CustomNetwork::Success:
+    case CustomNetwork::Success: {
+        MessageDialog dialog(this);
+        dialog.execInformation(QStringLiteral("恭喜您, 密码修改成功!\n      请重新登陆!"), QStringLiteral("修改"));
         emit passwordChanged();
-        qDebug() << "in";
+        this->close();
+    }
         break;
     case CustomNetwork::Failure: break;
     case CustomNetwork::Timeout: break;
