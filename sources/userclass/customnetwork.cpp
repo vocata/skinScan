@@ -76,6 +76,22 @@ void CustomNetwork::memberRegister(const QString &account, const QString &passwo
     connect(m_registerReply, &QNetworkReply::finished, this, &CustomNetwork::m_registorStatus);
 }
 
+void CustomNetwork::modifyPassword(const QString &oldPasswd, const QString &newPasswd)
+{
+    QString passwdInfo = QString("oldPassword=%1&newPassword=%2").arg(oldPasswd, newPasswd);
+    QByteArray content(passwdInfo.toUtf8());
+    int contentLength = content.length();
+
+    /* request */
+    QNetworkRequest modifyPasswordRequest(QUrl(QString("http://123.207.109.164/account/password/%1").arg(m_loginInfo.m_account)));
+    modifyPasswordRequest.setHeader(QNetworkRequest::CookieHeader, m_loginInfo.m_cookie);
+    modifyPasswordRequest.setHeader(QNetworkRequest::ContentTypeHeader, "application/x-www-form-urlencoded");
+    modifyPasswordRequest.setHeader(QNetworkRequest::ContentLengthHeader, contentLength);
+
+    m_modifyPasswordReply = m_manager->put(modifyPasswordRequest, content);
+    connect(m_modifyPasswordReply, &QNetworkReply::finished, this, &CustomNetwork::m_modifyPasswordStatus);
+}
+
 void CustomNetwork::getUserInfo()
 {
     /* request */
@@ -198,6 +214,25 @@ void CustomNetwork::m_registorStatus()
         }
     }
     disconnect(m_registerReply, &QNetworkReply::finished, this, &CustomNetwork::m_registorStatus);
+}
+
+void CustomNetwork::m_modifyPasswordStatus()
+{
+    if(m_modifyPasswordReply->error() == QNetworkReply::UnknownNetworkError) {
+        emit modifyPasswordStatus(Timeout);
+    } else {
+        bool isVaild = false;
+        int statusCode = m_modifyPasswordReply->attribute(QNetworkRequest::HttpStatusCodeAttribute).toInt(&isVaild);
+        if(!isVaild) {
+            emit modifyPasswordStatus(Timeout);
+        } else {
+            switch(statusCode) {
+            case 200: emit modifyPasswordStatus(Success); break;
+            default: emit modifyPasswordStatus(Failure); break;
+            }
+        }
+    }
+    disconnect(m_modifyPasswordReply, &QNetworkReply::finished, this, &CustomNetwork::m_modifyPasswordStatus);
 }
 
 void CustomNetwork::m_getUserInfoStatus()
