@@ -113,6 +113,7 @@ void QuestionWidget::setQuestion(int index)
         m_bRadio->setText(firstItem.at(2));
         m_cRadio->setText(firstItem.at(3));
         m_dRadio->setText(firstItem.at(4));
+        m_eRadio->setText(firstItem.at(5));
         m_eRadio->show();
     }
 }
