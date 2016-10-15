@@ -73,7 +73,7 @@ bool QUsbHid::openUsbHid(quint16 vendorID, quint16 productID)
 bool QUsbHid::openUsbHid(const QList<quint16> &device)
 {
     vendor_id = device.at(0);
-    product_id = device.at(0);
+    product_id = device.at(1);
     hid_device_handle = hid_open(vendor_id, product_id, nullptr);
     return hid_device_handle;
 }

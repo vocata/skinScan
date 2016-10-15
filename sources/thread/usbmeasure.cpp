@@ -22,6 +22,7 @@ void UsbMeasure::stop()
 
 void UsbMeasure::run()
 {
+
     bool isOpen = false;
     while(!m_stopped) {
         if(!UsbStatueShare::usbStatus()) {     //检测突然拔出设备
@@ -29,7 +30,6 @@ void UsbMeasure::run()
             isOpen = false;
             break;
         }
-
         if(!isOpen) {
             isOpen = m_usbDevice.openUsbHid(UsbStatueShare::getUsbDevice());
             if(isOpen) {
@@ -41,6 +41,7 @@ void UsbMeasure::run()
         if (!data.isEmpty()) {
             emit readyRead(data);
         }
+
     }
     if(isOpen) {
         m_usbDevice.write(QByteArray().append('@'));    //end

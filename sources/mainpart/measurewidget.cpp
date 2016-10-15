@@ -111,24 +111,24 @@ MeasureWidget::MeasureWidget(QWidget *parent) : QWidget(parent)
     /* BarChart */
     m_moistureBar->setBarColor(QColor(220, 33, 40), Qt::gray);
     m_moistureBar->setLeftText(QStringLiteral("水分(单位  %)"));
-    m_moistureBar->setData(20);
+//    m_moistureBar->setData(20);
     m_moistureBar->setBarIndex(Moisture);
 
     m_greaseBar->setBarColor(QColor(21, 165, 140), Qt::gray);
     m_greaseBar->setLeftText(QStringLiteral("油脂(单位  %)"));
-    m_greaseBar->setData(40);
+//    m_greaseBar->setData(40);
     m_greaseBar->setBarIndex(Grease);
 
     m_temperatureBar->setBarColor(QColor(252, 133, 33), Qt::gray);
     m_temperatureBar->setLeftText(QStringLiteral("温度(单位  ℃)"));
     m_temperatureBar->setBarRange(0, 50);
-    m_temperatureBar->setData(37);
+//    m_temperatureBar->setData(37);
     m_temperatureBar->setBarIndex(Temperature);
 
     m_PHBar->setBarColor(QColor(121, 83, 70), Qt::gray);
     m_PHBar->setLeftText(QStringLiteral("PH值(单位 PH)"));
     m_PHBar->setBarRange(0, 14);
-    m_PHBar->setData(5.9);
+//    m_PHBar->setData(5.9);
     m_PHBar->setBarIndex(PH);
 
     /* layout */
