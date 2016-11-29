@@ -305,6 +305,7 @@ void MeasureWidget::m_saveReasult()
                 this->m_saveUserData();     //提交到本地数据库
             } else {
                 QJsonDocument document = this->m_formatUploadData();
+                qDebug() << document;
                 m_manager->uploadUserData(document);        //提交到服务器
             }
 
@@ -338,28 +339,28 @@ void MeasureWidget::m_dataHandle(const QByteArray &data)
     switch(data.at(8)) {
     case Moisture:
         m_moistureBar->setData(data.at(9));
-        m_dataStore[0].data = data.at(9) / 100;
+        m_dataStore[0].data = data.at(9) / 100.0;
         m_dataStore[0].measureTime = QDateTime::currentDateTime().toString("yyyy-MM-ddThh:mm:ss");
         m_dataStore[0].deviceId = deviceId;
         m_dataStore[0].account = m_manager->account();    //无账号插入不了数据库和提交网络
         break;
     case Grease:
         m_greaseBar->setData(data.at(9));
-        m_dataStore[1].data = data.at(9) / 100;
+        m_dataStore[1].data = data.at(9) / 100.0;
         m_dataStore[1].measureTime = QDateTime::currentDateTime().toString("yyyy-MM-ddThh:mm:ss");
         m_dataStore[1].deviceId = deviceId;
         m_dataStore[1].account = m_manager->account();
         break;
     case PH:
-        m_PHBar->setData(data.at(9) / 10);
-        m_dataStore[2].data = data.at(9) / 10;
+        m_PHBar->setData(data.at(9) / 10.0);
+        m_dataStore[2].data = data.at(9) / 10.0;
         m_dataStore[2].measureTime = QDateTime::currentDateTime().toString("yyyy-MM-ddThh:mm:ss");
         m_dataStore[2].deviceId = deviceId;
         m_dataStore[2].account = m_manager->account();
         break;
     case Temperature:
-        m_temperatureBar->setData(data.at(9) + data.at(10) / 10);
-        m_dataStore[3].data = data.at(9) + data.at(10) / 10;
+        m_temperatureBar->setData(data.at(9) + data.at(10) / 10.0);
+        m_dataStore[3].data = data.at(9) + data.at(10) / 10.0;
         m_dataStore[3].measureTime = QDateTime::currentDateTime().toString("yyyy-MM-ddThh:mm:ss");
         m_dataStore[3].deviceId = deviceId;
         m_dataStore[3].account = m_manager->account();
@@ -426,12 +427,12 @@ void MeasureWidget::m_saveUserData()
                    .arg(m_dataStore[1].deviceId).arg(m_dataStore[1].data));
     }
     if(m_dataStore[2].hasData()) {
-        query.exec(QString("insert into temperature values('%1', '%2', %3, %4)")
+        query.exec(QString("insert into ph values('%1', '%2', %3, %4)")
                    .arg(m_dataStore[2].account).arg(m_dataStore[2].measureTime)
                    .arg(m_dataStore[2].deviceId).arg(m_dataStore[2].data));
     }
     if(m_dataStore[3].hasData()) {
-        query.exec(QString("insert into ph values('%1', '%2', %3, %4)")
+        query.exec(QString("insert into temperature values('%1', '%2', %3, %4)")
                    .arg(m_dataStore[3].account).arg(m_dataStore[3].measureTime)
                    .arg(m_dataStore[3].deviceId).arg(m_dataStore[3].data));
     }
@@ -468,24 +469,23 @@ QJsonDocument MeasureWidget::m_formatUploadData()
         greaseArr.push_back(grease);
     }
     if(m_dataStore[2].hasData()) {
-        QVariantMap temperature;
-        temperature.insert("date", m_dataStore[2].measureTime);
-        temperature.insert("deviceId", m_dataStore[2].deviceId);
-        temperature.insert("phone", m_dataStore[2].account);
-        temperature.insert("value", m_dataStore[2].data);
-
-        temperatureArr.push_back(temperature);
-    }
-    if(m_dataStore[3].hasData()) {
         QVariantMap ph;
-        ph.insert("date", m_dataStore[3].measureTime);
-        ph.insert("deviceId", m_dataStore[3].deviceId);
-        ph.insert("phone", m_dataStore[3].account);
-        ph.insert("value", m_dataStore[3].data);
+        ph.insert("date", m_dataStore[2].measureTime);
+        ph.insert("deviceId", m_dataStore[2].deviceId);
+        ph.insert("phone", m_dataStore[2].account);
+        ph.insert("value", m_dataStore[2].data);
 
         phArr.push_back(ph);
     }
+    if(m_dataStore[3].hasData()) {
+        QVariantMap temperature;
+        temperature.insert("date", m_dataStore[3].measureTime);
+        temperature.insert("deviceId", m_dataStore[3].deviceId);
+        temperature.insert("phone", m_dataStore[3].account);
+        temperature.insert("value", m_dataStore[3].data);
 
+        temperatureArr.push_back(temperature);
+    }
     QVariantMap obj;
     obj.insert("moisture", moistureArr);
     obj.insert("grease", greaseArr);

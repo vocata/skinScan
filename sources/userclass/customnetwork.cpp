@@ -126,7 +126,7 @@ void CustomNetwork::uploadSingleUserData(const QString &item, const QJsonDocumen
 {
     QByteArray content(userData.toJson());
     int contentLength = content.length();
-
+    qDebug() << userData;
     /* request */
     QNetworkRequest uploadUserDataRequest(QUrl(QString("http://123.207.109.164/skindata/%1/%2").arg(item, m_loginInfo.m_account)));
     uploadUserDataRequest.setHeader(QNetworkRequest::CookieHeader, m_loginInfo.m_cookie);
