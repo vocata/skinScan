@@ -216,7 +216,7 @@ void StatisticsWidget::m_downloadDataReply(CustomNetwork::Status status)
 {
     switch(status) {
     case CustomNetwork::Success:
-        if(m_lastData != m_manager->userData()) {
+        if(m_lastData != m_manager->userData()) {       
             this->setPlotData(QJsonDocument::fromVariant(m_manager->userData()));
             m_lastData = m_manager->userData();
         }

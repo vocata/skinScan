@@ -70,7 +70,7 @@ void RegularWidget::m_recovery()
 
     /* data */
     if(!data.isNull()) {
-        switch (login.toInt()) {
+        switch (data.toInt()) {
         case 0: m_saveToCloudButton->setChecked(true); break;
         case 1: m_saveToLocalButton->setChecked(true); break;
         default: break;
