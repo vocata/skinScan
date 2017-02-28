@@ -296,7 +296,7 @@ void MeasureWidget::m_saveReasult()
     if(m_manager->hasMember()) {
         if(m_dataStore[0].hasData() || m_dataStore[1].hasData() || m_dataStore[2].hasData() || m_dataStore[3].hasData()) {
 
-            QSettings settings("setting.ini", QSettings::IniFormat);
+            QSettings settings("./setting.ini", QSettings::IniFormat);
             settings.beginGroup("regular");
             int selected = settings.value("data").toInt();
             settings.endGroup();

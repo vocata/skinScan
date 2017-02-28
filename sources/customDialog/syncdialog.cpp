@@ -160,7 +160,7 @@ void SyncDialog::m_syncData()
 
 void SyncDialog::sync()
 {
-    QSettings settings("setting.ini", QSettings::IniFormat);
+    QSettings settings("./setting.ini", QSettings::IniFormat);
     settings.beginGroup("network");
     QVariant moistuerIsChecked = settings.value("moisture");
     QVariant greaseIsChecked = settings.value("grease");

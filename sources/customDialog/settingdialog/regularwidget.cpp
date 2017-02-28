@@ -44,7 +44,7 @@ RegularWidget::RegularWidget(QWidget *parent) : QWidget(parent)
 
 void RegularWidget::save()
 {
-    QSettings settings("setting.ini", QSettings::IniFormat);
+    QSettings settings("./setting.ini", QSettings::IniFormat);
     settings.beginGroup("regular");
     settings.setValue("login", m_loginButtonGroup->checkedId());
     settings.setValue("data", m_dataButtonGroup->checkedId());
@@ -53,7 +53,7 @@ void RegularWidget::save()
 
 void RegularWidget::m_recovery()
 {
-    QSettings settings("setting.ini", QSettings::IniFormat);
+    QSettings settings("./setting.ini", QSettings::IniFormat);
     settings.beginGroup("regular");
     QVariant login = settings.value("login");
     QVariant data = settings.value("data");

@@ -10,7 +10,7 @@ greaterThan(QT_MAJOR_VERSION, 4): QT += widgets printsupport network sql multime
 
 TARGET = skinScan
 TEMPLATE = app
-RC_ICONS = icon.ico
+RC_FILE = main.rc
 
 SOURCES += \
     main.cpp \
