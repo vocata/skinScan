@@ -42,7 +42,7 @@ MainWidget::MainWidget(QWidget *parent) : CustomWidget(parent)
     m_stackedWidget = new CustomStackedWidget(this);
     m_statusBar = new MainStatusBar(this);
     m_manager = new CustomNetwork(this);
-    m_settings = new QSettings("conf.ini", QSettings::IniFormat, this);
+    m_settings = new QSettings("./conf.ini", QSettings::IniFormat, this);
 
     /* QPushButton */
     m_infoMenu = new QMenu(this);
@@ -189,7 +189,7 @@ MainWidget::MainWidget(QWidget *parent) : CustomWidget(parent)
 
 MainWidget::~MainWidget()
 {
-    QSettings settings("setting.ini", QSettings::IniFormat);
+    QSettings settings("./setting.ini", QSettings::IniFormat);
     settings.beginGroup("regular");
     int selected = settings.value("login").toInt();
     settings.endGroup();

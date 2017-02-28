@@ -33,7 +33,7 @@ NetworkWidget::NetworkWidget(QWidget *parent) : QWidget(parent)
 
 void NetworkWidget::save()
 {
-    QSettings settings("setting.ini", QSettings::IniFormat);
+    QSettings settings("./setting.ini", QSettings::IniFormat);
     settings.beginGroup("network");
     settings.setValue("moisture", m_moistureChecked->isChecked());
     settings.setValue("grease", m_greaseChecked->isChecked());
@@ -44,7 +44,7 @@ void NetworkWidget::save()
 
 void NetworkWidget::m_recovery()
 {
-    QSettings settings("setting.ini", QSettings::IniFormat);
+    QSettings settings("./setting.ini", QSettings::IniFormat);
     settings.beginGroup("network");
     QVariant moistuerIsChecked = settings.value("moisture");
     QVariant greaseIsChecked = settings.value("grease");

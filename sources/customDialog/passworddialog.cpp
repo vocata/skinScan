@@ -107,7 +107,7 @@ PasswordDialog::PasswordDialog(QWidget *parent) : CustomDialog(parent)
 void PasswordDialog::m_setInfo()
 {
     /* icon */
-    QSettings settings("conf.ini", QSettings::IniFormat);
+    QSettings settings("./conf.ini", QSettings::IniFormat);
     settings.beginGroup("normal");
 
     QString sex = settings.value("sex").toString();

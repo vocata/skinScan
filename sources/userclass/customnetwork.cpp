@@ -141,7 +141,7 @@ void CustomNetwork::uploadUserData(const QJsonDocument &userData)
 {
     QByteArray content(userData.toJson());
     int contentLength = content.length();
-
+    qDebug() << userData;
     /* request */
     QNetworkRequest uploadUserDataRequest(QUrl(QString("http://123.207.109.164/skindata/%1").arg(m_loginInfo.m_account)));
     uploadUserDataRequest.setHeader(QNetworkRequest::CookieHeader, m_loginInfo.m_cookie);
@@ -250,7 +250,7 @@ void CustomNetwork::m_getUserInfoStatus()
                 m_userInfo = m_getUserInfoReply->readAll();
                 QVariantMap userInfo = QJsonDocument::fromJson(m_userInfo.toUtf8()).toVariant().toMap();
                 /* save user information */
-                QSettings settings("conf.ini", QSettings::IniFormat);
+                QSettings settings("./conf.ini", QSettings::IniFormat);
                 settings.beginGroup("normal");
                 settings.setValue("account", userInfo.value("phone"));
                 settings.setValue("user", userInfo.value("name"));
@@ -334,7 +334,7 @@ LoginInfo CustomNetwork::m_loginInfo;
 
 LoginInfo::LoginInfo()
 {
-    QSettings settings("conf.ini", QSettings::IniFormat);
+    QSettings settings("./conf.ini", QSettings::IniFormat);
     settings.beginGroup("special");
     m_account = settings.value("account").toString();
     QString cryptPassword = settings.value("password").toString();
@@ -358,7 +358,7 @@ LoginInfo::~LoginInfo()
 
 void LoginInfo::saveInfo()
 {
-    QSettings settings("conf.ini", QSettings::IniFormat);
+    QSettings settings("./conf.ini", QSettings::IniFormat);
     settings.beginGroup("special");
     settings.setValue("account", m_account);
     QByteArray cryptPassword = m_password.toLatin1().toBase64();     //加密
