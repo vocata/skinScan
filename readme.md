@@ -13,7 +13,3 @@
 <p align="center">
   <img src="https://github.com/xueyuelei/skinScan/raw/master/screenshot/measure.jpg"/>
 </p>
-
-<p align="center">
-  <img src="https://github.com/xueyuelei/skinScan/raw/master/screenshot/question.jpg"/>
-</p>
